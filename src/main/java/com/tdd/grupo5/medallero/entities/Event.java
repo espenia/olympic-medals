@@ -15,7 +15,7 @@ public class Event {
     public Event(){
 
         this.number_of_participants = 0;
-        this.participants = new ArrayList<Person>();
+        this.participants = new ArrayList<>();
         this.open_status = true;
 
     }
