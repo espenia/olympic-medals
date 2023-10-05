@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class EventosTests {
+public class EventTests {
 
     Event event = new Event();
     Person participant = new Person("Michael Phelps", 1985L);
