@@ -11,12 +11,15 @@ public class Event {
     @Getter
     private List<Person> participants;
     private boolean open_status;
+    private EventType eventType;
 
-    public Event(){
+    public Event(EventType eventType){
 
         this.number_of_participants = 0;
         this.participants = new ArrayList<>();
         this.open_status = true;
+        this.eventType = eventType;
+
 
     }
 
@@ -26,12 +29,15 @@ public class Event {
 
     }
 
+    //Maybe change for an int function, that returns -1 if failed
     public void addParticipant(Person participant){
 
-        if(this.open_status){
+        if(this.open_status && this.eventType.getMaxNumberOfParticipants() > this.number_of_participants){
             this.participants.add(participant);
             this.number_of_participants++;
+             //Here it would return 0
         }
+        //Here it would return -1
 
     }
 
@@ -45,6 +51,12 @@ public class Event {
     public void finishEvent() {
 
         this.open_status = false;
+
+    }
+
+    public String getEventType() {
+
+        return this.eventType.getName();
 
     }
 

@@ -20,8 +20,23 @@ public class Person {
 
     private String name;
 
+    private Boolean is_public;
+
     public Person(String name, long born) {
         this.born = born;
         this.name = name;
+        this.is_public = false;
+    }
+
+    public void setPrivate() {
+        this.is_public = false;
+    }
+
+    public void setPublic() {
+        this.is_public = true;
+    }
+
+    public boolean isPublic() {
+        return this.is_public;
     }
 }
