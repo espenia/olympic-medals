@@ -39,6 +39,14 @@ public class Time {
 
     }
 
+    public boolean isNull(){
+
+        return (this.hours == 0 &&
+                this.minutes == 0 &&
+                this.seconds == 0);
+
+    }
+
     public void delete(){
 
         this.hours = 0;

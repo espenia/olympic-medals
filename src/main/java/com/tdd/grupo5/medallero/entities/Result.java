@@ -1,5 +1,6 @@
 package com.tdd.grupo5.medallero.entities;
 
+import com.tdd.grupo5.medallero.entities.Time;
 import lombok.Getter;
 
 public class Result {
@@ -10,16 +11,15 @@ public class Result {
     private Event event;
     @Getter
     private int standing;
-    @Getter
-    private int time;   //TODO: a cambiar por una clase con mas info
+    private Time time;
 
-    public Result(Person athlete, Event event, int standing, int time){
+    public Result(Person athlete, Event event, int standing, Time time){
 
         this.athlete = athlete;
         this.event = event;
-        if((standing == 0) || (time == 0)){
+        if((standing == 0) || (time.isNull())){
             this.standing = 0;
-            this.time = 0;
+            this.time = new Time(0, 0, 0);
         }
         else{
             this.standing = standing;
@@ -32,7 +32,7 @@ public class Result {
     //o que no la termino. Lo mismo si su posicion es Cero
     public boolean athleteFinishedTheRace(){
 
-        return (this.time > 0) && (this.standing > 0);
+        return (!this.time.isNull()) && (this.standing > 0);
 
     }
 
