@@ -5,13 +5,7 @@ import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
-/**
- * Base DTO used to respond when an exception happen.
- *
- * @author Paulo Roberto Martins
- * @version 1.0
- * @since 30/11/2017
- */
+
 public class ErrorResponse implements Serializable {
 
     private HttpStatus status;

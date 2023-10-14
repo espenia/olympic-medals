@@ -8,14 +8,7 @@ import java.util.Set;
 
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
-/**
- * DTO used to respond when there are validation errors (Bean Validation). This object
- * will be returned as a JSON object.
- *
- * @author Paulo Roberto Martins
- * @version 1.0
- * @since 30/11/2017
- */
+
 public class UnprocessableEntity extends ErrorResponse {
 
     @JsonProperty("cause")
