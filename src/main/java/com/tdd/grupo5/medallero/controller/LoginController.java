@@ -9,14 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    private final UserRepository repository;
 
-    public LoginController(UserRepository repository) {
-        this.repository = repository;
+    public LoginController() {
     }
 
-    @GetMapping("/person/{name}")
-    public User getPerson(@PathVariable String name) {
-        return repository.findByName(name);
-    }
 }
