@@ -21,18 +21,24 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
-    //implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
+    implementation 'org.neo4j:neo4j-ogm-core:4.0.7'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-    //implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    //runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //compile 'org.neo4j:neo4j-ogm-core:4.0.7'
+    //runtime 'org.neo4j:neo4j-ogm-bolt-driver:4.0.7'
 }
 
 tasks.named('test') {
