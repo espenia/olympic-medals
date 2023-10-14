@@ -9,7 +9,7 @@ import java.util.Date;
 public class OAuth2AccessTokenUtils {
     public static OAuth2AccessToken generateToken(User user) {
         return new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-                null,
+                user.getId().toString(),
                 new Date().toInstant(),
                 new Date().toInstant().plus(Duration.ofHours(2)));
     }
