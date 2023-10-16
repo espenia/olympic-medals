@@ -1,0 +1,19 @@
+spring:
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: neo4j-neo4j
+  datasource:
+    url: jdbc:postgresql://localhost:5432/users
+    username: medallero
+    password:
+    driver-class-name: org.postgresql.Driver
+token:
+  signing:
+    key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+
+#server.port=8081
+#server.servlet.context-path=/resource-server
+#spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8080/auth-server/auth/realms/MedalleroRealm
+#spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/auth-server/auth/realms/MedalleroRealm/protocol/openid-connect/certs

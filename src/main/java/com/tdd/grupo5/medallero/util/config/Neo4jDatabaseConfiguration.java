@@ -3,7 +3,7 @@ package com.tdd.grupo5.medallero.util.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
-
+/*
 @org.springframework.context.annotation.Configuration
 public class Neo4jDatabaseConfiguration {
     @Value("${spring.neo4j.uri}")
@@ -20,4 +20,4 @@ public class Neo4jDatabaseConfiguration {
                 .credentials(username, password)
                 .build();
     }
-}
+}*/

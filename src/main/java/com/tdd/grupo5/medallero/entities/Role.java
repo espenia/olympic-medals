@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
-public enum Role {
+public enum Role implements GrantedAuthority {
     Admin("admin", true),
     Athlete("athlete", false);
 
@@ -29,4 +30,8 @@ public enum Role {
         throw new IllegalArgumentException("No se pudo encontrar el rol con id " + id);
     }
 
+    @Override
+    public String getAuthority() {
+        return this.id;
+    }
 }
