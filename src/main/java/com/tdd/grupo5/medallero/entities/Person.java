@@ -7,6 +7,9 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Node
 @Getter
 @Setter
@@ -19,9 +22,33 @@ public class Person {
     private Long born;
 
     private String name;
+    private List<Result> results;
 
     public Person(String name, long born) {
         this.born = born;
         this.name = name;
+        this.results = new ArrayList<Result>();
+    }
+
+    public void addResult(Result new_result){
+
+        this.results.add(new_result);
+
+    }
+
+    public int getStandingResultFrom(Event event){
+
+        for (int i = 0; i < results.size(); i++){
+
+            if(results.get(i).getEvent() == event){
+
+                return results.get(i).getStanding();
+
+            }
+
+        }
+
+        return 0;
+
     }
 }

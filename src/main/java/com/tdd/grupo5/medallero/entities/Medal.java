@@ -6,21 +6,22 @@ public class Medal {
 
     @Getter
     private Person athlete;
+    private int standing;
 
-    public Medal(){
-        this.athlete = null;
-    }
+    private Event event_from;
 
-
-    public void assignAthlete(Person athlete) {
-
+    public Medal(Person athlete, Event event){
         this.athlete = athlete;
+        this.event_from = event;
+        this.standing = athlete.getStandingResultFrom(event);
+    }
+
+    public Event getEvent(){
+
+        return this.event_from;
 
     }
 
-    public Person getAthlete(){
 
-        return this.athlete;
 
-    }
 }

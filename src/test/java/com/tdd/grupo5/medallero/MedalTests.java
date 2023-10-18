@@ -12,13 +12,20 @@ public class MedalTests {
     Event event = new Event();
     Person participant = new Person("Michael Phelps", 1985L);
     Person other_participant = new Person("Lionel Messi", 1998L);
-    Medal medal = new Medal();
+    Medal medal = new Medal(participant, event);
 
     @Test
-    void test01CreatedCanOnlyBeAssignedToOnePerson() {
-        medal.assignAthlete(participant);
-        medal.assignAthlete(other_participant);
+    void test01CreatedMedalHasToBeAssignedToOnePerson() {
+
         assert medal.getAthlete() == participant;
+
+    }
+
+    @Test
+    void test02CreatedMedalHasToBeAssignedToOneEvent() {
+
+        assert medal.getEvent() == event;
+
     }
 
 }
