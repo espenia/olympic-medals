@@ -27,7 +27,7 @@ public class Person {
     public Person(String name, long born) {
         this.born = born;
         this.name = name;
-        this.results = new ArrayList<Result>();
+        this.results = new ArrayList<>();
     }
 
     public void addResult(Result new_result){

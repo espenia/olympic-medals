@@ -1,8 +1,6 @@
 package com.tdd.grupo5.medallero;
 
-import com.tdd.grupo5.medallero.entities.Medal;
-import com.tdd.grupo5.medallero.entities.Event;
-import com.tdd.grupo5.medallero.entities.Person;
+import com.tdd.grupo5.medallero.entities.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,7 +9,9 @@ public class MedalTests {
 
     Event event = new Event();
     Person participant = new Person("Michael Phelps", 1985L);
-    Person other_participant = new Person("Lionel Messi", 1998L);
+    Time event_time = new Time(1, 15, 56);
+    Result result_from_event = new Result(participant, event, 2, event_time);
+    //Person other_participant = new Person("Lionel Messi", 1998L);
     Medal medal = new Medal(participant, event);
 
     @Test
@@ -25,6 +25,23 @@ public class MedalTests {
     void test02CreatedMedalHasToBeAssignedToOneEvent() {
 
         assert medal.getEvent() == event;
+
+    }
+
+    @Test
+    void test03AMedalAssignedToAPersonWhoFinishedAnEventHasAStandingGreaterThanZero() {
+
+        participant.addResult(result_from_event);
+        medal.updateStanding(result_from_event.getEvent());
+        assert medal.getStanding() > 0;
+
+    }
+
+    @Test
+    void test04AMedalAssignedToAPersonWhoHasNotFinishedAnEventHasAStandingEqualToZero() {
+
+        medal.updateStanding(result_from_event.getEvent());
+        assert medal.getStanding() == 0;
 
     }
 

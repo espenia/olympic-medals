@@ -6,8 +6,8 @@ public class Medal {
 
     @Getter
     private Person athlete;
+    @Getter
     private int standing;
-
     private Event event_from;
 
     public Medal(Person athlete, Event event){
@@ -22,6 +22,10 @@ public class Medal {
 
     }
 
+    public void updateStanding(Event event){
 
+        this.standing = athlete.getStandingResultFrom(event);
+
+    }
 
 }
