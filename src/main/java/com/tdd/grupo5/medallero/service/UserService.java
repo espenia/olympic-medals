@@ -4,6 +4,7 @@ import com.tdd.grupo5.medallero.controller.dto.UserDTO;
 import com.tdd.grupo5.medallero.entities.Role;
 import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
+import com.tdd.grupo5.medallero.exception.NotFoundException;
 import com.tdd.grupo5.medallero.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import java.util.Collections;
 
 import static com.tdd.grupo5.medallero.util.Constants.INVALID_COMBINATION_USER_PASSWORD_ERROR;
 import static com.tdd.grupo5.medallero.util.Constants.INVALID_COMBINATION_USER_PASSWORD_MSG;
+import static com.tdd.grupo5.medallero.util.Constants.USER_NOT_FOUND_ERROR;
 
 @Service
 public class UserService {
@@ -54,6 +56,14 @@ public class UserService {
         User user = userRepository.findByUserName(userDTO.getUserName());
         if (user == null || !passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
             throw new BadRequestException(INVALID_COMBINATION_USER_PASSWORD_ERROR, INVALID_COMBINATION_USER_PASSWORD_MSG);
+        }
+        return user;
+    }
+
+    public User internalGetUser(UserDTO userDTO) {
+        User user = userRepository.findByUserName(userDTO.getUserName());
+        if (user == null) {
+            throw new NotFoundException(USER_NOT_FOUND_ERROR);
         }
         return user;
     }

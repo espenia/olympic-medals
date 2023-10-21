@@ -2,7 +2,7 @@ package com.tdd.grupo5.medallero.controller;
 
 import com.tdd.grupo5.medallero.controller.dto.JwtAuthenticationResponseDTO;
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
-import com.tdd.grupo5.medallero.service.security.AuthenticationService;
+import com.tdd.grupo5.medallero.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +22,15 @@ public class AuthenticationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
-    public JwtAuthenticationResponseDTO signup(@RequestBody UserDTO user) {
-        return authenticationService.signup(user);
+    public ResponseEntity<JwtAuthenticationResponseDTO> signup(@RequestBody UserDTO user) {
+        JwtAuthenticationResponseDTO auth = authenticationService.signup(user);
+        return new ResponseEntity<>(auth, HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    public JwtAuthenticationResponseDTO login(@RequestBody UserDTO user) {
-        return authenticationService.login(user);
+    public ResponseEntity<JwtAuthenticationResponseDTO> login(@RequestBody UserDTO user) {
+        JwtAuthenticationResponseDTO authenticationResponseDTO =  authenticationService.login(user);
+        return new ResponseEntity<>(authenticationResponseDTO, HttpStatus.OK);
     }
 }
