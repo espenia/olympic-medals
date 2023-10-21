@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         final String authHeader = request.getHeader("X-Auth-Token");
-        if (StringUtils.hasLength(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
+        if (!StringUtils.hasLength(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDTO userDTO = new UserDTO();
             userDTO.setUserName(userName);
-            User user = userService.getUser(userDTO);
+            User user = userService.internalGetUser(userDTO);
             UserDetails userDetails = userService.userDetailsService(user)
                     .loadUserByUsername(userName);
             if (jwtService.isTokenValid(jwt, userDetails)) {
