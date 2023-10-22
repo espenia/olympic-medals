@@ -25,9 +25,4 @@ public class EventType {
 
     }
 
-    public String getName(){
-
-        return this.name;
-    }
-
 }

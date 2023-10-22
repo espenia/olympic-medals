@@ -2,6 +2,7 @@ package com.tdd.grupo5.medallero;
 
 import com.tdd.grupo5.medallero.entities.Comment;
 import com.tdd.grupo5.medallero.entities.Event;
+import com.tdd.grupo5.medallero.entities.EventType;
 import com.tdd.grupo5.medallero.entities.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class CommentTests {
 
-    Event event = new Event();
+    EventType marathon = new EventType("Marathon", 100);
+    Event event = new Event(marathon);
     Person participant = new Person("Michael Phelps", 1985L);
     Comment comment = new Comment(participant, event);
 

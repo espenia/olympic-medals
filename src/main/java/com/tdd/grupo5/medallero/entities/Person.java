@@ -30,6 +30,7 @@ public class Person {
         this.born = born;
         this.name = name;
         this.is_public = false;
+        this.results = new ArrayList<>();
     }
 
     public void setPrivate() {
@@ -42,7 +43,6 @@ public class Person {
 
     public boolean isPublic() {
         return this.is_public;
-        this.results = new ArrayList<>();
     }
 
     public void addResult(Result new_result){

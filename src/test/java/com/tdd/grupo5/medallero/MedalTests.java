@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class MedalTests {
 
-    Event event = new Event();
+    String event_type_name = "Marathon";
+    EventType marathon = new EventType(event_type_name, 2);
+    Event event = new Event(marathon);
     Person participant = new Person("Michael Phelps", 1985L);
     Time event_time = new Time(1, 15, 56);
     Result result_from_event = new Result(participant, event, 2, event_time);
