@@ -6,9 +6,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 
+
 public class ControllerTest extends IntegrationTest {
   @Autowired 
   protected TestRestTemplate testRestTemplate;
+
+  protected ControllerTest()  {
+  }
 
   protected <T> RequestEntity<T> getDefaultRequestEntity() {
     HttpHeaders headers = new HttpHeaders();

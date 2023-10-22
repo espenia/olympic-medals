@@ -8,20 +8,20 @@ import java.io.Serializable;
 
 public class ErrorResponse implements Serializable {
 
-    private HttpStatus status;
+    private final int status;
     private String message;
-    private String error;
+    private final String error;
     private Throwable cause;
 
     public ErrorResponse() {
-        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
+        this.status = HttpStatus.INTERNAL_SERVER_ERROR.value();
         this.message = "Internal error. Something did not work well.";
         this.error = HttpStatus.INTERNAL_SERVER_ERROR.name().toLowerCase();
         this.cause = null;
     }
 
     public ErrorResponse(HttpStatus status, String error) {
-        this.status = status;
+        this.status = status.value();
         this.error = error;
     }
 
@@ -41,13 +41,9 @@ public class ErrorResponse implements Serializable {
     }
 
     public int getStatus() {
-        return status.value();
-    }
-
-    @JsonIgnore
-    public HttpStatus getStatusObj() {
         return status;
     }
+
 
     public String getMessage() {
         return message;
