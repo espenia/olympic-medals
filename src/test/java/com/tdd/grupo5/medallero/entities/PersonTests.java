@@ -1,4 +1,4 @@
-package com.tdd.grupo5.medallero;
+package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.entities.Person;
 import org.junit.jupiter.api.Test;

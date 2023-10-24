@@ -1,4 +1,4 @@
-package com.tdd.grupo5.medallero;
+package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.entities.Comment;
 import com.tdd.grupo5.medallero.entities.Event;
