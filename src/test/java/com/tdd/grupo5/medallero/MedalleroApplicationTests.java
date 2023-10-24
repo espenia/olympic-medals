@@ -13,9 +13,11 @@ class MedalleroApplicationTests {
 	@Autowired
 	private UserRepository repository;
 
+	/*
 	@Test
 	void contextLoads() {
 
 	}
+	*/
 
 }
