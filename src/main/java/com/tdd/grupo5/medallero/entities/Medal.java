@@ -5,12 +5,12 @@ import lombok.Getter;
 public class Medal {
 
     @Getter
-    private Person athlete;
+    private Athlete athlete;
     @Getter
     private int standing;
     private Event event_from;
 
-    public Medal(Person athlete, Event event){
+    public Medal(Athlete athlete, Event event){
         this.athlete = athlete;
         this.event_from = event;
         this.standing = athlete.getStandingResultFrom(event);

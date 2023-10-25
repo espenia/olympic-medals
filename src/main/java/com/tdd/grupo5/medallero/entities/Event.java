@@ -9,7 +9,7 @@ public class Event {
 
     private int number_of_participants;
     @Getter
-    private List<Person> participants;
+    private List<Athlete> participants;
     private boolean open_status;
     private EventType eventType;
 
@@ -30,7 +30,7 @@ public class Event {
     }
 
     //Maybe change for an int function, that returns -1 if failed
-    public void addParticipant(Person participant){
+    public void addParticipant(Athlete participant){
 
         if(this.open_status && this.eventType.getMaxNumberOfParticipants() > this.number_of_participants){
             this.participants.add(participant);

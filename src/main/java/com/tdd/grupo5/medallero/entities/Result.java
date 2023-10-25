@@ -6,14 +6,14 @@ import lombok.Getter;
 public class Result {
 
     @Getter
-    private Person athlete;
+    private Athlete athlete;
     @Getter
     private Event event;
     @Getter
     private int standing;
     private Time time;
 
-    public Result(Person athlete, Event event, int standing, Time time){
+    public Result(Athlete athlete, Event event, int standing, Time time){
 
         this.athlete = athlete;
         this.event = event;

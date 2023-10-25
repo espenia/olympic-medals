@@ -2,19 +2,17 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.entities.EventType;
-import com.tdd.grupo5.medallero.entities.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class EventTests {
 
-    String event_type_name = "Marathon";
-    EventType marathon = new EventType(event_type_name, 2);
+    EventType marathon = new EventType("Marathon", 2);
     Event event = new Event(marathon);
-    Person participant = new Person("Michael Phelps", 1985L);
-    Person participant2 = new Person("Lionel Messi", 1998L);
-    Person participant3 = new Person("Alex Perez", 1977L);
+    Athlete athlete = new Athlete();
+    Athlete athlete2 = new Athlete();
+    Athlete athlete3 = new Athlete();
 
     @Test
     void test01CreatedEventHasZeroParticipants() {
@@ -23,7 +21,7 @@ public class EventTests {
 
     @Test
     void test02AddingAParticipantUpdatesTheNumberOfParticipantsSubscribed() {
-        event.addParticipant(participant);
+        event.addParticipant(athlete);
         assert event.getNumberOfParticipants() == 1;
     }
 
@@ -41,26 +39,26 @@ public class EventTests {
     @Test
     void test05AddingAParticipantToAClosedEventDoesntChangeTheNumberOfParticipants() {
         event.finishEvent();
-        event.addParticipant(participant);
+        event.addParticipant(athlete);
         assert event.getNumberOfParticipants() == 0;
     }
 
     @Test
     void test06ListOfParticipantsIsNotNullAfterAddingANewParticipant() {
-        event.addParticipant(participant);
+        event.addParticipant(athlete);
         assert !event.getParticipants().isEmpty();
     }
 
     @Test
     void test07AddingAParticipantToAMaxedEventDoesntChangeTheNumberOfParticipants() {
-        event.addParticipant(participant);
-        event.addParticipant(participant2);
-        event.addParticipant(participant3);
+        event.addParticipant(athlete);
+        event.addParticipant(athlete2);
+        event.addParticipant(athlete3);
         assert event.getNumberOfParticipants() == 2;
     }
     @Test
     void test08CreatedEventHasCorrectEventType() {
-        assert event.getEventType() == event_type_name;
+        assert event.getEventType() == "Marathon";
     }
 
 }

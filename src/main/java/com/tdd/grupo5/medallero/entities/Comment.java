@@ -7,14 +7,14 @@ public class Comment {
     @Getter
     private String comment;
     @Getter
-    private Person person;
+    private User user;
     @Getter
     private Event event_from;
 
-    public Comment(Person person, Event event){
+    public Comment(User user, Event event){
 
         this.comment = "";
-        this.person = person;
+        this.user = user;
         this.event_from = event;
 
     }

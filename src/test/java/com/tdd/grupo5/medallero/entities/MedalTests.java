@@ -7,19 +7,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class MedalTests {
 
-    String event_type_name = "Marathon";
-    EventType marathon = new EventType(event_type_name, 2);
+    EventType marathon = new EventType("Marathon", 2);
     Event event = new Event(marathon);
-    Person participant = new Person("Michael Phelps", 1985L);
+    Athlete athlete = new Athlete();
     Time event_time = new Time(1, 15, 56);
-    Result result_from_event = new Result(participant, event, 2, event_time);
+    Result result_from_event = new Result(athlete, event, 2, event_time);
     //Person other_participant = new Person("Lionel Messi", 1998L);
-    Medal medal = new Medal(participant, event);
+    Medal medal = new Medal(athlete, event);
 
     @Test
     void test01CreatedMedalHasToBeAssignedToOnePerson() {
 
-        assert medal.getAthlete() == participant;
+        assert medal.getAthlete() == athlete;
 
     }
 
@@ -33,7 +32,7 @@ public class MedalTests {
     @Test
     void test03AMedalAssignedToAPersonWhoFinishedAnEventHasAStandingGreaterThanZero() {
 
-        participant.addResult(result_from_event);
+        athlete.addResult(result_from_event);
         medal.updateStanding(result_from_event.getEvent());
         assert medal.getStanding() > 0;
 

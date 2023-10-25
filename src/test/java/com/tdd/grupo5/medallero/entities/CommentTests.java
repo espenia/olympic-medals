@@ -3,17 +3,20 @@ package com.tdd.grupo5.medallero.entities;
 import com.tdd.grupo5.medallero.entities.Comment;
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.entities.EventType;
-import com.tdd.grupo5.medallero.entities.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Date;
 
 @SpringBootTest
 public class CommentTests {
 
     EventType marathon = new EventType("Marathon", 100);
     Event event = new Event(marathon);
-    Person participant = new Person("Michael Phelps", 1985L);
-    Comment comment = new Comment(participant, event);
+    Role role = Role.Athlete;
+    Date birth_date = new Date(1985L);
+    User user = new User("Usain_Bolt", "12345", "Usain", "Bolt", birth_date, "usainb@gmail.com", role);
+    Comment comment = new Comment(user, event);
 
     @Test
     void test01CreatedCommentIsEmpty() {
@@ -22,7 +25,7 @@ public class CommentTests {
 
     @Test
     void test02CreatedCommentIsAssignedToAPerson() {
-        assert comment.getPerson() == participant;
+        assert comment.getUser() == user;
     }
 
     @Test
