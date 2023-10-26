@@ -8,8 +8,8 @@ spring:
       password: neo4j-neo4j
   datasource:
     url: jdbc:postgresql://localhost:5432/users
-    username: medallero
-    password:
+    username: admin
+    password: admin123
     driver-class-name: org.postgresql.Driver
 token:
   signing:
