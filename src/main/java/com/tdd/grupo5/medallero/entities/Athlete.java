@@ -1,17 +1,20 @@
 package com.tdd.grupo5.medallero.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Node;
 import java.util.ArrayList;
 import java.util.List;
 
 
-//@Node
+@Node
+@Getter
+@Setter
 public class Athlete {
 
     private List<Result> results;
 
-    public Athlete(){
-
+    public Athlete() {
         this.results = new ArrayList<>();
 
     }
