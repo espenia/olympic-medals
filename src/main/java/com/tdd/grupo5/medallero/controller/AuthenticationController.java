@@ -14,23 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
-    private final AuthenticationService authenticationService;
+  private final AuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+  public AuthenticationController(AuthenticationService authenticationService) {
+    this.authenticationService = authenticationService;
+  }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signup")
-    public ResponseEntity<JwtAuthenticationResponseDTO> signup(@RequestBody UserDTO user) {
-        JwtAuthenticationResponseDTO auth = authenticationService.signup(user);
-        return new ResponseEntity<>(auth, HttpStatus.CREATED);
-    }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/user")
+  public ResponseEntity<JwtAuthenticationResponseDTO> signup(@RequestBody UserDTO user) {
+    JwtAuthenticationResponseDTO auth = authenticationService.signup(user);
+    return new ResponseEntity<>(auth, HttpStatus.CREATED);
+  }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponseDTO> login(@RequestBody UserDTO user) {
-        JwtAuthenticationResponseDTO authenticationResponseDTO =  authenticationService.login(user);
-        return new ResponseEntity<>(authenticationResponseDTO, HttpStatus.OK);
-    }
+  @ResponseStatus(HttpStatus.OK)
+  @PostMapping("/login")
+  public ResponseEntity<JwtAuthenticationResponseDTO> login(@RequestBody UserDTO user) {
+    JwtAuthenticationResponseDTO authenticationResponseDTO = authenticationService.login(user);
+    return new ResponseEntity<>(authenticationResponseDTO, HttpStatus.OK);
+  }
 }

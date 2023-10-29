@@ -1,5 +1,6 @@
 \c postgres
 
+
 DROP DATABASE IF EXISTS users;
 
 CREATE DATABASE users
@@ -13,6 +14,9 @@ CREATE DATABASE users
     IS_TEMPLATE = False;
 
 \c users
+
+create user admin password 'admin123' superuser
+
 CREATE TABLE IF NOT EXISTS public.username
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
