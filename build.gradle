@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.tdd.grup5'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
@@ -17,6 +17,7 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
+
 
 repositories {
     mavenCentral()
@@ -60,6 +61,14 @@ test {
     }
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.tdd.grupo5.medallero.MedalleroApplication'
+        )
+    }
+}
+
 jacoco {
     toolVersion = "0.8.8"
 }
@@ -79,4 +88,3 @@ jacocoTestReport {
         }))
     }
 }
-

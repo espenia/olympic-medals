@@ -15,9 +15,31 @@ services:
       POSTGRES_PASSWORD: admin123
     ports:
       - "5432:5432"
-#    volumes:
-#      - ./data/postgres:/var/lib/postgresql/data
-# Servicio para PgAdmin
+  # Service for Neo4j
+  neo4j:
+    image: neo4j:latest
+    container_name: medallero_neo4j
+    restart: always
+    environment:
+      NEO4J_AUTH: neo4j/admin123 # You can change the credentials
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
+  # Service for Spring Boot
+  springboot:
+    build:
+      context: . # Path to your Spring Boot application code
+      dockerfile: Dockerfile
+    container_name: medallero_springboot
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - neo4j
+
+  # Service for PgAdmin
   pgadmin:
     image: dpage/pgadmin4:7.5
     container_name: medallero_pg_admin
