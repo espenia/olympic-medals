@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,10 +42,11 @@ public class User {
   private String lastName;
 
   @Basic(optional = false)
-  @Column(name = "birth_date", nullable = false)
-  private Date birthDate;
+  @Column(name = "mail", nullable = false)
+  @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Invalid email")
+  private String mail;
 
-  @Basic
+  @Basic(optional = false)
   @Column(name = "birth_date", nullable = false)
   private Date birthDate;
 
