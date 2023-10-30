@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Pattern;
 import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,6 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Basic(optional = false)
   @Column(name = "id")
   private Long id;
 
@@ -46,10 +44,9 @@ public class User {
   @Column(name = "birth_date", nullable = false)
   private Date birthDate;
 
-  @Basic(optional = false)
-  @Pattern(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
-  @Column(name = "mail", nullable = false)
-  private String mail;
+  @Basic
+  @Column(name = "birth_date", nullable = false)
+  private Date birthDate;
 
   // private Athlete athlete;
 
