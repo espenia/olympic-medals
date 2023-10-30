@@ -9,9 +9,9 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import lombok.extern.slf4j.Slf4j;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +24,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 /** Basic handling for exceptions. */
 @ControllerAdvice
-@Slf4j
+//@Slf4j
 public class ControllerExceptionHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+  //private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
   private static final String LOG_FLAGS = "[message:{}][error:{}][status:{}]";
   private static final String CAUSE_FLAGS = LOG_FLAGS + "[cause:[{}]]";
@@ -63,9 +63,9 @@ public class ControllerExceptionHandler {
     Integer statusCode = e.getStatusCode();
     boolean expected = HttpStatus.INTERNAL_SERVER_ERROR.value() > statusCode;
     if (expected) {
-      LOGGER.warn("Internal Api warn. Status Code: " + statusCode, e);
+      //log.warn("Internal Api warn. Status Code: " + statusCode, e);
     } else {
-      LOGGER.error("Internal Api error. Status Code: " + statusCode, e);
+      //log.error("Internal Api error. Status Code: " + statusCode, e);
     }
 
     ErrorResponse ErrorResponse = new ErrorResponse(e.getError(), e.getMessage(), statusCode);
@@ -90,12 +90,12 @@ public class ControllerExceptionHandler {
       validations.add(new Validation(error.getObjectName(), error.getDefaultMessage()));
     }
     final UnprocessableEntityResponse response = new UnprocessableEntityResponse("", validations);
-    LOGGER.info(
-        "[method:exception-handler][exception:MethodArgumentNotValidException]" + CAUSE_FLAGS,
-        response.getMessage(),
-        response.getError(),
-        response.getStatus(),
-        response.getCause());
+//    log.info(
+//        "[method:exception-handler][exception:MethodArgumentNotValidException]" + CAUSE_FLAGS,
+//        response.getMessage(),
+//        response.getError(),
+//        response.getStatus(),
+//        response.getCause());
     return new ResponseEntity<>(response, new HttpHeaders(), response.getStatus());
   }
 
@@ -114,12 +114,12 @@ public class ControllerExceptionHandler {
           new Validation(violation.getPropertyPath().toString(), violation.getMessage()));
     }
     final UnprocessableEntityResponse response = new UnprocessableEntityResponse("", validations);
-    LOGGER.info(
-        "[method:exception-handler][exception:ConstraintViolationException]" + CAUSE_FLAGS,
-        response.getMessage(),
-        response.getError(),
-        response.getStatus(),
-        response.getValidationErrorsMessage());
+//    log.info(
+//        "[method:exception-handler][exception:ConstraintViolationException]" + CAUSE_FLAGS,
+//        response.getMessage(),
+//        response.getError(),
+//        response.getStatus(),
+//        response.getValidationErrorsMessage());
     return new ResponseEntity<>(response, new HttpHeaders(), response.getStatus());
   }
   /**
@@ -131,7 +131,7 @@ public class ControllerExceptionHandler {
    */
   @ExceptionHandler(Exception.class)
   protected ResponseEntity<ErrorResponse> handleUnknownException(Exception e) {
-    LOGGER.error("Internal error", e);
+//    log.error("Internal error", e);
 
     ErrorResponse ErrorResponse =
         new ErrorResponse(
