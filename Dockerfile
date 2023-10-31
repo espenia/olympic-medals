@@ -1,8 +1,8 @@
-FROM postgres:14.1-alpine
-LABEL author="TDD-grupo5"
-LABEL description="Postgres Image for TDD-grupo5-medallero"
-LABEL version="1.0"
-COPY *.sql /docker-entrypoint-initdb.d/
+#FROM postgres:14.1-alpine
+#LABEL author="TDD-grupo5"
+#LABEL description="Postgres Image for TDD-grupo5-medallero"
+#LABEL version="1.0"
+#COPY *.sql /docker-entrypoint-initdb.d/
 # Use a base image with a JDK (Java Development Kit)
 FROM openjdk:17-jdk-slim AS build
 
@@ -22,7 +22,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the compiled Spring Boot JAR file into the container from the build stage
-COPY --from=build /app/build/libs/medallero-0.0.2-SNAPSHOT-plain.jar /app/medallero-application.jar
+COPY --from=build /app/build/libs/medallero-0.0.2-SNAPSHOT.jar /app/medallero-application.jar
 
 # Expose the port your Spring Boot application is running on (default is 8080)
 EXPOSE 8080
