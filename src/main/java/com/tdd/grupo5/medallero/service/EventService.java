@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EventService {
@@ -25,7 +26,11 @@ public class EventService {
                 new Event(
                         eventData.getName(),
                         eventData.getMaxParticipantCount(),
-                        eventData.getEventType());
+                        eventData.getEventType(),
+                        eventData.getPlaceOfEvent(),
+                        eventData.getDescription(),
+                        eventData.getStartingDate(),
+                        eventData.getEndingDate());
 
         this.eventRepository.save(newEvent);
         return eventData;
@@ -40,6 +45,18 @@ public class EventService {
 
     }
 
+    public void changeEventState(String eventName){
+
+        Event event = this.eventRepository.findByName(eventName);
+
+        if(!event.getName().isEmpty()){
+
+            event.changeStatus();
+
+        }
+
+    }
+
     private List<EventDTO> convertToDTO(List<Event> events){
 
         List<EventDTO> listOfEvents= new ArrayList<>(events.size());
@@ -47,7 +64,12 @@ public class EventService {
 
             listOfEvents.add(i, EventDTO.builder().name(events.get(i).getName())
                                 .maxParticipantCount(events.get(i).getMaxParticipantCount())
-                                .eventType(events.get(i).getEventType()).build());
+                                .eventType(events.get(i).getEventType())
+                                .placeOfEvent(events.get(i).getPlaceOfEvent())
+                                .description(events.get(i).getDescription())
+                                .startingDate(events.get(i).getStartingDate())
+                                .endingDate(events.get(i).getEndingDate())
+                                .build());
 
         }
 

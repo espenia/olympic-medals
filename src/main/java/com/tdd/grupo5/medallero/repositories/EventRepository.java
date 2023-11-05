@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface EventRepository extends Neo4jRepository<Event, UUID> {
+    Event findByName(String eventName);
 }

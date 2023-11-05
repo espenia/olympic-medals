@@ -30,9 +30,16 @@ public class EventController {
     @RequestMapping("/api")
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/events")
-    public ResponseEntity<List<EventDTO>> getEvent(){
+    public ResponseEntity<List<EventDTO>> getEvents(){
         List<EventDTO> events = this.eventService.getEvent();
         return  new ResponseEntity<>(events, HttpStatus.FOUND);
+    }
+
+    @RequestMapping("/backoffice")
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping ("/events/{eventName}")
+    public void updateStatusFor(@PathVariable String eventName){
+        this.eventService.changeEventState(eventName);
     }
 
 }
