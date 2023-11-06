@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AthleteController {
 
-    private final AthleteService athleteService;
+  private final AthleteService athleteService;
 
-    public AthleteController(AthleteService athleteService) {
-        this.athleteService = athleteService;
-    }
+  public AthleteController(AthleteService athleteService) {
+    this.athleteService = athleteService;
+  }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/athletes")
-    public ResponseEntity<AthleteDTO> createAthlete(@RequestBody AthleteDTO athleteDTO) {
-        AthleteDTO athlete = athleteService.createAthlete(athleteDTO).convertDTO();
-        return new ResponseEntity<>(athlete, HttpStatus.CREATED);
-    }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/athletes")
+  public ResponseEntity<AthleteDTO> createAthlete(@RequestBody AthleteDTO athleteDTO) {
+    AthleteDTO athlete = athleteService.createAthlete(athleteDTO).convertDTO();
+    return new ResponseEntity<>(athlete, HttpStatus.CREATED);
+  }
 }
-

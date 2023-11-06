@@ -7,9 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public final class AthleteDTO {
-    private String firstName;
-    private String lastName;
-    private String country;
-    private Date birthDate;
+  private String firstName;
+  private String lastName;
+  private String country;
+  private Date birthDate;
 }
-

@@ -17,9 +17,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Athlete {
-  @Id
-  @GeneratedValue
-  private UUID id;
+  @Id @GeneratedValue private UUID id;
   private String firstName;
   private String lastName;
   private String country;
@@ -34,12 +32,10 @@ public class Athlete {
 
   public AthleteDTO convertDTO() {
     return AthleteDTO.builder()
-            .firstName(this.firstName)
-            .lastName(this.lastName)
-            .country(this.country)
-            .birthDate(this.birthDate)
-            .build();
+        .firstName(this.firstName)
+        .lastName(this.lastName)
+        .country(this.country)
+        .birthDate(this.birthDate)
+        .build();
   }
-
 }
-

@@ -8,21 +8,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class AthleteService {
 
-    private final AthleteRepository athleteRespository;
+  private final AthleteRepository athleteRespository;
 
-    public AthleteService(AthleteRepository athleteRespository) {
-        this.athleteRespository = athleteRespository;
-    }
+  public AthleteService(AthleteRepository athleteRespository) {
+    this.athleteRespository = athleteRespository;
+  }
 
-    public Athlete createAthlete(AthleteDTO athleteDTO) {
-        Athlete athlete =
-                new Athlete(
-                        athleteDTO.getFirstName(),
-                        athleteDTO.getLastName(),
-                        athleteDTO.getCountry(),
-                        athleteDTO.getBirthDate());
-        athleteRespository.save(athlete);
-        return athlete;
-    }
+  public Athlete createAthlete(AthleteDTO athleteDTO) {
+    Athlete athlete =
+        new Athlete(
+            athleteDTO.getFirstName(),
+            athleteDTO.getLastName(),
+            athleteDTO.getCountry(),
+            athleteDTO.getBirthDate());
+    athleteRespository.save(athlete);
+    return athlete;
+  }
 }
-

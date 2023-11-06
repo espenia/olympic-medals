@@ -1,5 +1,8 @@
 package com.tdd.grupo5.medallero.integration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doThrow;
+
 import com.tdd.grupo5.medallero.controller.PingController;
 import com.tdd.grupo5.medallero.exception.BaseAPIException;
 import com.tdd.grupo5.medallero.exception.dto.ErrorResponse;
@@ -9,19 +12,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doThrow;
-
 class ControllerExceptionHandlerTest extends ControllerTest {
 
-  @SpyBean
-  private PingController pingController;
+  @SpyBean private PingController pingController;
 
-  protected ControllerExceptionHandlerTest() {
-  }
+  protected ControllerExceptionHandlerTest() {}
 
   @Test
   void notFound() {
@@ -51,7 +46,7 @@ class ControllerExceptionHandlerTest extends ControllerTest {
   @Test
   void testApiExceptionError() {
     // Given
-    doThrow(new BaseAPIException("error",  HttpStatus.INTERNAL_SERVER_ERROR, "error"))
+    doThrow(new BaseAPIException("error", HttpStatus.INTERNAL_SERVER_ERROR, "error"))
         .when(pingController)
         .ping();
 
