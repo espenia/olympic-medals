@@ -25,4 +25,11 @@ public class Neo4jDatabaseConfiguration {
         .credentials(username, password)
         .build();
   }
+
+  /*@Bean
+  public Neo4jConversions neo4jConversions() {
+    HashSet<NodeValueConverter<?>> converters = new HashSet<>();
+    converters.add(new NodeValueAthleteConverter());
+    return new Neo4jConversions(converters);
+  }*/
 }
