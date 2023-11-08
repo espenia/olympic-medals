@@ -2,7 +2,7 @@ package com.tdd.grupo5.medallero.repositories.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.grupo5.medallero.entities.Athlete;
-import com.tdd.grupo5.medallero.repositories.AthleteRespositoryCustom;
+import com.tdd.grupo5.medallero.repositories.AthleteRepositoryCustom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,14 +11,15 @@ import java.util.Map;
 import org.neo4j.driver.internal.value.NodeValue;
 import org.springframework.data.neo4j.core.Neo4jOperations;
 import org.springframework.data.neo4j.core.PreparedQuery;
+import org.springframework.util.StringUtils;
 
-public class AthleteRespositoryImpl implements AthleteRespositoryCustom {
+public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
 
   private final Neo4jOperations template;
 
   private final ObjectMapper objectMapper;
 
-  public AthleteRespositoryImpl(Neo4jOperations template, ObjectMapper objectMapper) {
+  public AthleteRepositoryImpl(Neo4jOperations template, ObjectMapper objectMapper) {
     this.template = template;
     this.objectMapper = objectMapper;
   }
@@ -34,9 +35,8 @@ public class AthleteRespositoryImpl implements AthleteRespositoryCustom {
     List<NodeValue> results = template.toExecutableQuery(query).getResults();
     List<Athlete> parsedResults = new ArrayList<>();
     results.forEach(
-        nodeValue -> {
-          parsedResults.add(objectMapper.convertValue(nodeValue.asMap(), Athlete.class));
-        });
+        nodeValue ->
+            parsedResults.add(objectMapper.convertValue(nodeValue.asMap(), Athlete.class)));
     return parsedResults;
   }
 
@@ -45,27 +45,27 @@ public class AthleteRespositoryImpl implements AthleteRespositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (firstName != null) {
-      sb.append("a.firstName = $firstName");
+      sb.append("a.first_name = $firstName");
       first = false;
     }
     if (lastName != null) {
-      sb.append(addAndForFirstArgument(sb, first));
-      sb.append("a.lastName = $lastName");
+      addAndForFirstArgument(sb, first);
+      sb.append("a.last_name = $lastName");
       first = false;
     }
     if (country != null) {
-      sb.append(addAndForFirstArgument(sb, first));
+      addAndForFirstArgument(sb, first);
       sb.append("a.country = $country");
       first = false;
     }
     if (birthDateFrom != null) {
-      sb.append(addAndForFirstArgument(sb, first));
-      sb.append("a.birthDate >= $birthDateFrom");
+      addAndForFirstArgument(sb, first);
+      sb.append("a.birth_date >= $birthDateFrom");
       first = false;
     }
     if (birthDateTo != null) {
-      sb.append(addAndForFirstArgument(sb, first));
-      sb.append("a.birthDate <= $birthDateTo");
+      addAndForFirstArgument(sb, first);
+      sb.append("a.birth_date <= $birthDateTo");
     }
     return sb;
   }
@@ -88,8 +88,9 @@ public class AthleteRespositoryImpl implements AthleteRespositoryCustom {
     parameters.put("firstName", firstName);
     parameters.put("lastName", lastName);
     parameters.put("country", country);
-    parameters.put("birthDateFrom", birthDateFrom);
-    parameters.put("birthDateTo", birthDateTo);
+    parameters.put(
+        "birthDateFrom", StringUtils.split(birthDateFrom.toInstant().toString(), ".")[0]);
+    parameters.put("birthDateTo", StringUtils.split(birthDateTo.toInstant().toString(), ".")[0]);
     return PreparedQuery.queryFor(NodeValue.class)
         .withCypherQuery(sb.toString())
         .withParameters(parameters)

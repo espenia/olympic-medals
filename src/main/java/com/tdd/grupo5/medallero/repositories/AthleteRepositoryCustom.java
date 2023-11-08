@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AthleteRespositoryCustom {
+public interface AthleteRepositoryCustom {
   List<Athlete> searchAthletes(
       String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo);
 }
