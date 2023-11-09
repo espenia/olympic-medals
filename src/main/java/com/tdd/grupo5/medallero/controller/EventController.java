@@ -17,26 +17,40 @@ public class EventController {
     this.eventService = service;
   }
 
-  @RequestMapping("/backoffice")
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping("/events")
+  @PostMapping("backoffice/events")
   public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventData) {
     EventDTO createdEvent = this.eventService.createEvent(eventData);
     return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
   }
 
-  @RequestMapping("/api")
   @ResponseStatus(HttpStatus.FOUND)
-  @GetMapping("/events")
+  @GetMapping("api/events")
   public ResponseEntity<List<EventDTO>> getEvents() {
-    List<EventDTO> events = this.eventService.getEvent();
+    List<EventDTO> events = this.eventService.getEvents();
     return new ResponseEntity<>(events, HttpStatus.FOUND);
   }
 
-  @RequestMapping("/backoffice")
   @ResponseStatus(HttpStatus.OK)
-  @PatchMapping("/events/{eventName}")
+  @PatchMapping("/backoffice/events/{eventName}")
   public void updateStatusFor(@PathVariable String eventName) {
     this.eventService.changeEventState(eventName);
   }
+
+  @ResponseStatus(HttpStatus.FOUND)
+  @GetMapping("api/events/{eventName}")
+  public ResponseEntity<EventDTO> getEvent(@PathVariable String eventName) {
+    EventDTO event = this.eventService.getEvent(eventName);
+    return new ResponseEntity<>(event, HttpStatus.FOUND);
+  }
+
+  // Filtrado de eventos de la forma "key:value" dentro del parametro "filter"
+  // Ej: medallero/api/events/?filter=key:value,key2:value2
+  //  @ResponseStatus(HttpStatus.OK)
+  //  @GetMapping("/api/events")
+  //  public ResponseEntity<List<EventDTO>> filterEvents(@RequestParam MultiValueMap<String, String>
+  // filters){
+  //    List<EventDTO> events = this.eventService.findFilteredEvents(filters);
+  //    return new ResponseEntity<> (events, HttpStatus.OK);
+  //  }
 }

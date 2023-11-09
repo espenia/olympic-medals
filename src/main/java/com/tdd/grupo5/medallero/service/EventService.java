@@ -6,6 +6,7 @@ import com.tdd.grupo5.medallero.repositories.EventRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 @Service
 public class EventService {
@@ -33,11 +34,18 @@ public class EventService {
     return eventData;
   }
 
-  public List<EventDTO> getEvent() {
+  public List<EventDTO> getEvents() {
 
     List<Event> events = this.eventRepository.findAll();
 
-    return convertToDTO(events);
+    return convertListToDTO(events);
+  }
+
+  public EventDTO getEvent(String name) {
+
+    Event event = this.eventRepository.findByName(name);
+
+    return convertToDTO(event);
   }
 
   public void changeEventState(String eventName) {
@@ -50,22 +58,32 @@ public class EventService {
     }
   }
 
-  private List<EventDTO> convertToDTO(List<Event> events) {
+  public List<EventDTO> findFilteredEvents(MultiValueMap<String, String> filters) {
+
+    List<EventDTO> events = new ArrayList<>();
+    // TODO
+    return events;
+  }
+
+  private EventDTO convertToDTO(Event event) {
+
+    return EventDTO.builder()
+        .name(event.getName())
+        .maxParticipantCount(event.getMaxParticipantCount())
+        .eventType(event.getEventType())
+        .placeOfEvent(event.getPlaceOfEvent())
+        .description(event.getDescription())
+        .startingDate(event.getStartingDate())
+        .endingDate(event.getEndingDate())
+        .build();
+  }
+
+  private List<EventDTO> convertListToDTO(List<Event> events) {
 
     List<EventDTO> listOfEvents = new ArrayList<>(events.size());
     for (int i = 0; i < events.size(); i++) {
 
-      listOfEvents.add(
-          i,
-          EventDTO.builder()
-              .name(events.get(i).getName())
-              .maxParticipantCount(events.get(i).getMaxParticipantCount())
-              .eventType(events.get(i).getEventType())
-              .placeOfEvent(events.get(i).getPlaceOfEvent())
-              .description(events.get(i).getDescription())
-              .startingDate(events.get(i).getStartingDate())
-              .endingDate(events.get(i).getEndingDate())
-              .build());
+      listOfEvents.add(i, convertToDTO(events.get(i)));
     }
 
     return listOfEvents;
