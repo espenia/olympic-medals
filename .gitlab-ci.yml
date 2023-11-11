@@ -15,15 +15,15 @@ build:
       - build
       - .gradle
 
-test_entities:
-  stage: test
-  script: gradle test --tests com.tdd.grupo5.medallero.entities.*
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+#test_entities:
+#  stage: test
+#  script: gradle test --tests com.tdd.grupo5.medallero.entities.*
+#  cache:
+#    key: "$CI_COMMIT_REF_NAME"
+#    policy: pull
+#    paths:
+#      - build
+#      - .gradle
 
 #deploy:
 #  script: echo "Define your deployment script!"

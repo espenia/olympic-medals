@@ -1,10 +1,12 @@
 package com.tdd.grupo5.medallero.util.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 @org.springframework.context.annotation.Configuration
+@Slf4j
 public class Neo4jDatabaseConfiguration {
   @Value("${spring.neo4j.uri}")
   private String uri;

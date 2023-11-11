@@ -18,7 +18,7 @@ public class EventService {
     this.eventRepository = repository;
   }
 
-  public EventDTO createEvent(EventDTO eventData) {
+  public Event createEvent(EventDTO eventData) {
 
     Event newEvent =
         new Event(
@@ -31,21 +31,21 @@ public class EventService {
             eventData.getEndingDate());
 
     this.eventRepository.save(newEvent);
-    return eventData;
+    return newEvent;
   }
 
-  public List<EventDTO> getEvents() {
+  public List<Event> getEvents() {
 
     List<Event> events = this.eventRepository.findAll();
 
-    return convertListToDTO(events);
+    return events;
   }
 
-  public EventDTO getEvent(String name) {
+  public Event getEvent(String name) {
 
     Event event = this.eventRepository.findByName(name);
 
-    return convertToDTO(event);
+    return event;
   }
 
   public void changeEventState(String eventName) {
@@ -65,7 +65,7 @@ public class EventService {
     return events;
   }
 
-  private EventDTO convertToDTO(Event event) {
+  public EventDTO convertToDTO(Event event) {
 
     return EventDTO.builder()
         .name(event.getName())
@@ -78,7 +78,7 @@ public class EventService {
         .build();
   }
 
-  private List<EventDTO> convertListToDTO(List<Event> events) {
+  public List<EventDTO> convertListToDTO(List<Event> events) {
 
     List<EventDTO> listOfEvents = new ArrayList<>(events.size());
     for (int i = 0; i < events.size(); i++) {

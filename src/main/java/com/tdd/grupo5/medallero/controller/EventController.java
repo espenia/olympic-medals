@@ -1,6 +1,7 @@
 package com.tdd.grupo5.medallero.controller;
 
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
+import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.service.EventService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -20,15 +21,15 @@ public class EventController {
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("backoffice/events")
   public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventData) {
-    EventDTO createdEvent = this.eventService.createEvent(eventData);
-    return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
+    Event createdEvent = this.eventService.createEvent(eventData);
+    return new ResponseEntity<>(this.eventService.convertToDTO(createdEvent), HttpStatus.CREATED);
   }
 
   @ResponseStatus(HttpStatus.FOUND)
   @GetMapping("api/events")
   public ResponseEntity<List<EventDTO>> getEvents() {
-    List<EventDTO> events = this.eventService.getEvents();
-    return new ResponseEntity<>(events, HttpStatus.FOUND);
+    List<Event> events = this.eventService.getEvents();
+    return new ResponseEntity<>(this.eventService.convertListToDTO(events), HttpStatus.FOUND);
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -40,8 +41,8 @@ public class EventController {
   @ResponseStatus(HttpStatus.FOUND)
   @GetMapping("api/events/{eventName}")
   public ResponseEntity<EventDTO> getEvent(@PathVariable String eventName) {
-    EventDTO event = this.eventService.getEvent(eventName);
-    return new ResponseEntity<>(event, HttpStatus.FOUND);
+    Event event = this.eventService.getEvent(eventName);
+    return new ResponseEntity<>(this.eventService.convertToDTO(event), HttpStatus.FOUND);
   }
 
   // Filtrado de eventos de la forma "key:value" dentro del parametro "filter"
