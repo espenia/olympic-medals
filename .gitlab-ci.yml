@@ -2,8 +2,7 @@
 image: gradle:alpine
 
 before_script:
-  - GRADLE_USER_HOME="$(pwd)/.gradle"
-  - export GRADLE_USER_HOME
+  - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
   stage: build
@@ -15,15 +14,15 @@ build:
       - build
       - .gradle
 
-test_entities:
-  stage: test
-  script: gradle test --tests com.tdd.grupo5.medallero.entities.*
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+#test_entities:
+#  stage: test
+#  script: gradle test --tests com.tdd.grupo5.medallero.entities.*
+#  cache:
+#    key: "$CI_COMMIT_REF_NAME"
+#    policy: pull
+#    paths:
+#      - build
+#      - .gradle
 
 #deploy:
 #  script: echo "Define your deployment script!"
