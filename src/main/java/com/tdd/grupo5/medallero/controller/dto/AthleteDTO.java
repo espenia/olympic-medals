@@ -11,4 +11,7 @@ public final class AthleteDTO {
   private String lastName;
   private String country;
   private Date birthDate;
+  private int goldMedals;
+  private int silverMedals;
+  private int bronzeMedals;
 }
