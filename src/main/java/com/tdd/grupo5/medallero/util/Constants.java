@@ -1,6 +1,6 @@
 package com.tdd.grupo5.medallero.util;
 
-public class Constants {
+public final class Constants {
   public static final String USER_NOT_FOUND_ERROR = "user_not_found";
   public static final String INVALID_COMBINATION_USER_PASSWORD_MSG =
       "Invalid combination user/password";
