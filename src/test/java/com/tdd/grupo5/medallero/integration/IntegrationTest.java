@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {MedalleroApplication.class, SecurityConfiguration.class},
-        webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    classes = {MedalleroApplication.class, SecurityConfiguration.class},
+    webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integration_test")
 public class IntegrationTest {
   protected IntegrationTest() {

@@ -7,9 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User implements Serializable {
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,14 +42,13 @@ public class User implements Serializable {
   private String lastName;
 
   @Basic(optional = false)
-  @Column(name = "birth_date", nullable = false)
-  private Date birthDate;
+  @Column(name = "mail", nullable = false)
+  @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Invalid email")
+  private String mail;
 
   @Basic(optional = false)
-  @Pattern(message = "invalid_mail", regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
-  @Column(name = "mail", nullable = false)
-  @Valid
-  private String mail;
+  @Column(name = "birth_date", nullable = false)
+  private Date birthDate;
 
   // private Athlete athlete;
 

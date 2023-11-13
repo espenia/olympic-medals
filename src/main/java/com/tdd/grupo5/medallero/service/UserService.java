@@ -10,7 +10,6 @@ import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
 import com.tdd.grupo5.medallero.exception.NotFoundException;
 import com.tdd.grupo5.medallero.repositories.UserRepository;
-import jakarta.validation.Valid;
 import java.util.Collections;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,7 +44,7 @@ public class UserService {
             user.getUserName(), user.getPassword(), Collections.singleton(user.getRole()));
   }
 
-  public @Valid User createUser(UserDTO userDTO) {
+  public User createUser(UserDTO userDTO) {
     User user =
         new User(
             userDTO.getUserName(),
