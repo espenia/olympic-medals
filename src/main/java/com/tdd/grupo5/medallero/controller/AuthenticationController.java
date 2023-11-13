@@ -21,7 +21,7 @@ public class AuthenticationController {
   }
 
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping("/user")
+  @PostMapping("/signup")
   public ResponseEntity<JwtAuthenticationResponseDTO> signup(@RequestBody UserDTO user) {
     JwtAuthenticationResponseDTO auth = authenticationService.signup(user);
     return new ResponseEntity<>(auth, HttpStatus.CREATED);
