@@ -28,19 +28,19 @@ services:
     volumes:
       - ./import:/import
   # Service for Spring Boot
-  springboot:
-    build:
-      context: . # Path to your Spring Boot application code
-      dockerfile: Dockerfile
-    container_name: medallero_springboot
-    environment:
-      - SCOPE=prod
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-      - neo4j
+  #springboot:
+  #  build:
+  #    context: . # Path to your Spring Boot application code
+  #    dockerfile: Dockerfile
+  #  container_name: medallero_springboot
+  #  environment:
+  #    - SCOPE=prod
+  # restart: always
+  #  ports:
+  #    - "8080:8080"
+  #  depends_on:
+  #    - postgres
+  #    - neo4j
 
   # Service for PgAdmin
   pgadmin:
