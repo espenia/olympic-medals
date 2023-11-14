@@ -33,4 +33,16 @@ public class AuthenticationController {
     JwtAuthenticationResponseDTO authenticationResponseDTO = authenticationService.login(user);
     return new ResponseEntity<>(authenticationResponseDTO, HttpStatus.OK);
   }
+
+  //  @ResponseStatus(HttpStatus.OK)
+  //  @PostMapping("/recovery")
+  //  public ResponseEntity<String> recoverPassword(@RequestBody String mail) {
+  //
+  //  }
+
+  //  @ResponseStatus(HttpStatus.OK)
+  //  @PutMapping("/recovery")
+  //  public ResponseEntity<UserDTO> changePassword(@RequestBody UserDTO user) {
+  //
+  //  }
 }
