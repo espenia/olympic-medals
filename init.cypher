@@ -37,9 +37,9 @@ CREATE (classification2: Classification {
 })
 
 // Create relationships between Athletes and Classification
-CREATE (athlete1)-[:PARTICIPATED_IN]->(event1)
-CREATE (athlete2)-[:PARTICIPATED_IN]->(event1)
+CREATE (athlete1)-[:CLASSIFIED_WITH]->(classification1)
+CREATE (athlete2)-[:CLASSIFIED_WITH]->(classification2)
 
 // Create relationship between Event and Classification
-CREATE (athlete1)-[:HAS_CLASSIFICATION]->(classification1)
-CREATE (athlete2)-[:HAS_CLASSIFICATION]->(classification2)
+CREATE (event1)-[:HAS_CLASSIFICATION]->(classification1)
+CREATE (event1)-[:HAS_CLASSIFICATION]->(classification2)

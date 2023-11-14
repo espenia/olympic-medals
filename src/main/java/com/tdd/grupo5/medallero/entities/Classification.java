@@ -26,7 +26,7 @@ public class Classification {
   @Property("position")
   private int position;
 
-  @Relationship(type = "CLASSIFIED_WITH", direction = Relationship.Direction.OUTGOING)
+  @Relationship(type = "CLASSIFIED_WITH", direction = Relationship.Direction.INCOMING)
   private Athlete athlete;
 
   public Classification(int duration, int position, Athlete athlete) {
