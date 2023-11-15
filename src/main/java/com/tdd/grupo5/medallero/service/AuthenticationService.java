@@ -37,6 +37,11 @@ public class AuthenticationService {
     return new JwtAuthenticationResponseDTO(jwt);
   }
 
+  public String updatePasswordFor(UserDTO user) {
+
+    return userService.updateUser(user);
+  }
+
   private void validateUser(UserDTO userDTO) {
     try {
       userService.internalGetUser(userDTO);

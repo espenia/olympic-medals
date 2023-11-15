@@ -5,11 +5,7 @@ import com.tdd.grupo5.medallero.controller.dto.UserDTO;
 import com.tdd.grupo5.medallero.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -40,9 +36,11 @@ public class AuthenticationController {
   //
   //  }
 
-  //  @ResponseStatus(HttpStatus.OK)
-  //  @PutMapping("/recovery")
-  //  public ResponseEntity<UserDTO> changePassword(@RequestBody UserDTO user) {
-  //
-  //  }
+  @ResponseStatus(HttpStatus.OK)
+  @PutMapping("/recovery")
+  public ResponseEntity<String> changePassword(@RequestBody UserDTO user) {
+
+    String response = this.authenticationService.updatePasswordFor(user);
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
 }

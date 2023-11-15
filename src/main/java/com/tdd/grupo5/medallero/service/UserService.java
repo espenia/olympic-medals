@@ -67,6 +67,15 @@ public class UserService {
     return user;
   }
 
+  public String updateUser(UserDTO user) {
+
+    User targetUser = userRepository.findByUserName(user.getUserName());
+    targetUser.setPassword(passwordEncoder.encode(user.getPassword()));
+    userRepository.save(targetUser);
+
+    return "La contraseña fue cambiada con exito";
+  }
+
   public User internalGetUser(UserDTO userDTO) {
     User user = userRepository.findByUserName(userDTO.getUserName());
     if (user == null) {
