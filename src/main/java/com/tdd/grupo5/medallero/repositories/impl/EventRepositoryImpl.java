@@ -35,8 +35,12 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteLastName,
       String athleteCountry) {
     StringBuilder sb = new StringBuilder();
-    sb.append("MATCH (a:Event) WHERE ");
-    // TODO fijarse de que haga el Match con las relationships (join de neo4j con athlete)
+    sb.append("MATCH (e:Event) ");
+    sb.append("-[:HAS_CLASSIFICATION]->(c:Classification) ");
+    if (athleteFirstName != null || athleteLastName != null || athleteCountry != null) {
+      sb.append("<-[:CLASSIFIED_WITH]-(a:Athlete)");
+    }
+    sb.append(" WHERE ");
     sb.append(
         buildSearchConditions(
             name,
@@ -48,7 +52,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             athleteFirstName,
             athleteLastName,
             athleteCountry));
-    sb.append(" RETURN a");
+    sb.append(" RETURN e");
     PreparedQuery<NodeValue> query =
         buildSearchParameters(
             sb,
@@ -81,31 +85,31 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (name != null) {
-      sb.append("a.name = $name");
+      sb.append("e.name = $name");
       first = false;
     }
     if (category != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.category = $category");
+      sb.append("e.category = $category");
       first = false;
     }
     if (location != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.location = $location");
+      sb.append("e.location = $location");
       first = false;
     }
     if (dateFrom != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.date >= $dateFrom");
+      sb.append("e.date >= $dateFrom");
       first = false;
     }
     if (dateTo != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.date <= $dateTo");
+      sb.append("e.date <= $dateTo");
     }
     if (edition != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.edition = $edition");
+      sb.append("e.edition = $edition");
       first = false;
     }
     if (athleteFirstName != null) {
@@ -145,7 +149,13 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteLastName,
       String athleteCountry) {
     Map<String, Object> parameters = new HashMap<>();
-    parameters.put("firstName", name);
+    parameters.put("name", name);
+    parameters.put("category", category);
+    parameters.put("location", location);
+    parameters.put("edition", edition);
+    parameters.put("athleteFirstName", athleteFirstName);
+    parameters.put("athleteLastName", athleteLastName);
+    parameters.put("athleteCountry", athleteCountry);
     parameters.put("dateFrom", StringUtils.split(dateFrom.toInstant().toString(), ".")[0]);
     parameters.put("dateTo", StringUtils.split(dateTo.toInstant().toString(), ".")[0]);
     return PreparedQuery.queryFor(NodeValue.class)
