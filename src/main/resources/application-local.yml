@@ -13,13 +13,14 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: rlozano@fi.uba.ar #uso mi mail como servidor smtp
-    password: wtat ipas gkba hdfq
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+    password: wtatipasgkbahdfq
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: true
 token:
   signing:
     key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
