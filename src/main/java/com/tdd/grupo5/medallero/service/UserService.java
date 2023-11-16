@@ -67,13 +67,13 @@ public class UserService {
     return user;
   }
 
-  public String updateUser(String mail, String password) {
+  public User updateUser(String mail, String password) {
 
     User targetUser = userRepository.findByMail(mail);
     targetUser.setPassword(passwordEncoder.encode(password));
     userRepository.save(targetUser);
 
-    return "La contraseña fue cambiada con exito";
+    return targetUser;
   }
 
   public User internalGetUser(UserDTO userDTO) {

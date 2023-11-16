@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-  @Autowired private JavaMailSender smtp;
+  private final JavaMailSender smtp;
+
+  public EmailService(JavaMailSender smtp) {
+    this.smtp = smtp;
+  }
 
   public void sendRestorePasswordLink(String to, String subject) {
 
@@ -31,7 +35,6 @@ public class EmailService {
                       """
               .formatted(to),
           true); // hay que meter el link con un attachment
-
       smtp.send(message);
     } catch (Exception e) {
       throw new RuntimeException("Error: No se pudo enviar el mail");

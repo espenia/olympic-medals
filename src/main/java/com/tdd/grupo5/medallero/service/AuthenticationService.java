@@ -37,9 +37,12 @@ public class AuthenticationService {
     return new JwtAuthenticationResponseDTO(jwt);
   }
 
-  public String updatePasswordFor(String mail, String password) {
-
-    return userService.updateUser(mail, password);
+  public JwtAuthenticationResponseDTO updatePasswordFor(String mail, String password) {
+    User user = userService.updateUser(mail, password);
+    String jwt =
+            jwtService.generateToken(
+                    userService.userDetailsService(user).loadUserByUsername(user.getUserName()));
+    return new JwtAuthenticationResponseDTO(jwt);
   }
 
   private void validateUser(UserDTO userDTO) {

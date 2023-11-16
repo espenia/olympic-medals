@@ -35,8 +35,8 @@ public class AuthenticationController {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PostMapping("/recovery")
-  public ResponseEntity<String> recoverPassword(@RequestParam String mail) {
+  @PostMapping("/recovery/{mail}")
+  public ResponseEntity<String> recoverPassword(@PathVariable String mail) {
 
     emailService.sendRestorePasswordLink(mail, "Restaurar Contraseña");
 
@@ -45,10 +45,10 @@ public class AuthenticationController {
 
   @ResponseStatus(HttpStatus.OK)
   @PutMapping("/password-update")
-  public ResponseEntity<String> changePassword(
+  public ResponseEntity<JwtAuthenticationResponseDTO> changePassword(
       @RequestParam String mail, @RequestBody String new_password) {
 
-    String response = this.authenticationService.updatePasswordFor(mail, new_password);
+    JwtAuthenticationResponseDTO response = this.authenticationService.updatePasswordFor(mail, new_password);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
