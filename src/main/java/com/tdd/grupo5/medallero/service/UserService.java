@@ -67,10 +67,10 @@ public class UserService {
     return user;
   }
 
-  public String updateUser(UserDTO user) {
+  public String updateUser(String mail, String password) {
 
-    User targetUser = userRepository.findByUserName(user.getUserName());
-    targetUser.setPassword(passwordEncoder.encode(user.getPassword()));
+    User targetUser = userRepository.findByMail(mail);
+    targetUser.setPassword(passwordEncoder.encode(password));
     userRepository.save(targetUser);
 
     return "La contraseña fue cambiada con exito";

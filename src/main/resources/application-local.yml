@@ -14,13 +14,6 @@ spring:
     port: 587
     username: rlozano@fi.uba.ar #uso mi mail como servidor smtp
     password: wtatipasgkbahdfq
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
-#            required: true
 token:
   signing:
     key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351

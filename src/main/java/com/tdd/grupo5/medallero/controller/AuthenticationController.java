@@ -36,21 +36,19 @@ public class AuthenticationController {
 
   @ResponseStatus(HttpStatus.OK)
   @PostMapping("/recovery")
-  public ResponseEntity<String> recoverPassword(@RequestBody UserDTO user) {
+  public ResponseEntity<String> recoverPassword(@RequestParam String mail) {
 
-    emailService.sendRestorePasswordLink(
-        user.getMail(),
-        "Restaurar Contraseña",
-        "Prosiga a cambiar su contraseña usando el siguiente link\n\t*link*");
+    emailService.sendRestorePasswordLink(mail, "Restaurar Contraseña");
 
-    return new ResponseEntity<>(user.getUserName(), HttpStatus.OK);
+    return new ResponseEntity<>("Mail mandado", HttpStatus.OK);
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping("/recovery")
-  public ResponseEntity<String> changePassword(@RequestBody UserDTO user) {
+  @PutMapping("/password-update")
+  public ResponseEntity<String> changePassword(
+      @RequestParam String mail, @RequestBody String new_password) {
 
-    String response = this.authenticationService.updatePasswordFor(user);
+    String response = this.authenticationService.updatePasswordFor(mail, new_password);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
