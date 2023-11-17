@@ -10,8 +10,9 @@ public class ClassificationDTO {
   private int duration;
   private AthleteDTO athlete;
   private int position;
+  private boolean pendingValidation;
 
   public Classification convertToEntity() {
-    return new Classification(duration, position, athlete.convertToEntity());
+    return new Classification(duration, position, athlete.convertToEntity(), pendingValidation);
   }
 }

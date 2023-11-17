@@ -31,10 +31,14 @@ public class Classification {
   @Relationship(type = "CLASSIFIED_WITH", direction = Relationship.Direction.INCOMING)
   private Athlete athlete;
 
-  public Classification(int duration, int position, Athlete athlete) {
+  @Property("pending_validation")
+  private boolean pendingValidation;
+
+  public Classification(int duration, int position, Athlete athlete, boolean pending) {
     this.duration = duration;
     this.position = position;
     this.athlete = athlete;
+    this.pendingValidation = pending; // siempre que el admin cree una, este campo debe ser "false"
   }
 
   public ClassificationDTO convertToDTO() {
@@ -42,6 +46,7 @@ public class Classification {
         .athlete(this.athlete.convertDTO())
         .duration(this.duration)
         .position(this.position)
+        .pendingValidation(this.pendingValidation)
         .build();
   }
 }

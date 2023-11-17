@@ -86,4 +86,9 @@ public class Event {
         .date(this.getDate())
         .build();
   }
+
+  public void add(Classification classification) {
+
+    this.classifications.add(classification);
+  }
 }

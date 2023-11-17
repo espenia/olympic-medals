@@ -8,6 +8,8 @@ import com.tdd.grupo5.medallero.repositories.EventRepository;
 import com.tdd.grupo5.medallero.repositories.EventRepositoryCustom;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -69,5 +71,17 @@ public class EventService {
             athleteLastName,
             athleteCountry);
     return new EventLookupDTO(events.stream().map(Event::convertToDTO).toList());
+  }
+
+  public void requestAdd(UUID id, ClassificationDTO classification) {
+
+    Optional<Event> node = this.eventRepository.findById(id);
+    if (node.isPresent()) {
+      Event event = node.get();
+      event.add(classification.convertToEntity());
+      this.eventRepository.save(event);
+    } else {
+      throw new RuntimeException("Error: El evento requerido no se encuentro");
+    }
   }
 }
