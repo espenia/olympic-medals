@@ -1,7 +1,6 @@
 package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -12,9 +11,11 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
 @NodeEntity("event")
+@Node
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -60,7 +61,8 @@ public class Event {
       String desc,
       Date date,
       int edition,
-      String officialSite) {
+      String officialSite,
+      List<Classification> classifications) {
 
     this.name = eventName;
     this.participantsCount = participantsCount;
@@ -68,7 +70,7 @@ public class Event {
     this.location = location;
     this.description = desc;
     this.date = date;
-    this.classifications = new ArrayList<>();
+    this.classifications = classifications;
     this.edition = edition;
     this.officialSite = officialSite;
   }

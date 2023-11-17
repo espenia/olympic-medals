@@ -1,5 +1,6 @@
 package com.tdd.grupo5.medallero.service;
 
+import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
 import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
 import com.tdd.grupo5.medallero.entities.Event;
@@ -32,7 +33,10 @@ public class EventService {
             eventData.getDescription(),
             eventData.getDate(),
             eventData.getEdition(),
-            eventData.getOfficialSite());
+            eventData.getOfficialSite(),
+            eventData.getClassifications().stream()
+                .map(ClassificationDTO::convertToEntity)
+                .toList());
 
     this.eventRepository.save(newEvent);
     return newEvent;

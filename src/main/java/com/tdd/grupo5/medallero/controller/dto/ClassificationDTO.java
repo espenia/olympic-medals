@@ -1,5 +1,6 @@
 package com.tdd.grupo5.medallero.controller.dto;
 
+import com.tdd.grupo5.medallero.entities.Classification;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,4 +10,8 @@ public class ClassificationDTO {
   private int duration;
   private AthleteDTO athlete;
   private int position;
+
+  public Classification convertToEntity() {
+    return new Classification(duration, position, athlete.convertToEntity());
+  }
 }

@@ -36,7 +36,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteCountry) {
     StringBuilder sb = new StringBuilder();
     sb.append("MATCH (e:Event) ");
-    sb.append("-[:HAS_CLASSIFICATION]->(c:Classification) ");
+    sb.append("-[:CLASSIFICATIONS]->(c:Classification) ");
     if (athleteFirstName != null || athleteLastName != null || athleteCountry != null) {
       sb.append("<-[:CLASSIFIED_WITH]-(a:Athlete)");
     }
@@ -52,7 +52,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             athleteFirstName,
             athleteLastName,
             athleteCountry));
-    sb.append(" RETURN e");
+    sb.append(" RETURN e,c,a");
     PreparedQuery<NodeValue> query =
         buildSearchParameters(
             sb,
@@ -114,17 +114,17 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     }
     if (athleteFirstName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.athlete_last_name = $athleteFirstName");
+      sb.append("a.first_name = $athleteFirstName");
       first = false;
     }
     if (athleteLastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.athlete_last_name = $athleteLastName");
+      sb.append("a.last_name = $athleteLastName");
       first = false;
     }
     if (athleteCountry != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.athlete_country = $athleteCountry");
+      sb.append("a.country = $athleteCountry");
       first = false;
     }
     return sb;
@@ -144,7 +144,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String location,
       Date dateFrom,
       Date dateTo,
-      int edition,
+      Integer edition,
       String athleteFirstName,
       String athleteLastName,
       String athleteCountry) {
@@ -156,8 +156,12 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     parameters.put("athleteFirstName", athleteFirstName);
     parameters.put("athleteLastName", athleteLastName);
     parameters.put("athleteCountry", athleteCountry);
-    parameters.put("dateFrom", StringUtils.split(dateFrom.toInstant().toString(), ".")[0]);
-    parameters.put("dateTo", StringUtils.split(dateTo.toInstant().toString(), ".")[0]);
+    if (dateFrom != null) {
+      parameters.put("dateFrom", StringUtils.split(dateFrom.toInstant().toString(), ".")[0]);
+    }
+    if (dateTo != null) {
+      parameters.put("dateTo", StringUtils.split(dateTo.toInstant().toString(), ".")[0]);
+    }
     return PreparedQuery.queryFor(NodeValue.class)
         .withCypherQuery(sb.toString())
         .withParameters(parameters)

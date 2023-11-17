@@ -25,7 +25,7 @@ public class AthleteController {
   }
 
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping("/athletes")
+  @PostMapping("/athlete")
   public ResponseEntity<AthleteDTO> createAthlete(@RequestBody AthleteDTO athleteDTO) {
     AthleteDTO athlete = athleteService.createAthlete(athleteDTO).convertDTO();
     return new ResponseEntity<>(athlete, HttpStatus.CREATED);

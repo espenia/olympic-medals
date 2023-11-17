@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
 @NodeEntity("athlete")
+@Node
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,11 +41,21 @@ public class Athlete {
   @Property(name = "bronze_medals")
   private int bronzeMedals;
 
-  public Athlete(String firstName, String lastName, String country, Date birthDate) {
+  public Athlete(
+      String firstName,
+      String lastName,
+      String country,
+      Date birthDate,
+      int goldMedals,
+      int silverMedals,
+      int bronzeMedals) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.country = country;
     this.birthDate = birthDate;
+    this.goldMedals = goldMedals;
+    this.silverMedals = silverMedals;
+    this.bronzeMedals = bronzeMedals;
   }
 
   public AthleteDTO convertDTO() {

@@ -21,7 +21,7 @@ public class EventController {
   }
 
   @ResponseStatus(HttpStatus.CREATED)
-  @PostMapping("backoffice/events")
+  @PostMapping("backoffice/event")
   public ResponseEntity<EventDTO> createEvent(@RequestBody EventDTO eventData) {
     EventDTO createdEvent = this.eventService.createEvent(eventData).convertToDTO();
     return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);

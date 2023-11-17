@@ -28,7 +28,10 @@ public class AthleteService {
             athleteDTO.getFirstName(),
             athleteDTO.getLastName(),
             athleteDTO.getCountry(),
-            athleteDTO.getBirthDate());
+            athleteDTO.getBirthDate(),
+            athleteDTO.getGoldMedals(),
+            athleteDTO.getSilverMedals(),
+            athleteDTO.getBronzeMedals());
     athleteRespository.save(athlete);
     return athlete;
   }
