@@ -11,7 +11,6 @@ import java.util.Map;
 import org.neo4j.driver.internal.value.NodeValue;
 import org.springframework.data.neo4j.core.Neo4jOperations;
 import org.springframework.data.neo4j.core.PreparedQuery;
-import org.springframework.util.StringUtils;
 
 public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
 
@@ -27,7 +26,7 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
   public List<Athlete> searchAthletes(
       String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo) {
     StringBuilder sb = new StringBuilder();
-    sb.append("MATCH (a:Athlete) WHERE ");
+    sb.append("MATCH (a:Athlete) ");
     sb.append(buildSearchConditions(firstName, lastName, country, birthDateFrom, birthDateTo));
     sb.append(" RETURN a");
     PreparedQuery<NodeValue> query =
@@ -45,7 +44,7 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (firstName != null) {
-      sb.append("a.first_name = $firstName");
+      sb.append(" WHERE a.first_name ~= $firstName");
       first = false;
     }
     if (lastName != null) {
@@ -55,7 +54,7 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     }
     if (country != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.country = $country");
+      sb.append("a.country ~= $country");
       first = false;
     }
     if (birthDateFrom != null) {
@@ -73,6 +72,8 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
   private void addAndForFirstArgument(StringBuilder sb, boolean first) {
     if (!first) {
       sb.append(" AND ");
+    } else {
+      sb.append(" WHERE ");
     }
   }
 
@@ -89,10 +90,13 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     parameters.put("country", country);
     if (birthDateFrom != null) {
       parameters.put(
-          "birthDateFrom", StringUtils.split(birthDateFrom.toInstant().toString(), ".")[0]);
+          "birthDateFrom",
+          birthDateFrom); // StringUtils.split(birthDateFrom.toInstant().toString(), ".")[0]);
     }
     if (birthDateTo != null) {
-      parameters.put("birthDateTo", StringUtils.split(birthDateTo.toInstant().toString(), ".")[0]);
+      parameters.put(
+          "birthDateTo",
+          birthDateTo); // StringUtils.split(birthDateTo.toInstant().toString(), ".")[0]);
     }
 
     return PreparedQuery.queryFor(NodeValue.class)

@@ -14,9 +14,6 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
-import org.springframework.data.neo4j.core.schema.RelationshipId;
-import org.springframework.data.neo4j.core.schema.RelationshipProperties;
-import org.springframework.data.neo4j.core.schema.TargetNode;
 
 @NodeEntity("event")
 @Node
@@ -32,7 +29,7 @@ public class Event {
   private String name;
 
   @Property("edition")
-  private int edition;
+  private Integer edition;
 
   @Property("participants_count")
   private Integer participantsCount;
@@ -49,7 +46,6 @@ public class Event {
   @Property("date")
   private Date date;
 
-  // @ConvertWith(converter = ClassificationConverter.class)
   @Relationship(type = "HAS_CLASSIFICATION", direction = Relationship.Direction.OUTGOING)
   private List<Classification> classifications;
 
@@ -61,12 +57,13 @@ public class Event {
 
   public Event(
       String eventName,
-      int participantsCount,
+      Integer edition,
+      Integer participantsCount,
       String category,
       String location,
       String desc,
       Date date,
-      int edition,
+      Integer distance,
       String officialSite,
       List<Classification> classifications) {
 
@@ -78,6 +75,7 @@ public class Event {
     this.date = date;
     this.classifications = classifications;
     this.edition = edition;
+    this.distance = distance;
     this.officialSite = officialSite;
   }
 
@@ -89,19 +87,11 @@ public class Event {
         .category(this.getCategory())
         .location(this.getLocation())
         .description(this.getDescription())
+        .distance(this.getDistance())
         .classifications(
             this.getClassifications().stream().map(Classification::convertToDTO).toList())
         .date(this.getDate())
         .id(this.getId())
         .build();
-  }
-
-  @RelationshipProperties
-  private static class ClassificationRelation {
-    @RelationshipId private Long id;
-
-    private String someData;
-
-    @TargetNode private Classification targetPerson;
   }
 }

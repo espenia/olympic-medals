@@ -29,12 +29,13 @@ public class EventService {
     Event newEvent =
         new Event(
             eventData.getName(),
+            eventData.getEdition(),
             eventData.getParticipantCount(),
             eventData.getCategory(),
             eventData.getLocation(),
             eventData.getDescription(),
             eventData.getDate(),
-            eventData.getEdition(),
+            eventData.getDistance(),
             eventData.getOfficialSite(),
             eventData.getClassifications() == null
                 ? new ArrayList<>()
