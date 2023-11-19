@@ -83,6 +83,7 @@ public class Event {
 
     return EventDTO.builder()
         .name(this.getName())
+        .edition(this.getEdition())
         .participantCount(this.getParticipantsCount())
         .category(this.getCategory())
         .location(this.getLocation())

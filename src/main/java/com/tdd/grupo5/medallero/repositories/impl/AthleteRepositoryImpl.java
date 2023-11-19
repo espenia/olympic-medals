@@ -44,17 +44,17 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (firstName != null) {
-      sb.append(" WHERE a.first_name ~= $firstName");
+      sb.append(" WHERE a.first_name =~ $firstName");
       first = false;
     }
     if (lastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.last_name = $lastName");
+      sb.append("a.last_name =~ $lastName");
       first = false;
     }
     if (country != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.country ~= $country");
+      sb.append("a.country =~ $country");
       first = false;
     }
     if (birthDateFrom != null) {
