@@ -24,7 +24,7 @@ services:
     ports:
       - "7474:7474"
       - "7687:7687"
-    command: neo4j-admin database import full --overwrite-destination --nodes /import/athlete.csv, /import/event.csv, /import/classification.csv --relationships /import/athlete_classification.csv, /import/classification_event.csv neo4j
+    command: bash -c "neo4j-admin database import full --overwrite-destination --nodes /import/athlete.csv, /import/event.csv, /import/classification.csv --relationships /import/athlete_classification.csv, /import/classification_event.csv neo4j && neo4j start"
     volumes:
       - ./import:/import
   # Service for Spring Boot
