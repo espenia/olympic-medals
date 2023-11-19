@@ -37,6 +37,14 @@ public class AuthenticationService {
     return new JwtAuthenticationResponseDTO(jwt);
   }
 
+  public JwtAuthenticationResponseDTO updatePasswordFor(String mail, String password) {
+    User user = userService.updateUser(mail, password);
+    String jwt =
+            jwtService.generateToken(
+                    userService.userDetailsService(user).loadUserByUsername(user.getUserName()));
+    return new JwtAuthenticationResponseDTO(jwt);
+  }
+
   private void validateUser(UserDTO userDTO) {
     try {
       userService.internalGetUser(userDTO);

@@ -67,6 +67,15 @@ public class UserService {
     return user;
   }
 
+  public User updateUser(String mail, String password) {
+
+    User targetUser = userRepository.findByMail(mail);
+    targetUser.setPassword(passwordEncoder.encode(password));
+    userRepository.save(targetUser);
+
+    return targetUser;
+  }
+
   public User internalGetUser(UserDTO userDTO) {
     User user = userRepository.findByUserName(userDTO.getUserName());
     if (user == null) {
