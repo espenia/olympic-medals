@@ -3,21 +3,21 @@ package com.tdd.grupo5.medallero.controller;
 import com.tdd.grupo5.medallero.controller.dto.JwtAuthenticationResponseDTO;
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
 import com.tdd.grupo5.medallero.service.AuthenticationService;
+import com.tdd.grupo5.medallero.util.smtp.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
   private final AuthenticationService authenticationService;
+  private final EmailService emailService;
 
-  public AuthenticationController(AuthenticationService authenticationService) {
+  public AuthenticationController(
+      AuthenticationService authenticationService, EmailService emailService) {
     this.authenticationService = authenticationService;
+    this.emailService = emailService;
   }
 
   @ResponseStatus(HttpStatus.CREATED)
@@ -32,5 +32,23 @@ public class AuthenticationController {
   public ResponseEntity<JwtAuthenticationResponseDTO> login(@RequestBody UserDTO user) {
     JwtAuthenticationResponseDTO authenticationResponseDTO = authenticationService.login(user);
     return new ResponseEntity<>(authenticationResponseDTO, HttpStatus.OK);
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @PostMapping("/recovery/{mail}")
+  public ResponseEntity<String> recoverPassword(@PathVariable String mail) {
+
+    emailService.sendRestorePasswordLink(mail, "Restaurar Contraseña");
+
+    return new ResponseEntity<>("Mail mandado", HttpStatus.OK);
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @PutMapping("/password-update")
+  public ResponseEntity<JwtAuthenticationResponseDTO> changePassword(
+      @RequestParam String mail, @RequestBody String new_password) {
+
+    JwtAuthenticationResponseDTO response = this.authenticationService.updatePasswordFor(mail, new_password);
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }

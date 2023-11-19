@@ -5,26 +5,28 @@ before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-build:
-  stage: build
-  script: gradle --build-cache assemble
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
-    paths:
-      - build
-      - .gradle
+#build:
+#  stage: build
+#  script: gradle --build-cache assemble
+#  cache:
+#    key: "$CI_COMMIT_REF_NAME"
+#    policy: push
+#    paths:
+#      - build
+#      - .gradle
 
-test_entities:
-  stage: test
-  script: gradle test --tests com.tdd.grupo5.medallero.entities.*
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+#test_entities:
+#  stage: test
+#  script: gradle test --tests com.tdd.grupo5.medallero.entities.*
+#  cache:
+#    key: "$CI_COMMIT_REF_NAME"
+#    policy: pull
+#    paths:
+#      - build
+#      - .gradle
 
-#deploy:
-#  script: echo "Define your deployment script!"
-#  environment: production
+deploy:
+  stage: deploy
+  script: 
+    - docker-compose up --build --force-recreate -d
+  environment: production

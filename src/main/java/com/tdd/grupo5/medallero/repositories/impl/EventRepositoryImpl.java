@@ -69,17 +69,17 @@ public class EventRepositoryImpl {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (name != null) {
-      sb.append(" WHERE e.name ~= $name");
+      sb.append(" WHERE e.name =~ $name");
       first = false;
     }
     if (category != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("e.category = $category");
+      sb.append("e.category =~ $category");
       first = false;
     }
     if (location != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("e.location ~= $location");
+      sb.append("e.location =~ $location");
       first = false;
     }
     if (dateFrom != null) {
@@ -98,17 +98,17 @@ public class EventRepositoryImpl {
     }
     if (athleteFirstName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.first_name ~= $athleteFirstName");
+      sb.append("a.first_name =~ $athleteFirstName");
       first = false;
     }
     if (athleteLastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.last_name ~= $athleteLastName");
+      sb.append("a.last_name =~ $athleteLastName");
       first = false;
     }
     if (athleteCountry != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.country ~= $athleteCountry");
+      sb.append("a.country =~ $athleteCountry");
       first = false;
     }
     return sb;

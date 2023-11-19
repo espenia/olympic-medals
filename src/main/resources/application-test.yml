@@ -9,6 +9,11 @@ spring:
     username: sa
     password: sa
     driver-class-name: org.h2.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: rlozano@fi.uba.ar #uso mi mail como servidor smtp
+    password: wtatipasgkbahdfq
 token:
   signing:
     key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351

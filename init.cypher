@@ -1,3 +1,4 @@
+
 // Create Athletes
 CREATE (athlete1: Athlete {
   first_name: "name1",
@@ -17,7 +18,11 @@ CREATE (athlete2: Athlete {
 CREATE (event1: Event {
   name: "Maraton Unico de la Rioja",
   category: "Running",
+<<<<<<< HEAD
+  distance: 10000",
+=======
   distance: 10000,
+>>>>>>> controller
   location: "La Rioja",
   date: date("2023-12-22"),
   edition: 2023,

@@ -24,9 +24,9 @@ services:
     ports:
       - "7474:7474"
       - "7687:7687"
-    command: neo4j-admin load --from=/path/to/init.cypher --database=neo4j --force
+    command: neo4j-admin database import full --overwrite-destination --nodes /import/athlete.csv, /import/event.csv, /import/classification.csv --relationships /import/athlete_classification.csv, /import/classification_event.csv neo4j
     volumes:
-      - ./init.cypher:/docker-entrypoint-initdb.d/init.cypher
+      - ./import:/import
   # Service for Spring Boot
   springboot:
     build:
@@ -46,7 +46,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:7.5
     container_name: medallero_pg_admin
-    restart: always
+    #restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@gmail.com
       PGADMIN_DEFAULT_PASSWORD: admin123
