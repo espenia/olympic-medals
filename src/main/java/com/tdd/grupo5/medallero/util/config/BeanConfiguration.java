@@ -19,6 +19,14 @@ public class BeanConfiguration {
 
   @Bean
   public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
+    return getObjectMapper(builder);
+  }
+
+  public static ObjectMapper getInstance(Jackson2ObjectMapperBuilder builder) {
+    return getObjectMapper(builder);
+  }
+
+  private static ObjectMapper getObjectMapper(Jackson2ObjectMapperBuilder builder) {
     ObjectMapper objectMapper =
         builder
             .createXmlMapper(false)

@@ -18,7 +18,11 @@ CREATE (athlete2: Athlete {
 CREATE (event1: Event {
   name: "Maraton Unico de la Rioja",
   category: "Running",
+<<<<<<< HEAD
   distance: 10000",
+=======
+  distance: 10000,
+>>>>>>> controller
   location: "La Rioja",
   date: date("2023-12-22"),
   edition: 2023,
@@ -27,12 +31,20 @@ CREATE (event1: Event {
 
 // Create Classifications
 CREATE (classification1: Classification {
-  time: duration("PT1H30M55S")
+  time: duration("PT1H30M55S"),
+  position: 1
+})
+
+CREATE (classification2: Classification {
+  time: duration("PT1H30M57S"),
+  position: 2
+
 })
 
 // Create relationships between Athletes and Classification
-CREATE (athlete1)-[:PARTICIPATED_IN]->(classification1)
-CREATE (athlete2)-[:PARTICIPATED_IN]->(classification1)
+CREATE (athlete1)-[:CLASSIFIED_WITH]->(classification1)
+CREATE (athlete2)-[:CLASSIFIED_WITH]->(classification2)
 
 // Create relationship between Event and Classification
 CREATE (event1)-[:HAS_CLASSIFICATION]->(classification1)
+CREATE (event1)-[:HAS_CLASSIFICATION]->(classification2)

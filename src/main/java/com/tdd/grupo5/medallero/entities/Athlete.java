@@ -6,13 +6,17 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
-@NodeEntity("Athlete")
+@NodeEntity("athlete")
+@Node
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Athlete {
@@ -30,11 +34,30 @@ public class Athlete {
   @Property(name = "birth_date")
   private Date birthDate;
 
-  public Athlete(String firstName, String lastName, String country, Date birthDate) {
+  @Property(name = "gold_medals")
+  private Integer goldMedals;
+
+  @Property(name = "silver_medals")
+  private Integer silverMedals;
+
+  @Property(name = "bronze_medals")
+  private Integer bronzeMedals;
+
+  public Athlete(
+      String firstName,
+      String lastName,
+      String country,
+      Date birthDate,
+      Integer goldMedals,
+      Integer silverMedals,
+      Integer bronzeMedals) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.country = country;
     this.birthDate = birthDate;
+    this.goldMedals = goldMedals;
+    this.silverMedals = silverMedals;
+    this.bronzeMedals = bronzeMedals;
   }
 
   public AthleteDTO convertDTO() {
@@ -43,6 +66,10 @@ public class Athlete {
         .lastName(this.lastName)
         .country(this.country)
         .birthDate(this.birthDate)
+        .bronzeMedals(this.bronzeMedals)
+        .goldMedals(this.goldMedals)
+        .silverMedals(this.silverMedals)
+        .id(this.id)
         .build();
   }
 }

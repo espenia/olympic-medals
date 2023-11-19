@@ -23,13 +23,7 @@ public class Neo4jDatabaseConfiguration {
     return new org.neo4j.ogm.config.Configuration.Builder()
         .uri(uri)
         .credentials(username, password)
+        .database("neo4j")
         .build();
   }
-
-  /*@Bean
-  public Neo4jConversions neo4jConversions() {
-    HashSet<NodeValueConverter<?>> converters = new HashSet<>();
-    converters.add(new NodeValueAthleteConverter());
-    return new Neo4jConversions(converters);
-  }*/
 }
