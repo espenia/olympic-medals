@@ -89,14 +89,10 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     parameters.put("lastName", lastName);
     parameters.put("country", country);
     if (birthDateFrom != null) {
-      parameters.put(
-          "birthDateFrom",
-          birthDateFrom); // StringUtils.split(birthDateFrom.toInstant().toString(), ".")[0]);
+      parameters.put("birthDateFrom", birthDateFrom.toInstant().toString());
     }
     if (birthDateTo != null) {
-      parameters.put(
-          "birthDateTo",
-          birthDateTo); // StringUtils.split(birthDateTo.toInstant().toString(), ".")[0]);
+      parameters.put("birthDateTo", birthDateTo.toInstant().toString());
     }
 
     return PreparedQuery.queryFor(NodeValue.class)
