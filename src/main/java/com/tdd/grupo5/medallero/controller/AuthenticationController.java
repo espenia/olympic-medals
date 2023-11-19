@@ -1,8 +1,10 @@
 package com.tdd.grupo5.medallero.controller;
 
 import com.tdd.grupo5.medallero.controller.dto.JwtAuthenticationResponseDTO;
+import com.tdd.grupo5.medallero.controller.dto.RecoveryDTO;
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
 import com.tdd.grupo5.medallero.service.AuthenticationService;
+import com.tdd.grupo5.medallero.service.UserService;
 import com.tdd.grupo5.medallero.util.smtp.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +14,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
   private final AuthenticationService authenticationService;
+  private final UserService userService;
   private final EmailService emailService;
 
   public AuthenticationController(
-      AuthenticationService authenticationService, EmailService emailService) {
+      AuthenticationService authenticationService,
+      UserService userService,
+      EmailService emailService) {
     this.authenticationService = authenticationService;
+    this.userService = userService;
     this.emailService = emailService;
   }
 
@@ -35,20 +41,21 @@ public class AuthenticationController {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PostMapping("/recovery/{mail}")
-  public ResponseEntity<String> recoverPassword(@PathVariable String mail) {
-
-    emailService.sendRestorePasswordLink(mail, "Restaurar Contraseña");
-
+  @PostMapping("/recovery")
+  public ResponseEntity<String> recoverPassword(@RequestBody RecoveryDTO recoveryDTO) {
+    userService.getUserByMail(recoveryDTO.getMail());
+    emailService.sendRestorePasswordLink(
+        recoveryDTO.getMail(), recoveryDTO.getRedirectUrl(), "Restaurar Contraseña");
     return new ResponseEntity<>("Mail mandado", HttpStatus.OK);
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping("/password-update")
+  @PutMapping("/password/{mail}")
   public ResponseEntity<JwtAuthenticationResponseDTO> changePassword(
-      @RequestParam String mail, @RequestBody String new_password) {
+      @PathVariable String mail, @RequestBody UserDTO new_password) {
 
-    JwtAuthenticationResponseDTO response = this.authenticationService.updatePasswordFor(mail, new_password);
+    JwtAuthenticationResponseDTO response =
+        this.authenticationService.updatePasswordFor(mail, new_password);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }

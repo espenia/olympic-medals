@@ -37,11 +37,11 @@ public class AuthenticationService {
     return new JwtAuthenticationResponseDTO(jwt);
   }
 
-  public JwtAuthenticationResponseDTO updatePasswordFor(String mail, String password) {
-    User user = userService.updateUser(mail, password);
+  public JwtAuthenticationResponseDTO updatePasswordFor(String mail, UserDTO userDTO) {
+    User user = userService.updateUser(mail, userDTO);
     String jwt =
-            jwtService.generateToken(
-                    userService.userDetailsService(user).loadUserByUsername(user.getUserName()));
+        jwtService.generateToken(
+            userService.userDetailsService(user).loadUserByUsername(user.getUserName()));
     return new JwtAuthenticationResponseDTO(jwt);
   }
 

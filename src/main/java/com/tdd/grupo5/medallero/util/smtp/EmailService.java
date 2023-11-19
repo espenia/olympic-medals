@@ -1,7 +1,6 @@
 package com.tdd.grupo5.medallero.util.smtp;
 
 import javax.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class EmailService {
     this.smtp = smtp;
   }
 
-  public void sendRestorePasswordLink(String to, String subject) {
+  public void sendRestorePasswordLink(String to, String url, String subject) {
 
     MimeMessage message = smtp.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -25,14 +24,16 @@ public class EmailService {
       helper.setFrom("noreply@medallero.com", "noreply@medallero.com");
       helper.setSubject(subject);
       helper.setText(
-          """
+          String.format(
+                  """
                       <div>
                         Haga click en el link de abajo para ir a cambiar a una nueva clave:
                         <div>
-                          <a href="https://grupo-5.2023.tecnicasdedisenio.com.ar/api/auth/password-update?mail=%s" target=_blank> Click </a>
+                          <a href="%s" target=_blank> Click </a>
                         </div>
                       </div>
-                      """
+                      """,
+                  url)
               .formatted(to),
           true); // hay que meter el link con un attachment
       smtp.send(message);

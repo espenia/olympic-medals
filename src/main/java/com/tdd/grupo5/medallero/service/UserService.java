@@ -2,6 +2,7 @@ package com.tdd.grupo5.medallero.service;
 
 import static com.tdd.grupo5.medallero.util.Constants.INVALID_COMBINATION_USER_PASSWORD_ERROR;
 import static com.tdd.grupo5.medallero.util.Constants.INVALID_COMBINATION_USER_PASSWORD_MSG;
+import static com.tdd.grupo5.medallero.util.Constants.INVALID_USER;
 import static com.tdd.grupo5.medallero.util.Constants.USER_NOT_FOUND_ERROR;
 
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
@@ -67,10 +68,21 @@ public class UserService {
     return user;
   }
 
-  public User updateUser(String mail, String password) {
+  public User getUserByMail(String mail) {
+    User user = userRepository.findByMail(mail);
+    if (user == null) {
+      throw new BadRequestException(INVALID_USER, INVALID_USER);
+    }
+    return user;
+  }
+
+  public User updateUser(String mail, UserDTO user) {
 
     User targetUser = userRepository.findByMail(mail);
-    targetUser.setPassword(passwordEncoder.encode(password));
+    if (targetUser == null || !targetUser.getUserName().equals(user.getUserName())) {
+      throw new BadRequestException(INVALID_USER, INVALID_USER);
+    }
+    targetUser.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.save(targetUser);
 
     return targetUser;
