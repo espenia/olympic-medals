@@ -1,30 +1,14 @@
 package com.tdd.grupo5.medallero.repositories.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.grupo5.medallero.entities.Event;
-import com.tdd.grupo5.medallero.repositories.EventRepositoryCustom;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import org.neo4j.driver.internal.value.NodeValue;
-import org.springframework.data.neo4j.core.Neo4jOperations;
-import org.springframework.data.neo4j.core.PreparedQuery;
+import org.neo4j.driver.Query;
 import org.springframework.util.StringUtils;
 
-public class EventRepositoryImpl implements EventRepositoryCustom {
+public class EventRepositoryImpl {
 
-  private final Neo4jOperations template;
-
-  private final ObjectMapper objectMapper;
-
-  public EventRepositoryImpl(Neo4jOperations template, ObjectMapper objectMapper) {
-    this.template = template;
-    this.objectMapper = objectMapper;
-  }
-
-  public List<Event> searchEvents(
+  public static String searchEvents(
       String name,
       String category,
       String location,
@@ -36,11 +20,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteCountry) {
     StringBuilder sb = new StringBuilder();
     sb.append("MATCH (e:Event) ");
-    sb.append("-[:CLASSIFICATIONS]->(c:Classification) ");
-    if (athleteFirstName != null || athleteLastName != null || athleteCountry != null) {
-      sb.append("<-[:CLASSIFIED_WITH]-(a:Athlete)");
-    }
-    sb.append(" WHERE ");
+    sb.append("-[:CLASSIFICATIONS]->(c:Classification) <-[:CLASSIFIED_WITH]-(a:Athlete)");
     sb.append(
         buildSearchConditions(
             name,
@@ -53,7 +33,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             athleteLastName,
             athleteCountry));
     sb.append(" RETURN e,c,a");
-    PreparedQuery<NodeValue> query =
+    Query query =
         buildSearchParameters(
             sb,
             name,
@@ -65,14 +45,19 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             athleteFirstName,
             athleteLastName,
             athleteCountry);
-    List<NodeValue> results = template.toExecutableQuery(query).getResults();
-    List<Event> parsedResults = new ArrayList<>();
-    results.forEach(
-        nodeValue -> parsedResults.add(objectMapper.convertValue(nodeValue.asMap(), Event.class)));
-    return parsedResults;
+    String resultingQuery = query.text();
+    for (String entry : query.parameters().asMap().keySet()) {
+      if (query.parameters().asMap().get(entry) == null) {
+        continue;
+      }
+      resultingQuery =
+          resultingQuery.replace(
+              "$" + entry, "'" + query.parameters().asMap().get(entry).toString() + "'");
+    }
+    return resultingQuery;
   }
 
-  private StringBuilder buildSearchConditions(
+  private static StringBuilder buildSearchConditions(
       String name,
       String category,
       String location,
@@ -85,7 +70,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (name != null) {
-      sb.append("e.name = $name");
+      sb.append(" WHERE e.name = $name");
       first = false;
     }
     if (category != null) {
@@ -130,14 +115,15 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     return sb;
   }
 
-  private StringBuilder addAndForFirstArgument(StringBuilder sb, boolean first) {
+  private static void addAndForFirstArgument(StringBuilder sb, boolean first) {
     if (!first) {
       sb.append(" AND ");
+    } else {
+      sb.append(" WHERE ");
     }
-    return sb;
   }
 
-  private PreparedQuery<NodeValue> buildSearchParameters(
+  private static Query buildSearchParameters(
       StringBuilder sb,
       String name,
       String category,
@@ -162,9 +148,6 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     if (dateTo != null) {
       parameters.put("dateTo", StringUtils.split(dateTo.toInstant().toString(), ".")[0]);
     }
-    return PreparedQuery.queryFor(NodeValue.class)
-        .withCypherQuery(sb.toString())
-        .withParameters(parameters)
-        .build();
+    return new Query(sb.toString(), parameters);
   }
 }

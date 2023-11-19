@@ -70,11 +70,10 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     return sb;
   }
 
-  private StringBuilder addAndForFirstArgument(StringBuilder sb, boolean first) {
+  private void addAndForFirstArgument(StringBuilder sb, boolean first) {
     if (!first) {
       sb.append(" AND ");
     }
-    return sb;
   }
 
   private PreparedQuery<NodeValue> buildSearchParameters(
@@ -88,9 +87,14 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     parameters.put("firstName", firstName);
     parameters.put("lastName", lastName);
     parameters.put("country", country);
-    parameters.put(
-        "birthDateFrom", StringUtils.split(birthDateFrom.toInstant().toString(), ".")[0]);
-    parameters.put("birthDateTo", StringUtils.split(birthDateTo.toInstant().toString(), ".")[0]);
+    if (birthDateFrom != null) {
+      parameters.put(
+          "birthDateFrom", StringUtils.split(birthDateFrom.toInstant().toString(), ".")[0]);
+    }
+    if (birthDateTo != null) {
+      parameters.put("birthDateTo", StringUtils.split(birthDateTo.toInstant().toString(), ".")[0]);
+    }
+
     return PreparedQuery.queryFor(NodeValue.class)
         .withCypherQuery(sb.toString())
         .withParameters(parameters)

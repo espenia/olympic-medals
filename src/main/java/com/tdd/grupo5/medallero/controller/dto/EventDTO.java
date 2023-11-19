@@ -1,18 +1,21 @@
 package com.tdd.grupo5.medallero.controller.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder(toBuilder = true)
 public class EventDTO {
-  private final String name;
-  private int edition;
-  private final int participantCount;
+  private final UUID id;
+  @NotBlank private final String name;
+  private Integer edition;
+  private final Integer participantCount;
   private final String category;
-  private int distance;
+  private Integer distance;
   private final String location;
   private final String description;
   private final Date date;
