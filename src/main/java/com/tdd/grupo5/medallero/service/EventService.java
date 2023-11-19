@@ -85,7 +85,10 @@ public class EventService {
     Optional<Event> node = this.eventRepository.findById(id);
     if (node.isPresent()) {
       Event event = node.get();
-      event.add(classification.convertToEntity());
+      if (event.getClassifications() == null) {
+        event.setClassifications(new ArrayList<>());
+      }
+      event.getClassifications().add(classification.convertToEntity());
       this.eventRepository.save(event);
     } else {
       throw new RuntimeException("Error: El evento requerido no se encuentro");
