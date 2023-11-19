@@ -15,9 +15,9 @@ public final class AthleteDTO {
   @NotBlank private String lastName;
   @NotBlank private String country;
   private Date birthDate;
-  private int goldMedals;
-  private int silverMedals;
-  private int bronzeMedals;
+  private Integer goldMedals;
+  private Integer silverMedals;
+  private Integer bronzeMedals;
 
   public Athlete convertToEntity() {
     return new Athlete(

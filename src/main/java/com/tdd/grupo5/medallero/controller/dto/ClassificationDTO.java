@@ -9,9 +9,9 @@ import lombok.Getter;
 @Builder(toBuilder = true)
 public class ClassificationDTO {
   private UUID id;
-  private int duration;
-  private AthleteDTO athlete;
-  private int position;
+  private Integer duration;
+  @Nullable private AthleteDTO athlete;
+  private Integer position;
   private String athleteFirstName;
   private String athleteLastName;
   private boolean pendingValidation;

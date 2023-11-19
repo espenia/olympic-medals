@@ -3,6 +3,7 @@ package com.tdd.grupo5.medallero.controller;
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import com.tdd.grupo5.medallero.controller.dto.AthleteLookupDTO;
 import com.tdd.grupo5.medallero.service.AthleteService;
+import java.time.Instant;
 import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,15 @@ public class AthleteController {
       @RequestParam(required = false, value = "first_name") String firstName,
       @RequestParam(required = false, value = "last_name") String lastName,
       @RequestParam(required = false, value = "country") String country,
-      @RequestParam(required = false, value = "birth_date_from") Date birthDateFrom,
-      @RequestParam(required = false, value = "birth_date_to") Date birthDateTo) {
+      @RequestParam(required = false, value = "birth_date_from") String birthDateFrom,
+      @RequestParam(required = false, value = "birth_date_to") String birthDateTo) {
     AthleteLookupDTO athlete =
-        athleteService.searchAthletes(firstName, lastName, country, birthDateFrom, birthDateTo);
+        athleteService.searchAthletes(
+            firstName,
+            lastName,
+            country,
+            birthDateFrom == null ? null : Date.from(Instant.parse(birthDateFrom)),
+            birthDateTo == null ? null : Date.from(Instant.parse(birthDateTo)));
     return new ResponseEntity<>(athlete, HttpStatus.OK);
   }
 }

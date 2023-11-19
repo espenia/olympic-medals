@@ -5,6 +5,7 @@ import com.tdd.grupo5.medallero.controller.dto.EventDTO;
 import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.service.EventService;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -42,8 +43,8 @@ public class EventController {
       @RequestParam(required = false, value = "name") String name,
       @RequestParam(required = false, value = "category") String category,
       @RequestParam(required = false, value = "location") String location,
-      @RequestParam(required = false, value = "date_from") Date dateFrom,
-      @RequestParam(required = false, value = "date_to") Date dateTo,
+      @RequestParam(required = false, value = "date_from") String dateFrom,
+      @RequestParam(required = false, value = "date_to") String dateTo,
       @RequestParam(required = false, value = "edition") Integer edition,
       @RequestParam(required = false, value = "athlete_first_name") String athleteFirstName,
       @RequestParam(required = false, value = "athlete_last_name") String athleteLastName,
@@ -53,8 +54,8 @@ public class EventController {
             name,
             category,
             location,
-            dateFrom,
-            dateTo,
+            dateFrom == null ? null : Date.from(Instant.parse(dateFrom)),
+            dateTo == null ? null : Date.from(Instant.parse(dateTo)),
             edition,
             athleteFirstName,
             athleteLastName,

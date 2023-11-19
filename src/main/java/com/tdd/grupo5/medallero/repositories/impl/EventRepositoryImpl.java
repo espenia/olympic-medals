@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.neo4j.driver.Query;
-import org.springframework.util.StringUtils;
 
 public class EventRepositoryImpl {
 
@@ -70,7 +69,7 @@ public class EventRepositoryImpl {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (name != null) {
-      sb.append(" WHERE e.name = $name");
+      sb.append(" WHERE e.name ~= $name");
       first = false;
     }
     if (category != null) {
@@ -80,7 +79,7 @@ public class EventRepositoryImpl {
     }
     if (location != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("e.location = $location");
+      sb.append("e.location ~= $location");
       first = false;
     }
     if (dateFrom != null) {
@@ -99,17 +98,17 @@ public class EventRepositoryImpl {
     }
     if (athleteFirstName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.first_name = $athleteFirstName");
+      sb.append("a.first_name ~= $athleteFirstName");
       first = false;
     }
     if (athleteLastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.last_name = $athleteLastName");
+      sb.append("a.last_name ~= $athleteLastName");
       first = false;
     }
     if (athleteCountry != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.country = $athleteCountry");
+      sb.append("a.country ~= $athleteCountry");
       first = false;
     }
     return sb;
@@ -143,10 +142,10 @@ public class EventRepositoryImpl {
     parameters.put("athleteLastName", athleteLastName);
     parameters.put("athleteCountry", athleteCountry);
     if (dateFrom != null) {
-      parameters.put("dateFrom", StringUtils.split(dateFrom.toInstant().toString(), ".")[0]);
+      parameters.put("dateFrom", dateFrom.toInstant().toString());
     }
     if (dateTo != null) {
-      parameters.put("dateTo", StringUtils.split(dateTo.toInstant().toString(), ".")[0]);
+      parameters.put("dateTo", dateTo.toInstant().toString());
     }
     return new Query(sb.toString(), parameters);
   }
