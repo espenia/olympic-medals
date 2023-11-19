@@ -6,6 +6,8 @@ import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.repositories.EventRepository;
 import com.tdd.grupo5.medallero.repositories.EventRepositoryCustom;
+import com.tdd.grupo5.medallero.repositories.impl.EventRepositoryImpl;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -34,11 +36,14 @@ public class EventService {
             eventData.getDate(),
             eventData.getEdition(),
             eventData.getOfficialSite(),
-            eventData.getClassifications().stream()
-                .map(ClassificationDTO::convertToEntity)
-                .toList());
+            eventData.getClassifications() == null
+                ? new ArrayList<>()
+                : eventData.getClassifications().stream()
+                    .map(ClassificationDTO::convertToEntity)
+                    .toList());
 
     this.eventRepository.save(newEvent);
+    // TODO agregar para cada clasificacion notificacion para validar
     return newEvent;
   }
 
@@ -57,8 +62,8 @@ public class EventService {
       String athleteFirstName,
       String athleteLastName,
       String athleteCountry) {
-    List<Event> events =
-        this.eventRepositoryCustom.searchEvents(
+    String query =
+        EventRepositoryImpl.searchEvents(
             name,
             category,
             location,
@@ -68,6 +73,7 @@ public class EventService {
             athleteFirstName,
             athleteLastName,
             athleteCountry);
+    List<Event> events = this.eventRepositoryCustom.searchEvents(query);
     return new EventLookupDTO(events.stream().map(Event::convertToDTO).toList());
   }
 }

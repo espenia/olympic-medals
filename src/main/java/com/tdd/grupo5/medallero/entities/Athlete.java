@@ -6,6 +6,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -15,6 +16,7 @@ import org.springframework.data.neo4j.core.schema.Property;
 @NodeEntity("athlete")
 @Node
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Athlete {
@@ -33,22 +35,22 @@ public class Athlete {
   private Date birthDate;
 
   @Property(name = "gold_medals")
-  private int goldMedals;
+  private Integer goldMedals;
 
   @Property(name = "silver_medals")
-  private int silverMedals;
+  private Integer silverMedals;
 
   @Property(name = "bronze_medals")
-  private int bronzeMedals;
+  private Integer bronzeMedals;
 
   public Athlete(
       String firstName,
       String lastName,
       String country,
       Date birthDate,
-      int goldMedals,
-      int silverMedals,
-      int bronzeMedals) {
+      Integer goldMedals,
+      Integer silverMedals,
+      Integer bronzeMedals) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.country = country;
@@ -67,6 +69,7 @@ public class Athlete {
         .bronzeMedals(this.bronzeMedals)
         .goldMedals(this.goldMedals)
         .silverMedals(this.silverMedals)
+        .id(this.id)
         .build();
   }
 }

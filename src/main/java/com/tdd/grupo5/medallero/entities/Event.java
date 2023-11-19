@@ -7,16 +7,21 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.RelationshipId;
+import org.springframework.data.neo4j.core.schema.RelationshipProperties;
+import org.springframework.data.neo4j.core.schema.TargetNode;
 
 @NodeEntity("event")
 @Node
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Event {
@@ -30,7 +35,7 @@ public class Event {
   private int edition;
 
   @Property("participants_count")
-  private int participantsCount;
+  private Integer participantsCount;
 
   @Property("category")
   private String category;
@@ -44,11 +49,12 @@ public class Event {
   @Property("date")
   private Date date;
 
+  // @ConvertWith(converter = ClassificationConverter.class)
   @Relationship(type = "HAS_CLASSIFICATION", direction = Relationship.Direction.OUTGOING)
   private List<Classification> classifications;
 
   @Property("distance")
-  private int distance;
+  private Integer distance;
 
   @Property("official_site")
   private String officialSite;
@@ -83,7 +89,19 @@ public class Event {
         .category(this.getCategory())
         .location(this.getLocation())
         .description(this.getDescription())
+        .classifications(
+            this.getClassifications().stream().map(Classification::convertToDTO).toList())
         .date(this.getDate())
+        .id(this.getId())
         .build();
+  }
+
+  @RelationshipProperties
+  private static class ClassificationRelation {
+    @RelationshipId private Long id;
+
+    private String someData;
+
+    @TargetNode private Classification targetPerson;
   }
 }
