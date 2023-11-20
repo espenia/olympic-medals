@@ -1,10 +1,10 @@
 #!/bin/bash
 
-chown -R neo4j:neo4j /var/lib/neo4j/import
+#chown -R neo4j:neo4j /var/lib/neo4j/import
 
 
 # Log file for capturing import output
-LOG_FILE="/var/lib/neo4j/import.log"
+LOG_FILE="/import.log"
 
 # Wait for Neo4j to be ready
 until cypher-shell -u neo4j -p admin123 "RETURN 1" &> /dev/null; do
