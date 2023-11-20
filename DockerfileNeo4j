@@ -21,7 +21,7 @@ EXPOSE 7474 7473 7687
 #COPY ./import/run_import.sh /var/lib/neo4j/run_import.sh
 
 # Set execute permissions for the script
-RUN chmod +x /var/lib/neo4j/import/run_import.sh
+RUN chmod +x /import/run_import.sh
 
 # Start Neo4j when the container starts
 CMD ["neo4j"]
