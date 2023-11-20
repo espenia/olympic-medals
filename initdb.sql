@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS public.classification
     position INTEGER NOT NULL,
     athlete_first_name VARCHAR(64) NOT NULL,
     athlete_last_name VARCHAR(64) NOT NULL,
-    athlete_id INTEGER REFERENCES athlete(id)
+    athlete_id INTEGER REFERENCES athlete(id),
     event_id INTEGER NOT NULL REFERENCES event(id) ON DELETE CASCADE
     );
 
