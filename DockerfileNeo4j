@@ -1,0 +1,19 @@
+# Use the official Neo4j Docker image as base
+FROM neo4j:latest
+
+# Set environment variables for Neo4j
+ENV NEO4J_AUTH=neo4j/admin123
+#ENV NEO4J_dbms_memory_pagecache_size=1G
+#ENV NEO4J_dbms_memory_heap_max__size=2G
+
+# Expose ports
+EXPOSE 7474 7473 7687
+
+# Copy Neo4j import data to the container
+COPY ./import /var/lib/neo4j/import
+
+# Copy any additional configuration or data files if needed
+# COPY ./path/to/your/config /var/lib/neo4j/conf
+
+# Start Neo4j and run import commands
+CMD neo4j-admin import --mode=csv --nodes /var/lib/neo4j/import/athlete.csv,/var/lib/neo4j/import/event.csv,/var/lib/neo4j/import/classification.csv --relationships /var/lib/neo4j/import/athlete_classification.csv,/var/lib/neo4j/import/classification_event.csv --delimiter=',' --database=neo4j --ignore-duplicate-nodes=true --ignore-missing-nodes=true && neo4j
