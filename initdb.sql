@@ -29,17 +29,6 @@ CREATE TABLE IF NOT EXISTS public.event
     official_site VARCHAR(64)
 );
 
-CREATE TABLE IF NOT EXISTS public.classification
-(
-    id SERIAL PRIMARY KEY,
-    duration INTEGER NOT NULL,
-    position INTEGER NOT NULL,
-    athlete_first_name VARCHAR(64) NOT NULL,
-    athlete_last_name VARCHAR(64) NOT NULL,
-    athlete_id INTEGER REFERENCES athlete(id)
-    event_id INTEGER NOT NULL REFERENCES event(id) ON DELETE CASCADE
-    );
-
 CREATE TABLE IF NOT EXISTS public.athlete
 (
     id SERIAL PRIMARY KEY,
@@ -51,3 +40,15 @@ CREATE TABLE IF NOT EXISTS public.athlete
     silver_medals INTEGER NOT NULL,
     bronze_medals INTEGER NOT NULL
     );
+
+CREATE TABLE IF NOT EXISTS public.classification
+(
+    id SERIAL PRIMARY KEY,
+    duration INTEGER NOT NULL,
+    position INTEGER NOT NULL,
+    athlete_first_name VARCHAR(64) NOT NULL,
+    athlete_last_name VARCHAR(64) NOT NULL,
+    athlete_id INTEGER REFERENCES athlete(id)
+    event_id INTEGER NOT NULL REFERENCES event(id) ON DELETE CASCADE
+    );
+
