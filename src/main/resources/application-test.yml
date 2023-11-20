@@ -1,9 +1,4 @@
 spring:
-  neo4j:
-    uri: bolt://localhost:7689
-    authentication:
-      username: neo4j
-      password: neo4j-neo4j
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
     username: sa

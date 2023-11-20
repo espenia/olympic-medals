@@ -1,44 +1,49 @@
 package com.tdd.grupo5.medallero.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
-import com.tdd.grupo5.medallero.util.converters.AthleteConverter;
-import java.util.UUID;
+
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.springframework.data.neo4j.core.convert.ConvertWith;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
-@NodeEntity("classification")
-@Node
+@Entity
+@Table(name = "classification")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Classification {
-  @GeneratedValue @Id public UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id") public Long id;
 
-  @Property("duration")
+  @Basic(optional = false)
+  @Column(name = "duration", nullable = false)
   private Integer duration;
 
-  @Property("position")
+  @Basic(optional = false)
+  @Column(name = "position", nullable = false)
   private Integer position;
 
-  @Property("athlete_first_name")
+  @Basic(optional = false)
+  @Column(name = "athlete_first_name", nullable = false)
   private String athleteFirstName;
 
-  @Property("athlete_last_name")
+  @Basic(optional = false)
+  @Column(name = "athlete_last_name", nullable = false)
   private String athleteLastName;
 
-  @ConvertWith(converter = AthleteConverter.class)
-  @Relationship(type = "CLASSIFIED_WITH", direction = Relationship.Direction.INCOMING)
+  @OneToOne(fetch = FetchType.EAGER)
   private Athlete athlete;
+
+  @JsonIgnore
+  @JoinColumn(name = "event_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Event event;
 
   public Classification(
       Integer duration,

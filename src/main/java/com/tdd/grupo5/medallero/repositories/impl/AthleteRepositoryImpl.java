@@ -1,42 +1,31 @@
 package com.tdd.grupo5.medallero.repositories.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.repositories.AthleteRepositoryCustom;
-import java.util.ArrayList;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.neo4j.driver.internal.value.NodeValue;
-import org.springframework.data.neo4j.core.Neo4jOperations;
-import org.springframework.data.neo4j.core.PreparedQuery;
+
 
 public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
 
-  private final Neo4jOperations template;
+  private final EntityManager entityManager;
 
-  private final ObjectMapper objectMapper;
-
-  public AthleteRepositoryImpl(Neo4jOperations template, ObjectMapper objectMapper) {
-    this.template = template;
-    this.objectMapper = objectMapper;
+  public AthleteRepositoryImpl(EntityManager entityManager) {
+      this.entityManager = entityManager;
   }
 
   public List<Athlete> searchAthletes(
       String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo) {
     StringBuilder sb = new StringBuilder();
-    sb.append("MATCH (a:Athlete) ");
+    sb.append(" SELECT a FROM Athlete a");
     sb.append(buildSearchConditions(firstName, lastName, country, birthDateFrom, birthDateTo));
-    sb.append(" RETURN a");
-    PreparedQuery<NodeValue> query =
+    Query query =
         buildSearchParameters(sb, firstName, lastName, country, birthDateFrom, birthDateTo);
-    List<NodeValue> results = template.toExecutableQuery(query).getResults();
-    List<Athlete> parsedResults = new ArrayList<>();
-    results.forEach(
-        nodeValue ->
-            parsedResults.add(objectMapper.convertValue(nodeValue.asMap(), Athlete.class)));
-    return parsedResults;
+    return query.getResultList();
   }
 
   private StringBuilder buildSearchConditions(
@@ -44,27 +33,27 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (firstName != null) {
-      sb.append(" WHERE a.first_name =~ $firstName");
+      sb.append(" WHERE a.first_name = :firstName");
       first = false;
     }
     if (lastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.last_name =~ $lastName");
+      sb.append(" a.last_name = :lastName");
       first = false;
     }
     if (country != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.country =~ $country");
+      sb.append(" a.country = :country");
       first = false;
     }
     if (birthDateFrom != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.birth_date >= $birthDateFrom");
+      sb.append(" a.birth_date >= :birthDateFrom");
       first = false;
     }
     if (birthDateTo != null) {
       addAndForFirstArgument(sb, first);
-      sb.append("a.birth_date <= $birthDateTo");
+      sb.append(" a.birth_date <= :birthDateTo");
     }
     return sb;
   }
@@ -77,27 +66,24 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     }
   }
 
-  private PreparedQuery<NodeValue> buildSearchParameters(
+  private Query buildSearchParameters(
       StringBuilder sb,
       String firstName,
       String lastName,
       String country,
       Date birthDateFrom,
       Date birthDateTo) {
-    Map<String, Object> parameters = new HashMap<>();
-    parameters.put("firstName", firstName);
-    parameters.put("lastName", lastName);
-    parameters.put("country", country);
+    Query query = entityManager.createQuery(sb.toString(), Athlete.class);
+
+    query.setParameter("firstName", firstName);
+    query.setParameter("lastName", lastName);
+    query.setParameter("country", country);
     if (birthDateFrom != null) {
-      parameters.put("birthDateFrom", birthDateFrom.toInstant().toString());
+      query.setParameter("birthDateFrom", birthDateFrom.toInstant().toString());
     }
     if (birthDateTo != null) {
-      parameters.put("birthDateTo", birthDateTo.toInstant().toString());
+      query.setParameter("birthDateTo", birthDateTo.toInstant().toString());
     }
-
-    return PreparedQuery.queryFor(NodeValue.class)
-        .withCypherQuery(sb.toString())
-        .withParameters(parameters)
-        .build();
+    return query;
   }
 }

@@ -3,56 +3,63 @@ package com.tdd.grupo5.medallero.entities;
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
 
-@NodeEntity("event")
-@Node
+@Entity
+@Table(name = "event")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Event {
 
-  @Id @GeneratedValue private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
 
-  @Property("name")
+  @Basic(optional = false)
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Property("edition")
+  @Basic(optional = false)
+  @Column(name = "edition", nullable = false)
   private Integer edition;
 
-  @Property("participants_count")
+  @Basic(optional = false)
+  @Column(name = "participants_count")
   private Integer participantsCount;
 
-  @Property("category")
+  @Basic(optional = false)
+  @Column(name = "category")
   private String category;
 
-  @Property("location")
+  @Basic(optional = false)
+  @Column(name = "location")
   private String location;
 
-  @Property("description")
+  @Basic(optional = false)
+  @Column(name = "description")
   private String description;
 
-  @Property("date")
+  @Basic(optional = false)
+  @Column(name = "date", nullable = false)
   private Date date;
 
-  @Relationship(type = "HAS_CLASSIFICATION", direction = Relationship.Direction.OUTGOING)
+  @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
   private List<Classification> classifications;
 
-  @Property("distance")
+  @Basic(optional = false)
+  @Column(name = "distance")
   private Integer distance;
 
-  @Property("official_site")
+  @Basic(optional = false)
+  @Column(name = "official_site")
   private String officialSite;
 
   public Event(

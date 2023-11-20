@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public class EventDTO {
-  private final UUID id;
+  private final Long id;
   @NotBlank private final String name;
   private Integer edition;
   private final Integer participantCount;
