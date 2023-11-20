@@ -30,3 +30,4 @@ deploy:
   script: 
     - docker-compose up --build --force-recreate -d
   environment: production
+  
