@@ -27,7 +27,7 @@ services:
       - "7473:7473"
       - "7687:7687"
     volumes:
-      - ./import:/var/lib/neo4j/import
+      - ./import:/import
       #command: neo4j-admin import --mode=csv --nodes /var/lib/neo4j/import/athlete.csv,/var/lib/neo4j/import/event.csv,/var/lib/neo4j/import/classification.csv --relationships /var/lib/neo4j/import/athlete_classification.csv,/var/lib/neo4j/import/classification_event.csv --delimiter=',' --database=neo4j --ignore-duplicate-nodes=true --ignore-missing-nodes=true && neo4j
   # Service for Spring Boot
   springboot:
