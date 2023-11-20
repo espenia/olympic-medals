@@ -9,9 +9,7 @@ ENV NEO4J_AUTH=neo4j/admin123
 # Expose ports
 EXPOSE 7474 7473 7687
 
-RUN mkdir -p /var/lib/neo4j/import
-RUN chown newuser /var/lib/neo4j/import
-USER newuser
+RUN mkdir -p /var/lib/neo4j/import  && chmod -R 777 /var/lib/neo4j/import
 
 # Copy Neo4j import data to the container
 COPY ./import /var/lib/neo4j/import
