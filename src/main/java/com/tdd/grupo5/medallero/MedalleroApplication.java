@@ -9,12 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
 @SpringBootApplication
 @Slf4j
 @EnableJpaRepositories(basePackages = "com.tdd.grupo5.medallero.repositories")
-@EnableNeo4jRepositories(basePackages = "com.tdd.grupo5.medallero.repositories")
 @EntityScan(basePackages = "com.tdd.grupo5.medallero.entities")
 public class MedalleroApplication {
 

@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public final class AthleteDTO {
-  private final UUID id;
+  private final Long id;
   @NotBlank private String firstName;
   @NotBlank private String lastName;
   @NotBlank private String country;

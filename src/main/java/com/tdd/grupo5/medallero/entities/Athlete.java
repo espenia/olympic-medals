@@ -2,45 +2,52 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import java.util.Date;
-import java.util.UUID;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
 
-@NodeEntity("athlete")
-@Node
+@Entity
+@Table(name = "athlete")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Athlete {
-  @Id @GeneratedValue private UUID id;
 
-  @Property("first_name")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
+
+  @Basic(optional = false)
+  @Column(name = "first_name", nullable = false)
   private String firstName;
 
-  @Property(name = "last_name")
+  @Basic(optional = false)
+  @Column(name = "last_name", nullable = false)
   private String lastName;
 
-  @Property(name = "country")
+  @Basic(optional = false)
+  @Column(name = "country", nullable = false)
   private String country;
 
-  @Property(name = "birth_date")
+  @Basic
+  @Column(name = "birth_date")
   private Date birthDate;
 
-  @Property(name = "gold_medals")
+  @Basic(optional = false)
+  @Column(name = "gold_medals", nullable = false)
   private Integer goldMedals;
 
-  @Property(name = "silver_medals")
+  @Basic(optional = false)
+  @Column(name = "silver_medals", nullable = false)
   private Integer silverMedals;
 
-  @Property(name = "bronze_medals")
+  @Basic(optional = false)
+  @Column(name = "bronze_medals", nullable = false)
   private Integer bronzeMedals;
 
   public Athlete(

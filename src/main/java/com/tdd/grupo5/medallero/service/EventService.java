@@ -63,9 +63,7 @@ public class EventService {
       String athleteFirstName,
       String athleteLastName,
       String athleteCountry) {
-    String query =
-        EventRepositoryImpl.searchEvents(
-            name,
+    List<Event> events = this.eventRepositoryCustom.searchEvents(name,
             category,
             location,
             dateFrom,
@@ -74,7 +72,6 @@ public class EventService {
             athleteFirstName,
             athleteLastName,
             athleteCountry);
-    List<Event> events = this.eventRepositoryCustom.searchEvents(query);
     return new EventLookupDTO(events.stream().map(Event::convertToDTO).toList());
   }
 }

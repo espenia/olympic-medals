@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public class ClassificationDTO {
-  private UUID id;
+  private Long id;
   private Integer duration;
   @Nullable private AthleteDTO athlete;
   private Integer position;

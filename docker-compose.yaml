@@ -14,21 +14,6 @@ services:
       - "5432:5432"
     volumes:
       - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
-  # Service for Neo4j
-  neo4j:
-    build:
-      context: .
-      dockerfile: DockerfileNeo4j
-    container_name: medallero_neo4j
-    environment:
-      NEO4J_AUTH: neo4j/admin123
-    ports:
-      - "7474:7474"
-      - "7473:7473"
-      - "7687:7687"
-    volumes:
-      - ./import:/import
-      #command: neo4j-admin import --mode=csv --nodes /var/lib/neo4j/import/athlete.csv,/var/lib/neo4j/import/event.csv,/var/lib/neo4j/import/classification.csv --relationships /var/lib/neo4j/import/athlete_classification.csv,/var/lib/neo4j/import/classification_event.csv --delimiter=',' --database=neo4j --ignore-duplicate-nodes=true --ignore-missing-nodes=true && neo4j
   # Service for Spring Boot
   springboot:
     build:
@@ -42,8 +27,6 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
-      - neo4j
-
   # Service for PgAdmin
   pgadmin:
     image: dpage/pgadmin4:7.5

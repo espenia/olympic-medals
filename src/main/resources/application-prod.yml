@@ -1,9 +1,4 @@
 spring:
-  neo4j:
-    uri: bolt://neo4j:7687
-    authentication:
-      username: neo4j
-      password: neo4j-neo4j
   datasource:
     url: jdbc:postgresql://postgres:5432/users
     username: admin
