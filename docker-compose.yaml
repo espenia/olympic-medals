@@ -19,7 +19,7 @@ services:
     image: neo4j:latest
     container_name: medallero_neo4j
     environment:
-      NEO4J_AUTH: neo4j/password
+      NEO4J_AUTH: neo4j/admin123
     ports:
       - "7474:7474"
       - "7687:7687"
