@@ -1,5 +1,8 @@
 #!/bin/bash
 
+chown -R neo4j:neo4j /var/lib/neo4j/import
+
+
 # Log file for capturing import output
 LOG_FILE="/var/lib/neo4j/import.log"
 
