@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: DockerfileNeo4j
-    container_name: my_neo4j_container
+    container_name: medallero_neo4j
     environment:
       NEO4J_AUTH: neo4j/admin123
     ports:
