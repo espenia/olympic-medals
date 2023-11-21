@@ -1,21 +1,18 @@
 package com.tdd.grupo5.medallero.repositories.impl;
 
-
 import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.repositories.AthleteRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-
 import java.util.Date;
 import java.util.List;
-
 
 public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
 
   private final EntityManager entityManager;
 
   public AthleteRepositoryImpl(EntityManager entityManager) {
-      this.entityManager = entityManager;
+    this.entityManager = entityManager;
   }
 
   public List<Athlete> searchAthletes(
@@ -33,12 +30,12 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (firstName != null) {
-      sb.append(" WHERE a.first_name = :firstName");
+      sb.append(" WHERE a.firstName = :firstName");
       first = false;
     }
     if (lastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.last_name = :lastName");
+      sb.append(" a.lastName = :lastName");
       first = false;
     }
     if (country != null) {
@@ -48,12 +45,12 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     }
     if (birthDateFrom != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.birth_date >= :birthDateFrom");
+      sb.append(" a.birthDate >= :birthDateFrom");
       first = false;
     }
     if (birthDateTo != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.birth_date <= :birthDateTo");
+      sb.append(" a.birthDate <= :birthDateTo");
     }
     return sb;
   }
@@ -75,14 +72,20 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
       Date birthDateTo) {
     Query query = entityManager.createQuery(sb.toString(), Athlete.class);
 
-    query.setParameter("firstName", firstName);
-    query.setParameter("lastName", lastName);
-    query.setParameter("country", country);
+    if (firstName != null) {
+      query.setParameter("firstName", firstName);
+    }
+    if (lastName != null) {
+      query.setParameter("lastName", lastName);
+    }
+    if (country != null) {
+      query.setParameter("country", country);
+    }
     if (birthDateFrom != null) {
-      query.setParameter("birthDateFrom", birthDateFrom.toInstant().toString());
+      query.setParameter("birthDateFrom", birthDateFrom);
     }
     if (birthDateTo != null) {
-      query.setParameter("birthDateTo", birthDateTo.toInstant().toString());
+      query.setParameter("birthDateTo", birthDateTo);
     }
     return query;
   }
