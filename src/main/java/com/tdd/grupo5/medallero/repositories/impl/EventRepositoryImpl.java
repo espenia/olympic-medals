@@ -1,12 +1,11 @@
 package com.tdd.grupo5.medallero.repositories.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.repositories.EventRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import java.util.Date;
+import java.util.List;
 
 public class EventRepositoryImpl implements EventRepositoryCustom {
 
@@ -98,12 +97,12 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     }
     if (athleteFirstName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.first_name = :athleteFirstName");
+      sb.append(" a.firstName = :athleteFirstName");
       first = false;
     }
     if (athleteLastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.last_name = :athleteLastName");
+      sb.append(" a.lastName = :athleteLastName");
       first = false;
     }
     if (athleteCountry != null) {

@@ -3,11 +3,11 @@ package com.tdd.grupo5.medallero.service;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
 import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
+import com.tdd.grupo5.medallero.entities.Classification;
 import com.tdd.grupo5.medallero.entities.Event;
+import com.tdd.grupo5.medallero.repositories.ClassificationRepository;
 import com.tdd.grupo5.medallero.repositories.EventRepository;
 import com.tdd.grupo5.medallero.repositories.EventRepositoryCustom;
-import com.tdd.grupo5.medallero.repositories.impl.EventRepositoryImpl;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,16 @@ import org.springframework.stereotype.Service;
 public class EventService {
 
   private final EventRepository eventRepository;
+  private final ClassificationRepository classificationRepository;
   private final EventRepositoryCustom eventRepositoryCustom;
 
-  public EventService(EventRepository repository, EventRepositoryCustom eventRepositoryCustom) {
+  public EventService(
+      EventRepository repository,
+      ClassificationRepository classificationRepository,
+      EventRepositoryCustom eventRepositoryCustom) {
 
     this.eventRepository = repository;
+    this.classificationRepository = classificationRepository;
     this.eventRepositoryCustom = eventRepositoryCustom;
   }
 
@@ -36,14 +41,14 @@ public class EventService {
             eventData.getDescription(),
             eventData.getDate(),
             eventData.getDistance(),
-            eventData.getOfficialSite(),
-            eventData.getClassifications() == null
-                ? new ArrayList<>()
-                : eventData.getClassifications().stream()
-                    .map(ClassificationDTO::convertToEntity)
-                    .toList());
+            eventData.getOfficialSite());
 
     this.eventRepository.save(newEvent);
+    List<Classification> classifications =
+        eventData.getClassifications().stream().map(ClassificationDTO::convertToEntity).toList();
+    classifications.forEach((c) -> c.setEvent(newEvent));
+    this.classificationRepository.saveAll(classifications);
+    newEvent.setClassifications(classifications);
     // TODO agregar para cada clasificacion notificacion para validar
     return newEvent;
   }
@@ -63,7 +68,9 @@ public class EventService {
       String athleteFirstName,
       String athleteLastName,
       String athleteCountry) {
-    List<Event> events = this.eventRepositoryCustom.searchEvents(name,
+    List<Event> events =
+        this.eventRepositoryCustom.searchEvents(
+            name,
             category,
             location,
             dateFrom,

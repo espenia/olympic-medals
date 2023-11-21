@@ -1,10 +1,9 @@
 package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
-
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -71,8 +70,7 @@ public class Event {
       String desc,
       Date date,
       Integer distance,
-      String officialSite,
-      List<Classification> classifications) {
+      String officialSite) {
 
     this.name = eventName;
     this.participantsCount = participantsCount;
@@ -80,7 +78,6 @@ public class Event {
     this.location = location;
     this.description = desc;
     this.date = date;
-    this.classifications = classifications;
     this.edition = edition;
     this.distance = distance;
     this.officialSite = officialSite;
@@ -97,7 +94,9 @@ public class Event {
         .description(this.getDescription())
         .distance(this.getDistance())
         .classifications(
-            this.getClassifications().stream().map(Classification::convertToDTO).toList())
+            this.getClassifications() == null
+                ? null
+                : this.getClassifications().stream().map(Classification::convertToDTO).toList())
         .date(this.getDate())
         .id(this.getId())
         .build();
