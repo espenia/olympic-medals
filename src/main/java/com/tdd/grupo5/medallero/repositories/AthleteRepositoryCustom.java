@@ -8,5 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AthleteRepositoryCustom {
   List<Athlete> searchAthletes(
-      String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo);
+      Long id,
+      String firstName,
+      String lastName,
+      String country,
+      Date birthDateFrom,
+      Date birthDateTo);
 }

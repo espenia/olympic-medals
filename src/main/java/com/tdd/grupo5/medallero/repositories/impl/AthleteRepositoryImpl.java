@@ -16,21 +16,36 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
   }
 
   public List<Athlete> searchAthletes(
-      String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo) {
+      Long id,
+      String firstName,
+      String lastName,
+      String country,
+      Date birthDateFrom,
+      Date birthDateTo) {
     StringBuilder sb = new StringBuilder();
     sb.append(" SELECT a FROM Athlete a");
-    sb.append(buildSearchConditions(firstName, lastName, country, birthDateFrom, birthDateTo));
+    sb.append(buildSearchConditions(id, firstName, lastName, country, birthDateFrom, birthDateTo));
     Query query =
-        buildSearchParameters(sb, firstName, lastName, country, birthDateFrom, birthDateTo);
+        buildSearchParameters(sb, id, firstName, lastName, country, birthDateFrom, birthDateTo);
     return query.getResultList();
   }
 
   private StringBuilder buildSearchConditions(
-      String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo) {
+      Long id,
+      String firstName,
+      String lastName,
+      String country,
+      Date birthDateFrom,
+      Date birthDateTo) {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
+    if (id != null) {
+      sb.append(" WHERE a.id = :id");
+      first = false;
+    }
     if (firstName != null) {
-      sb.append(" WHERE a.firstName = :firstName");
+      addAndForFirstArgument(sb, first);
+      sb.append(" a.firstName = :firstName");
       first = false;
     }
     if (lastName != null) {
@@ -65,6 +80,7 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
 
   private Query buildSearchParameters(
       StringBuilder sb,
+      Long id,
       String firstName,
       String lastName,
       String country,
@@ -72,6 +88,9 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
       Date birthDateTo) {
     Query query = entityManager.createQuery(sb.toString(), Athlete.class);
 
+    if (id != null) {
+      query.setParameter("id", id);
+    }
     if (firstName != null) {
       query.setParameter("firstName", firstName);
     }

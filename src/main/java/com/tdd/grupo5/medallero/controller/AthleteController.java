@@ -38,6 +38,7 @@ public class AthleteController {
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("/athletes")
   public ResponseEntity<AthleteLookupDTO> searchAthletes(
+      @RequestParam(required = false, value = "id") Long id,
       @RequestParam(required = false, value = "first_name") String firstName,
       @RequestParam(required = false, value = "last_name") String lastName,
       @RequestParam(required = false, value = "country") String country,
@@ -45,6 +46,7 @@ public class AthleteController {
       @RequestParam(required = false, value = "birth_date_to") String birthDateTo) {
     AthleteLookupDTO athlete =
         athleteService.searchAthletes(
+            id,
             firstName,
             lastName,
             country,

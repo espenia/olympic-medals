@@ -64,6 +64,7 @@ class AthleteServiceTest {
     // when
     AthleteLookupDTO results =
         athleteService.searchAthletes(
+            null,
             "firstName",
             "lastName",
             "country",

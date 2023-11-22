@@ -37,10 +37,15 @@ public class AthleteService {
   }
 
   public AthleteLookupDTO searchAthletes(
-      String firstName, String lastName, String country, Date birthDateFrom, Date birthDateTo) {
+      Long id,
+      String firstName,
+      String lastName,
+      String country,
+      Date birthDateFrom,
+      Date birthDateTo) {
     List<Athlete> athletes =
         athleteRespositoryCustom.searchAthletes(
-            firstName, lastName, country, birthDateFrom, birthDateTo);
+            id, firstName, lastName, country, birthDateFrom, birthDateTo);
     return new AthleteLookupDTO(
         athletes.stream().map(Athlete::convertDTO).collect(Collectors.toList()));
   }
