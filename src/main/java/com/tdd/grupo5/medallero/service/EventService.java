@@ -44,10 +44,13 @@ public class EventService {
             eventData.getOfficialSite());
 
     this.eventRepository.save(newEvent);
-    List<Classification> classifications =
-        eventData.getClassifications().stream().map(ClassificationDTO::convertToEntity).toList();
-    classifications.forEach((c) -> c.setEvent(newEvent));
-    this.classificationRepository.saveAll(classifications);
+    List<Classification> classifications = null;
+    if (eventData.getClassifications() != null) {
+      classifications =
+          eventData.getClassifications().stream().map(ClassificationDTO::convertToEntity).toList();
+      classifications.forEach((c) -> c.setEvent(newEvent));
+      this.classificationRepository.saveAll(classifications);
+    }
     newEvent.setClassifications(classifications);
     // TODO agregar para cada clasificacion notificacion para validar
     return newEvent;

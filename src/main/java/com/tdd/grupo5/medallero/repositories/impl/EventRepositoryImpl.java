@@ -133,18 +133,33 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteLastName,
       String athleteCountry) {
     Query query = entityManager.createNativeQuery(sb.toString(), Event.class);
-    query.setParameter("name", name);
-    query.setParameter("category", category);
-    query.setParameter("location", location);
-    query.setParameter("edition", edition);
-    query.setParameter("athleteFirstName", athleteFirstName);
-    query.setParameter("athleteLastName", athleteLastName);
-    query.setParameter("athleteCountry", athleteCountry);
+
+    if (name != null) {
+      query.setParameter("name", name);
+    }
+    if (category != null) {
+      query.setParameter("category", category);
+    }
+    if (location != null) {
+      query.setParameter("location", location);
+    }
+    if (edition != null) {
+      query.setParameter("edition", edition);
+    }
+    if (athleteFirstName != null) {
+      query.setParameter("athleteFirstName", athleteFirstName);
+    }
+    if (athleteLastName != null) {
+      query.setParameter("athleteLastName", athleteLastName);
+    }
+    if (athleteCountry != null) {
+      query.setParameter("athleteCountry", athleteCountry);
+    }
     if (dateFrom != null) {
-      query.setParameter("dateFrom", dateFrom.toInstant().toString());
+      query.setParameter("dateFrom", dateFrom);
     }
     if (dateTo != null) {
-      query.setParameter("dateTo", dateTo.toInstant().toString());
+      query.setParameter("dateTo", dateTo);
     }
     return query;
   }
