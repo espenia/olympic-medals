@@ -69,7 +69,8 @@ class AthleteServiceTest {
             "lastName",
             "country",
             Date.from(athleteDTO.getBirthDate().toInstant().minus(13L, ChronoUnit.HOURS)),
-            Date.from(athleteDTO.getBirthDate().toInstant().plus(13L, ChronoUnit.HOURS)));
+            Date.from(athleteDTO.getBirthDate().toInstant().plus(13L, ChronoUnit.HOURS)),
+            null);
     // then
     Assertions.assertEquals(1, results.getResults().size());
     Assertions.assertEquals(athleteDTO.getFirstName(), results.getResults().get(0).getFirstName());
