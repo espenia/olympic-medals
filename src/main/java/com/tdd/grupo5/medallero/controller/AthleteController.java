@@ -43,7 +43,8 @@ public class AthleteController {
       @RequestParam(required = false, value = "last_name") String lastName,
       @RequestParam(required = false, value = "country") String country,
       @RequestParam(required = false, value = "birth_date_from") String birthDateFrom,
-      @RequestParam(required = false, value = "birth_date_to") String birthDateTo) {
+      @RequestParam(required = false, value = "birth_date_to") String birthDateTo,
+      @RequestParam(required = false, value = "mail") String userMail) {
     AthleteLookupDTO athlete =
         athleteService.searchAthletes(
             id,
@@ -51,7 +52,8 @@ public class AthleteController {
             lastName,
             country,
             birthDateFrom == null ? null : Date.from(Instant.parse(birthDateFrom)),
-            birthDateTo == null ? null : Date.from(Instant.parse(birthDateTo)));
+            birthDateTo == null ? null : Date.from(Instant.parse(birthDateTo)),
+            userMail);
     return new ResponseEntity<>(athlete, HttpStatus.OK);
   }
 }

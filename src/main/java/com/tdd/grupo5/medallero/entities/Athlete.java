@@ -1,9 +1,8 @@
 package com.tdd.grupo5.medallero.entities;
 
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
-import java.util.Date;
-
 import jakarta.persistence.*;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,6 +49,10 @@ public class Athlete {
   @Column(name = "bronze_medals", nullable = false)
   private Integer bronzeMedals;
 
+  @Basic(optional = false)
+  @Column(name = "user_id", nullable = false)
+  private Long userId;
+
   public Athlete(
       String firstName,
       String lastName,
@@ -57,7 +60,8 @@ public class Athlete {
       Date birthDate,
       Integer goldMedals,
       Integer silverMedals,
-      Integer bronzeMedals) {
+      Integer bronzeMedals,
+      Long userId) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.country = country;
@@ -65,6 +69,7 @@ public class Athlete {
     this.goldMedals = goldMedals;
     this.silverMedals = silverMedals;
     this.bronzeMedals = bronzeMedals;
+    this.userId = userId;
   }
 
   public AthleteDTO convertDTO() {
@@ -77,6 +82,7 @@ public class Athlete {
         .goldMedals(this.goldMedals)
         .silverMedals(this.silverMedals)
         .id(this.id)
+        .userId(this.userId)
         .build();
   }
 }

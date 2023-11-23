@@ -21,12 +21,19 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
       String lastName,
       String country,
       Date birthDateFrom,
-      Date birthDateTo) {
+      Date birthDateTo,
+      String userMail) {
     StringBuilder sb = new StringBuilder();
     sb.append(" SELECT a FROM Athlete a");
-    sb.append(buildSearchConditions(id, firstName, lastName, country, birthDateFrom, birthDateTo));
+    if (userMail != null) {
+      sb.append(" INNER JOIN User u ON u.id = a.userId");
+    }
+    sb.append(
+        buildSearchConditions(
+            id, firstName, lastName, country, birthDateFrom, birthDateTo, userMail));
     Query query =
-        buildSearchParameters(sb, id, firstName, lastName, country, birthDateFrom, birthDateTo);
+        buildSearchParameters(
+            sb, id, firstName, lastName, country, birthDateFrom, birthDateTo, userMail);
     return query.getResultList();
   }
 
@@ -36,7 +43,8 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
       String lastName,
       String country,
       Date birthDateFrom,
-      Date birthDateTo) {
+      Date birthDateTo,
+      String userMail) {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (id != null) {
@@ -67,6 +75,10 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
       addAndForFirstArgument(sb, first);
       sb.append(" a.birthDate <= :birthDateTo");
     }
+    if (userMail != null) {
+      addAndForFirstArgument(sb, first);
+      sb.append(" u.mail = :userMail");
+    }
     return sb;
   }
 
@@ -85,7 +97,8 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
       String lastName,
       String country,
       Date birthDateFrom,
-      Date birthDateTo) {
+      Date birthDateTo,
+      String userMail) {
     Query query = entityManager.createQuery(sb.toString(), Athlete.class);
 
     if (id != null) {
@@ -105,6 +118,9 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     }
     if (birthDateTo != null) {
       query.setParameter("birthDateTo", birthDateTo);
+    }
+    if (userMail != null) {
+      query.setParameter("userMail", userMail);
     }
     return query;
   }

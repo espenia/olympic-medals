@@ -31,7 +31,8 @@ public class AthleteService {
             athleteDTO.getBirthDate(),
             athleteDTO.getGoldMedals(),
             athleteDTO.getSilverMedals(),
-            athleteDTO.getBronzeMedals());
+            athleteDTO.getBronzeMedals(),
+            athleteDTO.getUserId());
     athleteRespository.save(athlete);
     return athlete;
   }
@@ -42,10 +43,11 @@ public class AthleteService {
       String lastName,
       String country,
       Date birthDateFrom,
-      Date birthDateTo) {
+      Date birthDateTo,
+      String userMail) {
     List<Athlete> athletes =
         athleteRespositoryCustom.searchAthletes(
-            id, firstName, lastName, country, birthDateFrom, birthDateTo);
+            id, firstName, lastName, country, birthDateFrom, birthDateTo, userMail);
     return new AthleteLookupDTO(
         athletes.stream().map(Athlete::convertDTO).collect(Collectors.toList()));
   }

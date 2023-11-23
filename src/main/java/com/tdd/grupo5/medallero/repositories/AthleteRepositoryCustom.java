@@ -13,5 +13,6 @@ public interface AthleteRepositoryCustom {
       String lastName,
       String country,
       Date birthDateFrom,
-      Date birthDateTo);
+      Date birthDateTo,
+      String userMail);
 }
