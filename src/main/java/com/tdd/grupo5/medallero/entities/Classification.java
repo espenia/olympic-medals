@@ -2,6 +2,7 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
+import com.tdd.grupo5.medallero.controller.dto.UnassignedClassificationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -69,6 +70,11 @@ public class Classification {
     this.athleteLastName = athleteLastName;
   }
 
+  public boolean hasNoAthlete() {
+
+    return this.athlete == null;
+  }
+
   public ClassificationDTO convertToDTO() {
     return ClassificationDTO.builder()
         .athlete(this.athlete == null ? null : this.athlete.convertDTO())
@@ -79,6 +85,22 @@ public class Classification {
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
         .id(this.id)
+        .build();
+  }
+
+  public UnassignedClassificationDTO convertToUnassignedDTO() {
+
+    return UnassignedClassificationDTO.builder()
+        .id_classification(this.id)
+        .position(this.position)
+        .duration_hours(this.duration_hours)
+        .duration_minutes(this.duration_minutes)
+        .duration_seconds(this.duration_seconds)
+        .athlete_first_name(this.athleteFirstName)
+        .athlete_last_name(this.athleteLastName)
+        .event_id(this.event.getId())
+        .event_name(this.event.getName())
+        .event_edition(this.event.getEdition())
         .build();
   }
 }
