@@ -19,10 +19,10 @@ public final class AthleteDTO {
   private Integer goldMedals;
   private Integer silverMedals;
   private Integer bronzeMedals;
-  private Long userId;
+  private String userName;
 
   public Athlete convertToEntity() {
     return new Athlete(
-        firstName, lastName, country, birthDate, goldMedals, silverMedals, bronzeMedals, userId);
+        firstName, lastName, country, birthDate, goldMedals, silverMedals, bronzeMedals, null);
   }
 }

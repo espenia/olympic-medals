@@ -10,9 +10,11 @@ import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import com.tdd.grupo5.medallero.service.AthleteService;
 import com.tdd.grupo5.medallero.entities.Role;
 import com.tdd.grupo5.medallero.entities.User;
+import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
 import com.tdd.grupo5.medallero.exception.NotFoundException;
 import com.tdd.grupo5.medallero.repositories.UserRepository;
+import com.tdd.grupo5.medallero.repositories.AthleteRepository;
 import java.util.Collections;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,13 +24,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final AthleteRepository athleteRepository;
   private final PasswordEncoder passwordEncoder;
   private final AthleteService athleteService;
 
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AthleteService athleteService) {
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AthleteService athleteService, AthleteRepository athleteRepository) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.athleteService = athleteService;
+    this.athleteRepository = athleteRepository;
   }
 
   public UserDetailsService userDetailsService() {
@@ -61,7 +65,7 @@ public class UserService {
             Role.Athlete);
     userRepository.save(user);
     if (userDTO.getIsAthlete()) {
-      athleteService.createAthlete(new AthleteDTO(
+      Athlete athlete = athleteService.createAthlete(new AthleteDTO(
         Long.valueOf(0),
         userDTO.getFirstName(),
         userDTO.getLastName(),
@@ -70,7 +74,7 @@ public class UserService {
         0,
         0,
         0,
-        user.getId()));
+        userDTO.getUserName()));
     }
     return user;
   }
