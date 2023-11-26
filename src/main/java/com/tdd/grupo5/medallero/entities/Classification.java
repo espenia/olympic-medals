@@ -21,8 +21,16 @@ public class Classification {
   public Long id;
 
   @Basic(optional = false)
-  @Column(name = "duration", nullable = false)
-  private Integer duration;
+  @Column(name = "duration_hours", nullable = false)
+  private Integer durationHours;
+
+  @Basic(optional = false)
+  @Column(name = "duration_minutes", nullable = false)
+  private Integer durationMinutes;
+
+  @Basic(optional = false)
+  @Column(name = "duration_seconds", nullable = false)
+  private Integer durationSeconds;
 
   @Basic(optional = false)
   @Column(name = "position", nullable = false)
@@ -76,22 +84,6 @@ public class Classification {
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
         .id(this.id)
-        .build();
-  }
-
-  public UnassignedClassificationDTO convertToUnassignedDTO() {
-
-    return UnassignedClassificationDTO.builder()
-        .id_classification(this.id)
-        .position(this.position)
-        .duration_hours(this.duration_hours)
-        .duration_minutes(this.duration_minutes)
-        .duration_seconds(this.duration_seconds)
-        .athlete_first_name(this.athleteFirstName)
-        .athlete_last_name(this.athleteLastName)
-        .event_id(this.event.getId())
-        .event_name(this.event.getName())
-        .event_edition(this.event.getEdition())
         .build();
   }
 }
