@@ -2,7 +2,6 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
-import com.tdd.grupo5.medallero.controller.dto.UnassignedClassificationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,16 +21,8 @@ public class Classification {
   public Long id;
 
   @Basic(optional = false)
-  @Column(name = "duration_hours", nullable = false)
-  private Integer duration_hours;
-
-  @Basic(optional = false)
-  @Column(name = "duration_minutes", nullable = false)
-  private Integer duration_minutes;
-
-  @Basic(optional = false)
-  @Column(name = "duration_seconds", nullable = false)
-  private Integer duration_seconds;
+  @Column(name = "duration", nullable = false)
+  private Integer duration;
 
   @Basic(optional = false)
   @Column(name = "position", nullable = false)
@@ -54,16 +45,16 @@ public class Classification {
   private Event event;
 
   public Classification(
-      Integer duration_hs,
-      Integer duration_ms,
-      Integer duration_ss,
+      Integer durationHours,
+      Integer durationMinutes,
+      Integer durationSeconds,
       Integer position,
       String athleteFirstName,
       String athleteLastName,
       Athlete athlete) {
-    this.duration_hours = duration_hs;
-    this.duration_minutes = duration_ms;
-    this.duration_seconds = duration_ss;
+    this.durationHours = durationHours;
+    this.durationMinutes = durationMinutes;
+    this.durationSeconds = durationSeconds;
     this.position = position;
     this.athlete = athlete;
     this.athleteFirstName = athleteFirstName;
@@ -78,9 +69,9 @@ public class Classification {
   public ClassificationDTO convertToDTO() {
     return ClassificationDTO.builder()
         .athlete(this.athlete == null ? null : this.athlete.convertDTO())
-        .duration_hours(this.duration_hours)
-        .duration_minutes(this.duration_minutes)
-        .duration_seconds(this.duration_seconds)
+        .durationMinutes(this.durationMinutes)
+        .durationHours(this.durationHours)
+        .durationSeconds(this.durationSeconds)
         .position(this.position)
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
