@@ -3,7 +3,6 @@ package com.tdd.grupo5.medallero.controller.dto;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 

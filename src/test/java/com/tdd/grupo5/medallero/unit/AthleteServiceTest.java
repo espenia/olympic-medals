@@ -33,6 +33,10 @@ class AthleteServiceTest {
           .lastName("lastName")
           .country("country")
           .birthDate(new Date())
+          .bronzeMedals(0)
+          .silverMedals(0)
+          .goldMedals(0)
+          .userId(1L)
           .build();
 
   @BeforeEach
@@ -54,7 +58,9 @@ class AthleteServiceTest {
     Assertions.assertEquals(athletes.get(0).getFirstName(), athlete.getFirstName());
     Assertions.assertEquals(athletes.get(0).getLastName(), athlete.getLastName());
     Assertions.assertEquals(athletes.get(0).getCountry(), athlete.getCountry());
-    Assertions.assertEquals(athletes.get(0).getBirthDate(), athlete.getBirthDate());
+    Assertions.assertEquals(
+        athletes.get(0).getBirthDate().toInstant().toString(),
+        athlete.getBirthDate().toInstant().toString());
   }
 
   @Test

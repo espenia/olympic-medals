@@ -2,8 +2,6 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
-
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,11 +17,20 @@ import lombok.Setter;
 public class Classification {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id") public Long id;
+  @Column(name = "id")
+  public Long id;
 
   @Basic(optional = false)
-  @Column(name = "duration", nullable = false)
-  private Integer duration;
+  @Column(name = "duration_hours", nullable = false)
+  private Integer durationHours;
+
+  @Basic(optional = false)
+  @Column(name = "duration_minutes", nullable = false)
+  private Integer durationMinutes;
+
+  @Basic(optional = false)
+  @Column(name = "duration_seconds", nullable = false)
+  private Integer durationSeconds;
 
   @Basic(optional = false)
   @Column(name = "position", nullable = false)
@@ -46,12 +53,16 @@ public class Classification {
   private Event event;
 
   public Classification(
-      Integer duration,
+      Integer durationHours,
+      Integer durationMinutes,
+      Integer durationSeconds,
       Integer position,
       String athleteFirstName,
       String athleteLastName,
       Athlete athlete) {
-    this.duration = duration;
+    this.durationHours = durationHours;
+    this.durationMinutes = durationMinutes;
+    this.durationSeconds = durationSeconds;
     this.position = position;
     this.athlete = athlete;
     this.athleteFirstName = athleteFirstName;
@@ -61,7 +72,9 @@ public class Classification {
   public ClassificationDTO convertToDTO() {
     return ClassificationDTO.builder()
         .athlete(this.athlete == null ? null : this.athlete.convertDTO())
-        .duration(this.duration)
+        .durationMinutes(this.durationMinutes)
+        .durationHours(this.durationHours)
+        .durationSeconds(this.durationSeconds)
         .position(this.position)
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
