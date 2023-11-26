@@ -24,7 +24,7 @@ public class ClassificationService {
     classifications = classifications.stream().filter(Classification::hasNoAthlete).toList();
 
     classifications =
-        filter(classifications, athleteFirstName, athleteLastName, eventName, eventId);
+        filter(classifications, athleteFirstName, athleteLastName, null, eventName, eventId);
 
     List<SearchClassificationDTO> unassignedClassifications = convertToSearchDTO(classifications);
 
@@ -41,11 +41,15 @@ public class ClassificationService {
     List<Classification> classifications = this.repository.findAll();
     classifications =
         classifications.stream()
+            .filter(classification -> classification.getAthlete() != null)
+            .toList();
+    classifications =
+        classifications.stream()
             .filter(classification -> classification.getAthlete().getId().equals(athleteId))
             .toList();
 
     classifications =
-        filter(classifications, athleteFirstName, athleteLastName, eventName, eventId);
+        filter(classifications, athleteFirstName, athleteLastName, athleteId, eventName, eventId);
 
     List<SearchClassificationDTO> unassignedClassifications = convertToSearchDTO(classifications);
 
@@ -56,12 +60,14 @@ public class ClassificationService {
       List<Classification> classifications,
       String athleteFirstName,
       String athleteLastName,
+      Long athleteId,
       String eventName,
       Long eventId) {
 
     List<Classification> filteredClassifications =
         filterAthleteFirstName(classifications, athleteFirstName);
     filteredClassifications = filterAthleteLastName(filteredClassifications, athleteLastName);
+    filteredClassifications = filterAthleteId(filteredClassifications, athleteId);
     filteredClassifications = filterEventName(filteredClassifications, eventName);
     filteredClassifications = filterEventId(filteredClassifications, eventId);
 
@@ -88,6 +94,19 @@ public class ClassificationService {
 
       return classifications.stream()
           .filter(classification -> classification.getAthleteLastName().equals(athleteLastName))
+          .toList();
+    }
+
+    return classifications;
+  }
+
+  private List<Classification> filterAthleteId(
+      List<Classification> classifications, Long athleteId) {
+
+    if (athleteId != null) {
+
+      return classifications.stream()
+          .filter(classification -> classification.getAthlete().getId().equals(athleteId))
           .toList();
     }
 
