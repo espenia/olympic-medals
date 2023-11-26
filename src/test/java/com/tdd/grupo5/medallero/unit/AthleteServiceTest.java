@@ -5,8 +5,11 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import com.tdd.grupo5.medallero.controller.dto.AthleteLookupDTO;
 import com.tdd.grupo5.medallero.entities.Athlete;
+import com.tdd.grupo5.medallero.entities.Role;
+import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.repositories.AthleteRepository;
 import com.tdd.grupo5.medallero.repositories.AthleteRepositoryCustom;
+import com.tdd.grupo5.medallero.repositories.UserRepository;
 import com.tdd.grupo5.medallero.service.AthleteService;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -24,6 +27,7 @@ class AthleteServiceTest {
 
   @Autowired private AthleteService athleteService;
   @Autowired private AthleteRepository athleteRepository;
+  @Autowired private UserRepository userRepository;
 
   @Autowired private AthleteRepositoryCustom athleteRepositoryCustom;
 
@@ -36,11 +40,12 @@ class AthleteServiceTest {
           .bronzeMedals(0)
           .silverMedals(0)
           .goldMedals(0)
-          .userId(1L)
+          .userName("userName")
           .build();
 
   @BeforeEach
   void setUp() {
+    userRepository.deleteAll();
     athleteRepository.deleteAll();
     //        athleteRepository = Mockito.mock(AthleteRepository.class);
     //        athleteRepositoryCustom = Mockito.mock(AthleteRepositoryCustom.class);
@@ -51,6 +56,9 @@ class AthleteServiceTest {
   void createAthletes() {
     // given
     // when
+    userRepository.save(
+        new User(
+            "userName", "password", "first", "last", new Date(), "mail@mail.com", Role.Athlete));
     Athlete athlete = athleteService.createAthlete(athleteDTO);
     // then
     assert athlete.getId() != null;

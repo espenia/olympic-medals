@@ -17,7 +17,16 @@ class AuthenticationControllerTest extends ControllerTest {
   void signup() {
     // Given
     UserDTO dto =
-        new UserDTO(1L, "test_user", "password", "email@mail.com", "name", "surname", new Date());
+        new UserDTO(
+            1L,
+            "test_user",
+            "password",
+            "email@mail.com",
+            "name",
+            "surname",
+            new Date(),
+            true,
+            "arg");
     // When
     this.testRestTemplate.exchange(
         "/signup", HttpMethod.POST, this.getDefaultRequestEntity(), UserDTO.class);

@@ -2,6 +2,7 @@ package com.tdd.grupo5.medallero.integration;
 
 import com.tdd.grupo5.medallero.controller.AuthenticationController;
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
+import com.tdd.grupo5.medallero.repositories.AthleteRepository;
 import com.tdd.grupo5.medallero.repositories.UserRepository;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +19,15 @@ public class ControllerTest extends IntegrationTest {
   @SpyBean protected AuthenticationController authenticationController;
 
   @Autowired protected UserRepository userRepository;
+  @Autowired protected AthleteRepository athleteRepository;
 
   @BeforeEach
   void setUp() {
+    athleteRepository.deleteAll();
     userRepository.deleteAll();
     UserDTO dto =
-        new UserDTO(1L, "test", "password", "email@mail.com", "name", "surname", new Date());
+        new UserDTO(
+            1L, "test", "password", "email@mail.com", "name", "surname", new Date(), true, "arg");
     // When
     this.testRestTemplate.exchange(
         "/signup", HttpMethod.POST, this.getDefaultRequestEntity(), UserDTO.class);

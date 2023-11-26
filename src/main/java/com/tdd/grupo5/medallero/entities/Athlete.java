@@ -49,9 +49,8 @@ public class Athlete {
   @Column(name = "bronze_medals", nullable = false)
   private Integer bronzeMedals;
 
-  @Basic(optional = false)
   @JoinColumn(name = "user_id", referencedColumnName = "id")
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.EAGER)
   private User user;
 
   public Athlete(
