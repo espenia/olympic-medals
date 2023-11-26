@@ -49,9 +49,9 @@ public class Athlete {
   @Column(name = "bronze_medals", nullable = false)
   private Integer bronzeMedals;
 
-  @Basic(optional = false)
-  @Column(name = "user_id", nullable = false)
-  private Long userId;
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @OneToOne(fetch = FetchType.EAGER)
+  private User user;
 
   public Athlete(
       String firstName,
@@ -61,7 +61,7 @@ public class Athlete {
       Integer goldMedals,
       Integer silverMedals,
       Integer bronzeMedals,
-      Long userId) {
+      User user) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.country = country;
@@ -69,7 +69,7 @@ public class Athlete {
     this.goldMedals = goldMedals;
     this.silverMedals = silverMedals;
     this.bronzeMedals = bronzeMedals;
-    this.userId = userId;
+    this.user = user;
   }
 
   public AthleteDTO convertDTO() {
@@ -82,7 +82,7 @@ public class Athlete {
         .goldMedals(this.goldMedals)
         .silverMedals(this.silverMedals)
         .id(this.id)
-        .userId(this.userId)
+        .userName(this.user.getUserName())
         .build();
   }
 }

@@ -21,6 +21,8 @@ public class UserDTO implements Serializable {
   private String firstName;
   private String lastName;
   private Date birthDate;
+  private Boolean isAthlete = false;
+  private String country;
 
   public UserDTO(String userName, String password) {
     this.userName = userName;

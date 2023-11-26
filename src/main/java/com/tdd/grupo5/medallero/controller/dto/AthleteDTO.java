@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.AllArgsConstructor;
 
 @Getter
 @Builder(toBuilder = true)
+@AllArgsConstructor
 public final class AthleteDTO {
   private final Long id;
   @NotBlank private String firstName;
@@ -17,10 +19,10 @@ public final class AthleteDTO {
   private Integer goldMedals;
   private Integer silverMedals;
   private Integer bronzeMedals;
-  private Long userId;
+  private String userName;
 
   public Athlete convertToEntity() {
     return new Athlete(
-        firstName, lastName, country, birthDate, goldMedals, silverMedals, bronzeMedals, userId);
+        firstName, lastName, country, birthDate, goldMedals, silverMedals, bronzeMedals, null);
   }
 }

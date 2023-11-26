@@ -26,7 +26,7 @@ public class AthleteRepositoryImpl implements AthleteRepositoryCustom {
     StringBuilder sb = new StringBuilder();
     sb.append(" SELECT a FROM Athlete a");
     if (userMail != null) {
-      sb.append(" INNER JOIN User u ON u.id = a.userId");
+      sb.append(" INNER JOIN User u ON u.id = a.user.id");
     }
     sb.append(
         buildSearchConditions(

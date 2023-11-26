@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.username
     first_name character varying(64) COLLATE pg_catalog.default,
     last_name character varying(64) COLLATE pg_catalog.default,
     birth_date date,
-    mail character varying(32) COLLATE pg_catalog.default UNIQUE
+    mail character varying(32) COLLATE pg_catalog.default UNIQUE NOT NULL
     );
 
 
@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS public.athlete
     birth_date DATE,
     gold_medals INTEGER NOT NULL,
     silver_medals INTEGER NOT NULL,
-    bronze_medals INTEGER NOT NULL
+    bronze_medals INTEGER NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES username(id) ON DELETE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS public.classification
