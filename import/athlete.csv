@@ -1,3 +1,0 @@
-id:ID,first_name,last_name,country,birth_date:DATE,:LABEL
-tt123,name1,last1,arg,2023-01-01,Athlete
-tt456,name2,last2,usa,2023-01-01,Athlete
