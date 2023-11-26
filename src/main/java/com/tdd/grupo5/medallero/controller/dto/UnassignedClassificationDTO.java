@@ -7,14 +7,14 @@ import lombok.Getter;
 @Builder
 public class UnassignedClassificationDTO {
 
-  private Long id_classification;
+  private Long classificationId;
   private Integer position;
-  private Integer duration_hours;
-  private Integer duration_minutes;
-  private Integer duration_seconds;
-  String athlete_first_name;
-  String athlete_last_name;
-  Long event_id;
-  String event_name;
-  Integer event_edition;
+  private Integer durationHours;
+  private Integer durationMinutes;
+  private Integer durationSeconds;
+  String athleteFirstName;
+  String athleteLastName;
+  Long eventId;
+  String eventName;
+  Integer eventEdition;
 }

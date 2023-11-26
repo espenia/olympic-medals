@@ -23,15 +23,15 @@ public class Classification {
 
   @Basic(optional = false)
   @Column(name = "duration_hours", nullable = false)
-  private Integer duration_hours;
+  private Integer durationHours;
 
   @Basic(optional = false)
   @Column(name = "duration_minutes", nullable = false)
-  private Integer duration_minutes;
+  private Integer durationMinutes;
 
   @Basic(optional = false)
   @Column(name = "duration_seconds", nullable = false)
-  private Integer duration_seconds;
+  private Integer durationSeconds;
 
   @Basic(optional = false)
   @Column(name = "position", nullable = false)
@@ -54,16 +54,16 @@ public class Classification {
   private Event event;
 
   public Classification(
-      Integer duration_hs,
-      Integer duration_ms,
-      Integer duration_ss,
+      Integer durationHs,
+      Integer durationMs,
+      Integer durationSs,
       Integer position,
       String athleteFirstName,
       String athleteLastName,
       Athlete athlete) {
-    this.duration_hours = duration_hs;
-    this.duration_minutes = duration_ms;
-    this.duration_seconds = duration_ss;
+    this.durationHours = durationHs;
+    this.durationMinutes = durationMs;
+    this.durationSeconds = durationSs;
     this.position = position;
     this.athlete = athlete;
     this.athleteFirstName = athleteFirstName;
@@ -78,9 +78,9 @@ public class Classification {
   public ClassificationDTO convertToDTO() {
     return ClassificationDTO.builder()
         .athlete(this.athlete == null ? null : this.athlete.convertDTO())
-        .duration_hours(this.duration_hours)
-        .duration_minutes(this.duration_minutes)
-        .duration_seconds(this.duration_seconds)
+        .durationHours(this.durationHours)
+        .durationMinutes(this.durationMinutes)
+        .durationSeconds(this.durationSeconds)
         .position(this.position)
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
@@ -91,16 +91,16 @@ public class Classification {
   public UnassignedClassificationDTO convertToUnassignedDTO() {
 
     return UnassignedClassificationDTO.builder()
-        .id_classification(this.id)
+        .classificationId(this.id)
         .position(this.position)
-        .duration_hours(this.duration_hours)
-        .duration_minutes(this.duration_minutes)
-        .duration_seconds(this.duration_seconds)
-        .athlete_first_name(this.athleteFirstName)
-        .athlete_last_name(this.athleteLastName)
-        .event_id(this.event.getId())
-        .event_name(this.event.getName())
-        .event_edition(this.event.getEdition())
+        .durationHours(this.durationHours)
+        .durationMinutes(this.durationMinutes)
+        .durationSeconds(this.durationSeconds)
+        .athleteFirstName(this.athleteFirstName)
+        .athleteLastName(this.athleteLastName)
+        .eventId(this.event.getId())
+        .eventName(this.event.getName())
+        .eventEdition(this.event.getEdition())
         .build();
   }
 }

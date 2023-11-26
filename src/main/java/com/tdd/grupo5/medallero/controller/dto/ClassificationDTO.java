@@ -9,9 +9,9 @@ import lombok.Getter;
 @Builder(toBuilder = true)
 public class ClassificationDTO {
   private Long id;
-  private Integer duration_hours;
-  private Integer duration_minutes;
-  private Integer duration_seconds;
+  private Integer durationHours;
+  private Integer durationMinutes;
+  private Integer durationSeconds;
   @Nullable private AthleteDTO athlete;
   private Integer position;
   private String athleteFirstName;
@@ -19,9 +19,9 @@ public class ClassificationDTO {
 
   public Classification convertToEntity() {
     return new Classification(
-        duration_hours,
-        duration_minutes,
-        duration_seconds,
+        durationHours,
+        durationMinutes,
+        durationSeconds,
         position,
         athleteFirstName,
         athleteLastName,
