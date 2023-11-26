@@ -3,10 +3,8 @@ package com.tdd.grupo5.medallero.controller;
 import com.tdd.grupo5.medallero.controller.dto.JwtAuthenticationResponseDTO;
 import com.tdd.grupo5.medallero.controller.dto.RecoveryDTO;
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
-import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import com.tdd.grupo5.medallero.service.AuthenticationService;
 import com.tdd.grupo5.medallero.service.UserService;
-import com.tdd.grupo5.medallero.service.AthleteService;
 import com.tdd.grupo5.medallero.util.smtp.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,37 +14,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
   private final AuthenticationService authenticationService;
-  private final AthleteService athleteService;
   private final UserService userService;
   private final EmailService emailService;
 
   public AuthenticationController(
       AuthenticationService authenticationService,
       UserService userService,
-      EmailService emailService,
-      AthleteService athleteService) {
+      EmailService emailService) {
     this.authenticationService = authenticationService;
     this.userService = userService;
     this.emailService = emailService;
-    this.athleteService = athleteService;
   }
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("/signup")
   public ResponseEntity<JwtAuthenticationResponseDTO> signup(@RequestBody UserDTO user) {
     JwtAuthenticationResponseDTO auth = authenticationService.signup(user);
-    if (user.getIsAthlete()) {
-      athleteService.createAthlete(new AthleteDTO(
-        Long.valueOf(0),
-        user.getFirstName(),
-        user.getLastName(),
-        user.getCountry(),
-        user.getBirthDate(),
-        0,
-        0,
-        0,
-        userService.internalGetUser(user).getId()));
-    }
     return new ResponseEntity<>(auth, HttpStatus.CREATED);
   }
 

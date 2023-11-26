@@ -6,6 +6,8 @@ import static com.tdd.grupo5.medallero.util.Constants.INVALID_USER;
 import static com.tdd.grupo5.medallero.util.Constants.USER_NOT_FOUND_ERROR;
 
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
+import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
+import com.tdd.grupo5.medallero.service.AthleteService;
 import com.tdd.grupo5.medallero.entities.Role;
 import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
@@ -21,10 +23,12 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final AthleteService athleteService;
 
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AthleteService athleteService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.athleteService = athleteService;
   }
 
   public UserDetailsService userDetailsService() {
@@ -56,6 +60,18 @@ public class UserService {
             userDTO.getMail(),
             Role.Athlete);
     userRepository.save(user);
+    if (userDTO.getIsAthlete()) {
+      athleteService.createAthlete(new AthleteDTO(
+        Long.valueOf(0),
+        userDTO.getFirstName(),
+        userDTO.getLastName(),
+        userDTO.getCountry(),
+        userDTO.getBirthDate(),
+        0,
+        0,
+        0,
+        user.getId()));
+    }
     return user;
   }
 
