@@ -4,10 +4,6 @@ import java.util.List;
 
 public class ClassificationLookupDTO extends LookupDTO<ClassificationDTO> {
 
-  public ClassificationLookupDTO() {
-    super();
-  }
-
   public ClassificationLookupDTO(List<ClassificationDTO> classifications) {
 
     super(classifications);
