@@ -2,7 +2,6 @@ package com.tdd.grupo5.medallero.controller.dto;
 
 import com.tdd.grupo5.medallero.entities.Classification;
 import jakarta.annotation.Nullable;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +9,9 @@ import lombok.Getter;
 @Builder(toBuilder = true)
 public class ClassificationDTO {
   private Long id;
-  private Integer duration;
+  private Integer durationHours;
+  private Integer durationMinutes;
+  private Integer durationSeconds;
   @Nullable private AthleteDTO athlete;
   private Integer position;
   private String athleteFirstName;
@@ -18,7 +19,9 @@ public class ClassificationDTO {
 
   public Classification convertToEntity() {
     return new Classification(
-        duration,
+        durationHours,
+        durationMinutes,
+        durationSeconds,
         position,
         athleteFirstName,
         athleteLastName,

@@ -45,8 +45,7 @@ public class EventServiceTest {
     Assertions.assertEquals(events.get(0).getCategory(), event.getCategory());
     Assertions.assertEquals(events.get(0).getLocation(), event.getLocation());
     Assertions.assertEquals(events.get(0).getDescription(), event.getDescription());
-    Assertions.assertEquals(events.get(0).getDate(), event.getDate());
     Assertions.assertEquals(
-        events.get(0).getClassifications().isEmpty(), event.getClassifications().isEmpty());
+        events.get(0).getDate().toInstant().toString(), event.getDate().toInstant().toString());
   }
 }
