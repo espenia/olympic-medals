@@ -44,6 +44,7 @@ public class Classification {
   @Column(name = "athlete_last_name", nullable = false)
   private String athleteLastName;
 
+  @JoinColumn(name = "athlete_id", referencedColumnName = "id")
   @OneToOne(fetch = FetchType.EAGER)
   private Athlete athlete;
 

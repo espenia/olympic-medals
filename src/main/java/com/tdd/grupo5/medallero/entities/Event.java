@@ -50,7 +50,7 @@ public class Event {
   @Column(name = "date", nullable = false)
   private Date date;
 
-  @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Classification> classifications;
 
   @Basic(optional = false)
@@ -93,6 +93,7 @@ public class Event {
         .location(this.getLocation())
         .description(this.getDescription())
         .distance(this.getDistance())
+        .officialSite(this.getOfficialSite())
         .classifications(
             this.getClassifications() == null
                 ? null
