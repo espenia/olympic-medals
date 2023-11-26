@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.AllArgsConstructor;
 
 @Getter
 @Builder(toBuilder = true)
+@AllArgsConstructor
 public final class AthleteDTO {
   private final Long id;
   @NotBlank private String firstName;

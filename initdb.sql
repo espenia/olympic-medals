@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS public.athlete
     birth_date DATE,
     gold_medals INTEGER NOT NULL,
     silver_medals INTEGER NOT NULL,
-    bronze_medals INTEGER NOT NULL
+    bronze_medals INTEGER NOT NULL,
+    user_id INTEGER NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS public.classification
