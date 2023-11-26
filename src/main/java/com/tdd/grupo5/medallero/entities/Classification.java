@@ -2,7 +2,6 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
-import com.tdd.grupo5.medallero.controller.dto.SearchClassificationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,16 +53,16 @@ public class Classification {
   private Event event;
 
   public Classification(
-      Integer durationHs,
-      Integer durationMs,
-      Integer durationSs,
+      Integer durationHours,
+      Integer durationMinutes,
+      Integer durationSeconds,
       Integer position,
       String athleteFirstName,
       String athleteLastName,
       Athlete athlete) {
-    this.durationHours = durationHs;
-    this.durationMinutes = durationMs;
-    this.durationSeconds = durationSs;
+    this.durationHours = durationHours;
+    this.durationMinutes = durationMinutes;
+    this.durationSeconds = durationSeconds;
     this.position = position;
     this.athlete = athlete;
     this.athleteFirstName = athleteFirstName;
@@ -78,29 +77,13 @@ public class Classification {
   public ClassificationDTO convertToDTO() {
     return ClassificationDTO.builder()
         .athlete(this.athlete == null ? null : this.athlete.convertDTO())
-        .durationHours(this.durationHours)
         .durationMinutes(this.durationMinutes)
+        .durationHours(this.durationHours)
         .durationSeconds(this.durationSeconds)
         .position(this.position)
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
         .id(this.id)
-        .build();
-  }
-
-  public SearchClassificationDTO convertToSearchDTO() {
-
-    return SearchClassificationDTO.builder()
-        .classificationId(this.id)
-        .position(this.position)
-        .durationHours(this.durationHours)
-        .durationMinutes(this.durationMinutes)
-        .durationSeconds(this.durationSeconds)
-        .athleteFirstName(this.athleteFirstName)
-        .athleteLastName(this.athleteLastName)
-        .eventId(this.event.getId())
-        .eventName(this.event.getName())
-        .eventEdition(this.event.getEdition())
         .build();
   }
 }

@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS public.athlete
 CREATE TABLE IF NOT EXISTS public.classification
 (
     id SERIAL PRIMARY KEY,
-    duration INTEGER NOT NULL,
+    duration_hours INTEGER NOT NULL,
+    duration_minutes INTEGER NOT NULL,
+    duration_seconds INTEGER NOT NULL,
     position INTEGER NOT NULL,
     athlete_first_name VARCHAR(64) NOT NULL,
     athlete_last_name VARCHAR(64) NOT NULL,

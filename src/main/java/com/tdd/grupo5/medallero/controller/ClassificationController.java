@@ -19,30 +19,16 @@ public class ClassificationController {
     this.classificationService = service;
   }
 
-  // Devuelve todas las clasificaciones guardadas en eventos creados que cumplan con los
-  // parametros pasados por query.
-  // Si el parametro "athleteId" es null -> devuelve aquellas clasificaciones que requieren
-  // la aprobacion del atleta en cuestion para afirmar que la clasificacion le pertenece a este
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("/api/classifications/search")
-  public ResponseEntity<ClassificationLookupDTO> getClassifications(
-      @RequestParam(required = false, value = "athlete_first_name") String athleteFirstName,
-      @RequestParam(required = false, value = "athlete_last_name") String athleteLastName,
-      @RequestParam(required = false, value = "athlete_id") Long athleteId,
-      @RequestParam(required = false, value = "event_name") String eventName,
-      @RequestParam(required = false, value = "event_id") Long eventId) {
+  public ResponseEntity<ClassificationLookupDTO> search(
+      @RequestParam(name = "event_name", required = false) String eventName,
+      @RequestParam(name = "athlete_first_name", required = false) String athleteFirstName,
+      @RequestParam(name = "athlete_last_name", required = false) String athleteLastName,
+      @RequestParam(name = "user_id", required = false) Long userId) {
 
-    ClassificationLookupDTO classifications;
-    if (athleteId == null) {
-      classifications =
-          this.classificationService.getUnassignedClassifications(
-              athleteFirstName, athleteLastName, eventName, eventId);
-    } else {
-      classifications =
-          this.classificationService.getAssignedClassifications(
-              athleteFirstName, athleteLastName, athleteId, eventName, eventId);
-    }
-
+    ClassificationLookupDTO classifications =
+        this.classificationService.search(eventName, athleteFirstName, athleteLastName, userId);
     return new ResponseEntity<>(classifications, HttpStatus.OK);
   }
 }
