@@ -2,7 +2,7 @@ package com.tdd.grupo5.medallero.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
-import com.tdd.grupo5.medallero.controller.dto.UnassignedClassificationDTO;
+import com.tdd.grupo5.medallero.controller.dto.SearchClassificationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -88,9 +88,9 @@ public class Classification {
         .build();
   }
 
-  public UnassignedClassificationDTO convertToUnassignedDTO() {
+  public SearchClassificationDTO convertToSearchDTO() {
 
-    return UnassignedClassificationDTO.builder()
+    return SearchClassificationDTO.builder()
         .classificationId(this.id)
         .position(this.position)
         .durationHours(this.durationHours)

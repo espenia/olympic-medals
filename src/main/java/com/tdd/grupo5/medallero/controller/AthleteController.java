@@ -32,9 +32,6 @@ public class AthleteController {
     return new ResponseEntity<>(athlete, HttpStatus.CREATED);
   }
 
-  // TODO: Consulta: este endpoint debe devolver una sola entidad o puede devolver una lista?
-  // TODO: '': necesitariamos tambien un endpoint para devolver a todos los atletas como tenemos
-  // para eventos?
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("/athletes")
   public ResponseEntity<AthleteLookupDTO> searchAthletes(

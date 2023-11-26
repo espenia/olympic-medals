@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UnassignedClassificationDTO {
+public class SearchClassificationDTO {
 
   private Long classificationId;
   private Integer position;
