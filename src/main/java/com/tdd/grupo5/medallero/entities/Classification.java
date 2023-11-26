@@ -49,7 +49,7 @@ public class Classification {
 
   @JsonIgnore
   @JoinColumn(name = "event_id", referencedColumnName = "id")
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private Event event;
 
   public Classification(
@@ -83,6 +83,7 @@ public class Classification {
         .position(this.position)
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
+        .event(this.event == null ? null : this.event.convertToDTOWithoutClassifications())
         .id(this.id)
         .build();
   }

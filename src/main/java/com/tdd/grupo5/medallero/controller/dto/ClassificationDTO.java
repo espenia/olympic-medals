@@ -13,6 +13,7 @@ public class ClassificationDTO {
   private Integer durationMinutes;
   private Integer durationSeconds;
   @Nullable private AthleteDTO athlete;
+  @Nullable private EventDTO event;
   private Integer position;
   private String athleteFirstName;
   private String athleteLastName;

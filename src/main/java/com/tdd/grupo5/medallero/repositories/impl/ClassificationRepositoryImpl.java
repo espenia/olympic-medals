@@ -18,7 +18,7 @@ public class ClassificationRepositoryImpl implements ClassificationRepositoryCus
       String eventName, String athleteFirstName, String athleteLastName, Long userId) {
     StringBuilder sb = new StringBuilder();
     sb.append(" SELECT c FROM Classification c");
-    sb.append(" LEFT JOIN Athlete c ON c.id = c.athlete.id");
+    sb.append(" LEFT JOIN Athlete a ON c.id = c.athlete.id");
     sb.append(buildSearchConditions(eventName, athleteFirstName, athleteLastName, userId));
     Query query = buildSearchParameters(sb, eventName, athleteFirstName, athleteLastName, userId);
     return query.getResultList();
@@ -29,13 +29,14 @@ public class ClassificationRepositoryImpl implements ClassificationRepositoryCus
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (userId != null) {
-      sb.append(" WHERE c.athlete.id = :userId");
+      sb.append(" WHERE a.id = :userId");
     } else {
       sb.append(" WHERE c.athlete.id IS NULL");
     }
     first = false;
     if (eventName != null) {
-      sb.append(" WHERE c.event.name = :eventName");
+      addAndForFirstArgument(sb, first);
+      sb.append(" c.event.name = :eventName");
       first = false;
     }
     if (athleteFirstName != null) {

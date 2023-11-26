@@ -101,4 +101,19 @@ public class Event {
         .id(this.getId())
         .build();
   }
+
+  public EventDTO convertToDTOWithoutClassifications() {
+
+    return EventDTO.builder()
+        .name(this.getName())
+        .edition(this.getEdition())
+        .participantCount(this.getParticipantsCount())
+        .category(this.getCategory())
+        .location(this.getLocation())
+        .description(this.getDescription())
+        .distance(this.getDistance())
+        .date(this.getDate())
+        .id(this.getId())
+        .build();
+  }
 }
