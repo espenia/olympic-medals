@@ -40,6 +40,9 @@ public class ClassificationService {
 
   public Classification acceptClassification(Long id, UserDTO user) {
     Athlete athlete = athleteRepository.getAthleteByUserName(user.getUserName());
+    if (athlete == null) {
+      throw new NotFoundException("Athlete not found");
+    }
     Classification classification;
     try {
       classification = repository.findById(id).get();
@@ -47,6 +50,7 @@ public class ClassificationService {
       throw new NotFoundException("Classification not found");
     }
     classification.setAthlete(athlete);
+    setMedals(classification, athlete);
     return repository.save(classification);
   }
 
@@ -58,5 +62,15 @@ public class ClassificationService {
       throw new NotFoundException("Classification not found");
     }
     repository.delete(classification);
+  }
+
+  private void setMedals(Classification classification, Athlete athlete) {
+    if (classification.getPosition() == 1) {
+      athlete.setGoldMedals(athlete.getGoldMedals() + 1);
+    } else if (classification.getPosition() == 2) {
+      athlete.setSilverMedals(athlete.getSilverMedals() + 1);
+    } else if (classification.getPosition() == 3) {
+      athlete.setBronzeMedals(athlete.getBronzeMedals() + 1);
+    }
   }
 }

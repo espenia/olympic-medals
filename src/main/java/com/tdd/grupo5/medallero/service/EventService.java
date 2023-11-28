@@ -52,7 +52,6 @@ public class EventService {
       this.classificationRepository.saveAll(classifications);
     }
     newEvent.setClassifications(classifications);
-    // TODO agregar para cada clasificacion notificacion para validar
     return newEvent;
   }
 
