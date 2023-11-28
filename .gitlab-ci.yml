@@ -25,8 +25,19 @@ before_script:
 #      - build
 #      - .gradle
 
+variables:
+  GIT_STRATEGY: clone
+
+build:
+  stage: build
+  script:
+    - docker-compose down -v
+    - docker system prune
+    - docker-compose build
+  environment: production
+
 deploy:
   stage: deploy
   script: 
-    - docker-compose up --build --force-recreate -d
+    - docker-compose up -d
   environment: production
