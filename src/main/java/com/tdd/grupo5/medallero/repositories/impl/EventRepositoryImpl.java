@@ -25,8 +25,8 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteFirstName,
       String athleteLastName) {
     StringBuilder sb = new StringBuilder();
-    sb.append("SELECT * FROM Event e");
-    sb.append(" INNER JOIN Classification c ON c.event_id = e.id");
+    sb.append("SELECT e.* FROM Event e");
+    sb.append(" INNER JOIN Classification c on c.event_id = e.id");
     sb.append(
         buildSearchConditions(
             name,
@@ -92,12 +92,12 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     }
     if (athleteFirstName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.firstName = :athleteFirstName");
+      sb.append(" c.athlete_first_name = :athleteFirstName");
       first = false;
     }
     if (athleteLastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.lastName = :athleteLastName");
+      sb.append(" c.athlete_last_name = :athleteLastName");
       first = false;
     }
     return sb;
