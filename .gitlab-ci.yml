@@ -25,9 +25,6 @@ before_script:
 #      - build
 #      - .gradle
 
-variables:
-  GIT_STRATEGY: clone
-
 build:
   stage: build
   script:
