@@ -1,1 +1,0 @@
-Para que corra el pipeline debe existir esta carpeta y estar vacia
