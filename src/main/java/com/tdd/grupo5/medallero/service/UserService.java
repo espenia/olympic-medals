@@ -5,16 +5,15 @@ import static com.tdd.grupo5.medallero.util.Constants.INVALID_COMBINATION_USER_P
 import static com.tdd.grupo5.medallero.util.Constants.INVALID_USER;
 import static com.tdd.grupo5.medallero.util.Constants.USER_NOT_FOUND_ERROR;
 
-import com.tdd.grupo5.medallero.controller.dto.UserDTO;
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
-import com.tdd.grupo5.medallero.service.AthleteService;
+import com.tdd.grupo5.medallero.controller.dto.UserDTO;
+import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.entities.Role;
 import com.tdd.grupo5.medallero.entities.User;
-import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
 import com.tdd.grupo5.medallero.exception.NotFoundException;
-import com.tdd.grupo5.medallero.repositories.UserRepository;
 import com.tdd.grupo5.medallero.repositories.AthleteRepository;
+import com.tdd.grupo5.medallero.repositories.UserRepository;
 import java.util.Collections;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +27,11 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
   private final AthleteService athleteService;
 
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AthleteService athleteService, AthleteRepository athleteRepository) {
+  public UserService(
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      AthleteService athleteService,
+      AthleteRepository athleteRepository) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.athleteService = athleteService;
@@ -65,16 +68,19 @@ public class UserService {
             Role.Athlete);
     userRepository.save(user);
     if (userDTO.getIsAthlete()) {
-      Athlete athlete = athleteService.createAthlete(new AthleteDTO(
-        Long.valueOf(0),
-        userDTO.getFirstName(),
-        userDTO.getLastName(),
-        userDTO.getCountry(),
-        userDTO.getBirthDate(),
-        0,
-        0,
-        0,
-        userDTO.getUserName()));
+      Athlete athlete =
+          athleteService.createAthlete(
+              new AthleteDTO(
+                  Long.valueOf(0),
+                  userDTO.getFirstName(),
+                  userDTO.getLastName(),
+                  userDTO.getCountry(),
+                  userDTO.getBirthDate(),
+                  0,
+                  0,
+                  0,
+                  userDTO.getUserName(),
+                  userDTO.getMail()));
     }
     return user;
   }

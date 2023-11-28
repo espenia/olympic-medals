@@ -83,6 +83,7 @@ public class Athlete {
         .silverMedals(this.silverMedals)
         .id(this.id)
         .userName(this.user.getUserName())
+        .userMail(this.user.getMail())
         .build();
   }
 }
