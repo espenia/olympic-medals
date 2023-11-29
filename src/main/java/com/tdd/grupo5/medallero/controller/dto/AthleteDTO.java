@@ -3,9 +3,9 @@ package com.tdd.grupo5.medallero.controller.dto;
 import com.tdd.grupo5.medallero.entities.Athlete;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.AllArgsConstructor;
 
 @Getter
 @Builder(toBuilder = true)
@@ -20,6 +20,7 @@ public final class AthleteDTO {
   private Integer silverMedals;
   private Integer bronzeMedals;
   private String userName;
+  private String userMail;
 
   public Athlete convertToEntity() {
     return new Athlete(
