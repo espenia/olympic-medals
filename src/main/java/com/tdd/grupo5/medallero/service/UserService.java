@@ -7,7 +7,6 @@ import static com.tdd.grupo5.medallero.util.Constants.USER_NOT_FOUND_ERROR;
 
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import com.tdd.grupo5.medallero.controller.dto.UserDTO;
-import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.entities.Role;
 import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
@@ -66,21 +65,20 @@ public class UserService {
             userDTO.getBirthDate(),
             userDTO.getMail(),
             Role.Athlete);
-    userRepository.save(user);
-    if (userDTO.getIsAthlete()) {
-      Athlete athlete =
-          athleteService.createAthlete(
-              new AthleteDTO(
-                  Long.valueOf(0),
-                  userDTO.getFirstName(),
-                  userDTO.getLastName(),
-                  userDTO.getCountry(),
-                  userDTO.getBirthDate(),
-                  0,
-                  0,
-                  0,
-                  userDTO.getUserName(),
-                  userDTO.getMail()));
+    user = userRepository.saveAndFlush(user);
+    if (user.getRole().equals(Role.Athlete)) {
+      athleteService.createAthlete(
+          new AthleteDTO(
+              0L,
+              userDTO.getFirstName(),
+              userDTO.getLastName(),
+              userDTO.getCountry(),
+              userDTO.getBirthDate(),
+              0,
+              0,
+              0,
+              userDTO.getUserName(),
+              userDTO.getMail()));
     }
     return user;
   }

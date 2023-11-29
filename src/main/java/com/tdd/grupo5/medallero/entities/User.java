@@ -44,8 +44,6 @@ public class User {
   @Column(name = "birth_date", nullable = false)
   private Date birthDate;
 
-  // private Athlete athlete;
-
   @Basic(optional = false)
   @Column(name = "role", nullable = false)
   private Role role;

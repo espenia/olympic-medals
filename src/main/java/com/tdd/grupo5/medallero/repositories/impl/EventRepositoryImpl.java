@@ -23,12 +23,10 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       Date dateTo,
       Integer edition,
       String athleteFirstName,
-      String athleteLastName,
-      String athleteCountry) {
+      String athleteLastName) {
     StringBuilder sb = new StringBuilder();
-    sb.append("SELECT * FROM Event e");
-    sb.append(" INNER JOIN Classification c ON c.event_id = e.id");
-    sb.append(" INNER JOIN Athlete a ON a.classification_id = c.id");
+    sb.append("SELECT e.* FROM Event e");
+    sb.append(" INNER JOIN Classification c on c.event_id = e.id");
     sb.append(
         buildSearchConditions(
             name,
@@ -38,8 +36,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             dateTo,
             edition,
             athleteFirstName,
-            athleteLastName,
-            athleteCountry));
+            athleteLastName));
     Query query =
         buildSearchParameters(
             sb,
@@ -50,8 +47,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
             dateTo,
             edition,
             athleteFirstName,
-            athleteLastName,
-            athleteCountry);
+            athleteLastName);
     return query.getResultList();
   }
 
@@ -63,8 +59,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       Date dateTo,
       Integer edition,
       String athleteFirstName,
-      String athleteLastName,
-      String athleteCountry) {
+      String athleteLastName) {
     StringBuilder sb = new StringBuilder();
     boolean first = true;
     if (name != null) {
@@ -97,17 +92,12 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     }
     if (athleteFirstName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.firstName = :athleteFirstName");
+      sb.append(" c.athlete_first_name = :athleteFirstName");
       first = false;
     }
     if (athleteLastName != null) {
       addAndForFirstArgument(sb, first);
-      sb.append(" a.lastName = :athleteLastName");
-      first = false;
-    }
-    if (athleteCountry != null) {
-      addAndForFirstArgument(sb, first);
-      sb.append(" a.country = :athleteCountry");
+      sb.append(" c.athlete_last_name = :athleteLastName");
       first = false;
     }
     return sb;
@@ -130,8 +120,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       Date dateTo,
       Integer edition,
       String athleteFirstName,
-      String athleteLastName,
-      String athleteCountry) {
+      String athleteLastName) {
     Query query = entityManager.createNativeQuery(sb.toString(), Event.class);
 
     if (name != null) {
@@ -151,9 +140,6 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
     }
     if (athleteLastName != null) {
       query.setParameter("athleteLastName", athleteLastName);
-    }
-    if (athleteCountry != null) {
-      query.setParameter("athleteCountry", athleteCountry);
     }
     if (dateFrom != null) {
       query.setParameter("dateFrom", dateFrom);

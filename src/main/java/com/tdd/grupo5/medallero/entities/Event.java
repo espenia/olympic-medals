@@ -1,5 +1,6 @@
 package com.tdd.grupo5.medallero.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tdd.grupo5.medallero.controller.dto.EventDTO;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -50,7 +51,8 @@ public class Event {
   @Column(name = "date", nullable = false)
   private Date date;
 
-  @OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @JsonIgnore
+  @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Classification> classifications;
 
   @Basic(optional = false)
@@ -93,10 +95,13 @@ public class Event {
         .location(this.getLocation())
         .description(this.getDescription())
         .distance(this.getDistance())
+        .officialSite(this.getOfficialSite())
         .classifications(
             this.getClassifications() == null
                 ? null
-                : this.getClassifications().stream().map(Classification::convertToDTO).toList())
+                : this.getClassifications().stream()
+                    .map(Classification::convertToDTOWithoutEvent)
+                    .toList())
         .date(this.getDate())
         .id(this.getId())
         .build();

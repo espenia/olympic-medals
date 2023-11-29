@@ -44,6 +44,7 @@ public class Classification {
   @Column(name = "athlete_last_name", nullable = false)
   private String athleteLastName;
 
+  @JoinColumn(name = "athlete_id", referencedColumnName = "id")
   @OneToOne(fetch = FetchType.EAGER)
   private Athlete athlete;
 
@@ -84,6 +85,19 @@ public class Classification {
         .athleteFirstName(this.athleteFirstName)
         .athleteLastName(this.athleteLastName)
         .event(this.event == null ? null : this.event.convertToDTOWithoutClassifications())
+        .id(this.id)
+        .build();
+  }
+
+  public ClassificationDTO convertToDTOWithoutEvent() {
+    return ClassificationDTO.builder()
+        .athlete(this.athlete == null ? null : this.athlete.convertDTO())
+        .durationMinutes(this.durationMinutes)
+        .durationHours(this.durationHours)
+        .durationSeconds(this.durationSeconds)
+        .position(this.position)
+        .athleteFirstName(this.athleteFirstName)
+        .athleteLastName(this.athleteLastName)
         .id(this.id)
         .build();
   }

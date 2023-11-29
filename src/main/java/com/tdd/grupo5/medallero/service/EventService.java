@@ -52,7 +52,6 @@ public class EventService {
       this.classificationRepository.saveAll(classifications);
     }
     newEvent.setClassifications(classifications);
-    // TODO agregar para cada clasificacion notificacion para validar
     return newEvent;
   }
 
@@ -69,19 +68,10 @@ public class EventService {
       Date dateTo,
       Integer edition,
       String athleteFirstName,
-      String athleteLastName,
-      String athleteCountry) {
+      String athleteLastName) {
     List<Event> events =
         this.eventRepositoryCustom.searchEvents(
-            name,
-            category,
-            location,
-            dateFrom,
-            dateTo,
-            edition,
-            athleteFirstName,
-            athleteLastName,
-            athleteCountry);
+            name, category, location, dateFrom, dateTo, edition, athleteFirstName, athleteLastName);
     return new EventLookupDTO(events.stream().map(Event::convertToDTO).toList());
   }
 }

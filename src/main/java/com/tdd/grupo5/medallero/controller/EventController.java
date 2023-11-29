@@ -45,8 +45,7 @@ public class EventController {
       @RequestParam(required = false, value = "date_to") String dateTo,
       @RequestParam(required = false, value = "edition") Integer edition,
       @RequestParam(required = false, value = "athlete_first_name") String athleteFirstName,
-      @RequestParam(required = false, value = "athlete_last_name") String athleteLastName,
-      @RequestParam(required = false, value = "athlete_country") String athleteCountry) {
+      @RequestParam(required = false, value = "athlete_last_name") String athleteLastName) {
     EventLookupDTO eventLookup =
         this.eventService.searchEvents(
             name,
@@ -56,8 +55,7 @@ public class EventController {
             dateTo == null ? null : Date.from(Instant.parse(dateTo)),
             edition,
             athleteFirstName,
-            athleteLastName,
-            athleteCountry);
+            athleteLastName);
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
