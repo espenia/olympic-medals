@@ -38,9 +38,9 @@ public class ClassificationController {
 
     ClassificationLookupDTO classifications =
         this.classificationService.search(
-            eventName.isBlank() ? null : eventName.isBlank() ? null : eventName,
-            athleteFirstName.isBlank() ? null : athleteFirstName,
-            athleteLastName.isBlank() ? null : athleteLastName,
+            eventName == null || eventName.isBlank() ? null : eventName,
+            athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
+            athleteFirstName == null || athleteLastName.isBlank() ? null : athleteLastName,
             userId);
     return new ResponseEntity<>(classifications, HttpStatus.OK);
   }
