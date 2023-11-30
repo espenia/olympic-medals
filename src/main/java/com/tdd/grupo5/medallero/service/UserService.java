@@ -11,30 +11,31 @@ import com.tdd.grupo5.medallero.entities.Role;
 import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.exception.BadRequestException;
 import com.tdd.grupo5.medallero.exception.NotFoundException;
-import com.tdd.grupo5.medallero.repositories.AthleteRepository;
 import com.tdd.grupo5.medallero.repositories.UserRepository;
+import com.tdd.grupo5.medallero.util.JwtService;
 import java.util.Collections;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserService {
 
   private final UserRepository userRepository;
-  private final AthleteRepository athleteRepository;
   private final PasswordEncoder passwordEncoder;
   private final AthleteService athleteService;
+  private final JwtService jwtService;
 
   public UserService(
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,
       AthleteService athleteService,
-      AthleteRepository athleteRepository) {
+      JwtService jwtService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.athleteService = athleteService;
-    this.athleteRepository = athleteRepository;
+    this.jwtService = jwtService;
   }
 
   public UserDetailsService userDetailsService() {
@@ -114,6 +115,19 @@ public class UserService {
 
   public User internalGetUser(UserDTO userDTO) {
     User user = userRepository.findByUserName(userDTO.getUserName());
+    if (user == null) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
+    return user;
+  }
+
+  public User getUserByToken(String token) {
+    if (!StringUtils.hasLength(token) || !StringUtils.startsWithIgnoreCase(token, "Bearer ")) {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR);
+    }
+    final String jwt = token.substring(7);
+    final String userName = jwtService.extractUserName(jwt);
+    User user = userRepository.findByUserName(userName);
     if (user == null) {
       throw new NotFoundException(USER_NOT_FOUND_ERROR);
     }

@@ -1,9 +1,9 @@
 package com.tdd.grupo5.medallero.service;
 
 import com.tdd.grupo5.medallero.controller.dto.ClassificationLookupDTO;
-import com.tdd.grupo5.medallero.controller.dto.UserDTO;
 import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.entities.Classification;
+import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.exception.NotFoundException;
 import com.tdd.grupo5.medallero.repositories.AthleteRepository;
 import com.tdd.grupo5.medallero.repositories.ClassificationRepository;
@@ -38,7 +38,7 @@ public class ClassificationService {
         classifications.stream().map(Classification::convertToDTO).toList());
   }
 
-  public Classification acceptClassification(Long id, UserDTO user) {
+  public Classification acceptClassification(Long id, User user) {
     Athlete athlete = athleteRepository.getAthleteByUserName(user.getUserName());
     if (athlete == null) {
       throw new NotFoundException("Athlete not found");

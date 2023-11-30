@@ -2,15 +2,16 @@ package com.tdd.grupo5.medallero.controller;
 
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationLookupDTO;
-import com.tdd.grupo5.medallero.controller.dto.UserDTO;
+import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.service.ClassificationService;
+import com.tdd.grupo5.medallero.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClassificationController {
 
   private final ClassificationService classificationService;
+  private final UserService userService;
 
-  public ClassificationController(final ClassificationService service) {
+  public ClassificationController(final ClassificationService service, UserService userService) {
 
     this.classificationService = service;
+    this.userService = userService;
   }
 
   @ResponseStatus(HttpStatus.OK)
@@ -41,7 +44,8 @@ public class ClassificationController {
   @ResponseStatus(HttpStatus.OK)
   @PutMapping("/api/classifications/{id}/accept")
   public ResponseEntity<ClassificationDTO> accept(
-      @PathVariable final Long id, @RequestBody final UserDTO user) {
+      @PathVariable final Long id, @RequestHeader(name = "X-Auth-Token") final String token) {
+    User user = userService.getUserByToken(token);
     ClassificationDTO classification =
         classificationService.acceptClassification(id, user).convertToDTO();
     return new ResponseEntity<>(classification, HttpStatus.OK);

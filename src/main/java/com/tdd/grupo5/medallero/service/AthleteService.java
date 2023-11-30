@@ -20,7 +20,9 @@ public class AthleteService {
   private final UserRepository userRepository;
 
   public AthleteService(
-      AthleteRepositoryCustom athleteRespositoryCustom, AthleteRepository athleteRespository, UserRepository userRepository) {
+      AthleteRepositoryCustom athleteRespositoryCustom,
+      AthleteRepository athleteRespository,
+      UserRepository userRepository) {
     this.athleteRespositoryCustom = athleteRespositoryCustom;
     this.athleteRespository = athleteRespository;
     this.userRepository = userRepository;
@@ -55,5 +57,9 @@ public class AthleteService {
             id, firstName, lastName, country, birthDateFrom, birthDateTo, userMail);
     return new AthleteLookupDTO(
         athletes.stream().map(Athlete::convertDTO).collect(Collectors.toList()));
+  }
+
+  public Athlete getAthlete(String mail) {
+    return athleteRespository.getAthleteByUserMail(mail);
   }
 }

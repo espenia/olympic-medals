@@ -2,7 +2,9 @@ package com.tdd.grupo5.medallero.controller;
 
 import com.tdd.grupo5.medallero.controller.dto.AthleteDTO;
 import com.tdd.grupo5.medallero.controller.dto.AthleteLookupDTO;
+import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.service.AthleteService;
+import com.tdd.grupo5.medallero.service.UserService;
 import java.time.Instant;
 import java.util.Date;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AthleteController {
 
   private final AthleteService athleteService;
+  private final UserService userService;
 
-  public AthleteController(AthleteService athleteService) {
+  public AthleteController(AthleteService athleteService, UserService userService) {
     this.athleteService = athleteService;
+    this.userService = userService;
   }
 
   @ResponseStatus(HttpStatus.CREATED)
@@ -51,6 +56,14 @@ public class AthleteController {
             birthDateFrom == null ? null : Date.from(Instant.parse(birthDateFrom)),
             birthDateTo == null ? null : Date.from(Instant.parse(birthDateTo)),
             userMail);
+    return new ResponseEntity<>(athlete, HttpStatus.OK);
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/athlete")
+  public ResponseEntity<AthleteDTO> getAthlete(@RequestHeader(name = "X-Auth-Token") String token) {
+    User user = userService.getUserByToken(token);
+    AthleteDTO athlete = athleteService.getAthlete(user.getMail()).convertDTO();
     return new ResponseEntity<>(athlete, HttpStatus.OK);
   }
 }

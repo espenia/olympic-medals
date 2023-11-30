@@ -7,4 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface AthleteRepository extends JpaRepository<Athlete, Long> {
   @Query("SELECT a FROM Athlete a WHERE a.user.userName = ?1")
   Athlete getAthleteByUserName(String userName);
+
+  @Query("SELECT a FROM Athlete a WHERE a.user.mail = ?1")
+  Athlete getAthleteByUserMail(String userMail);
 }
