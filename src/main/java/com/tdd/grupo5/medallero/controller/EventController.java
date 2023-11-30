@@ -48,14 +48,14 @@ public class EventController {
       @RequestParam(required = false, value = "athlete_last_name") String athleteLastName) {
     EventLookupDTO eventLookup =
         this.eventService.searchEvents(
-            name,
-            category,
-            location,
-            dateFrom == null ? null : Date.from(Instant.parse(dateFrom)),
-            dateTo == null ? null : Date.from(Instant.parse(dateTo)),
+            name.isBlank() ? null : name,
+            category.isBlank() ? null : category,
+            location.isBlank() ? null : location,
+            dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
+            dateTo == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateTo)),
             edition,
-            athleteFirstName,
-            athleteLastName);
+            athleteFirstName.isBlank() ? null : athleteFirstName,
+            athleteLastName.isBlank() ? null : athleteLastName);
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
