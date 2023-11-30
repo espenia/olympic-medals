@@ -52,7 +52,7 @@ public class EventController {
             category == null || category.isBlank() ? null : category,
             location == null || location.isBlank() ? null : location,
             dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
-            dateTo == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateTo)),
+            dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
             edition,
             athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
             athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
