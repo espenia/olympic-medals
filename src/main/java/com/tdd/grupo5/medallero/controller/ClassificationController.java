@@ -5,6 +5,7 @@ import com.tdd.grupo5.medallero.controller.dto.ClassificationLookupDTO;
 import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.service.ClassificationService;
 import com.tdd.grupo5.medallero.service.UserService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +44,15 @@ public class ClassificationController {
             athleteFirstName == null || athleteLastName.isBlank() ? null : athleteLastName,
             userId);
     return new ResponseEntity<>(classifications, HttpStatus.OK);
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/api/classifications_by_athlete/{athlete_id}")
+  public ResponseEntity<List<ClassificationDTO>> classificationsByAthlete(
+      @PathVariable final int athlete_id) {
+    List<ClassificationDTO> classificationDTOList =
+        classificationService.getClassificationsByAthlete(athlete_id);
+    return new ResponseEntity<>(classificationDTOList, HttpStatus.OK);
   }
 
   @ResponseStatus(HttpStatus.OK)
