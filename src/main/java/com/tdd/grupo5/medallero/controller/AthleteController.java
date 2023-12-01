@@ -50,12 +50,16 @@ public class AthleteController {
     AthleteLookupDTO athlete =
         athleteService.searchAthletes(
             id,
-            firstName,
-            lastName,
-            country,
-            birthDateFrom == null ? null : Date.from(Instant.parse(birthDateFrom)),
-            birthDateTo == null ? null : Date.from(Instant.parse(birthDateTo)),
-            userMail);
+            firstName == null || firstName.isBlank() ? null : firstName,
+            lastName == null || lastName.isBlank() ? null : lastName,
+            country == null || country.isBlank() ? null : country,
+            birthDateFrom == null || birthDateFrom.isBlank()
+                ? null
+                : Date.from(Instant.parse(birthDateFrom)),
+            birthDateTo == null || birthDateTo.isBlank()
+                ? null
+                : Date.from(Instant.parse(birthDateTo)),
+            userMail == null || userMail.isBlank() ? null : userMail);
     return new ResponseEntity<>(athlete, HttpStatus.OK);
   }
 

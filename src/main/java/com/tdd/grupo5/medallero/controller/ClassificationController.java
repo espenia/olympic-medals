@@ -37,7 +37,11 @@ public class ClassificationController {
       @RequestParam(name = "user_id", required = false) Long userId) {
 
     ClassificationLookupDTO classifications =
-        this.classificationService.search(eventName, athleteFirstName, athleteLastName, userId);
+        this.classificationService.search(
+            eventName == null || eventName.isBlank() ? null : eventName,
+            athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
+            athleteFirstName == null || athleteLastName.isBlank() ? null : athleteLastName,
+            userId);
     return new ResponseEntity<>(classifications, HttpStatus.OK);
   }
 

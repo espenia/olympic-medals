@@ -36,13 +36,6 @@ public class EventController {
     return new ResponseEntity<>(events.stream().map(Event::convertToDTO).toList(), HttpStatus.OK);
   }
 
-  //  @ResponseStatus(HttpStatus.OK)
-  //  @GetMapping("api/events/{id}")
-  //  public ResponseEntity<EventDTO> getEvent(@PathVariable Long id) {
-  //    Event event = this.eventService.getEvent(id);
-  //    return new ResponseEntity<>(event.convertToDTO(), HttpStatus.OK);
-  //  }
-
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("api/events/search")
   public ResponseEntity<EventLookupDTO> search(
@@ -75,6 +68,16 @@ public class EventController {
               athleteLastName);
     }
 
+    EventLookupDTO eventLookup =
+        this.eventService.searchEvents(
+            name == null || name.isBlank() ? null : name,
+            category == null || category.isBlank() ? null : category,
+            location == null || location.isBlank() ? null : location,
+            dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
+            dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
+            edition,
+            athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
+            athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
