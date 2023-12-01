@@ -58,26 +58,16 @@ public class EventController {
     } else {
       eventLookup =
           this.eventService.searchEvents(
-              name,
-              category,
-              location,
-              dateFrom == null ? null : Date.from(Instant.parse(dateFrom)),
-              dateTo == null ? null : Date.from(Instant.parse(dateTo)),
+              name == null || name.isBlank() ? null : name,
+              category == null || category.isBlank() ? null : category,
+              location == null || location.isBlank() ? null : location,
+              dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
+              dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
               edition,
-              athleteFirstName,
-              athleteLastName);
+              athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
+              athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
     }
 
-    EventLookupDTO eventLookup =
-        this.eventService.searchEvents(
-            name == null || name.isBlank() ? null : name,
-            category == null || category.isBlank() ? null : category,
-            location == null || location.isBlank() ? null : location,
-            dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
-            dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
-            edition,
-            athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
-            athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
