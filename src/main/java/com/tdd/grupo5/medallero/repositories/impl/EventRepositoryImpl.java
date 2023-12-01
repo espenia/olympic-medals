@@ -25,7 +25,7 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
       String athleteFirstName,
       String athleteLastName) {
     StringBuilder sb = new StringBuilder();
-    sb.append("SELECT e.* FROM Event e");
+    sb.append("SELECT DISTINCT e.* FROM Event e");
     sb.append(" INNER JOIN Classification c on c.event_id = e.id");
     sb.append(
         buildSearchConditions(
