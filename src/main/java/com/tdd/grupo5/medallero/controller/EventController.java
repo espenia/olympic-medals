@@ -4,7 +4,6 @@ import com.tdd.grupo5.medallero.controller.dto.EventDTO;
 import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.service.EventService;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,13 +60,12 @@ public class EventController {
               name == null || name.isBlank() ? null : name,
               category == null || category.isBlank() ? null : category,
               location == null || location.isBlank() ? null : location,
-              dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
-              dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
+              dateFrom == null || dateFrom.isBlank() ? null : new Date(Date.parse(dateFrom)),
+              dateTo == null || dateTo.isBlank() ? null : new Date(Date.parse(dateTo)),
               edition,
               athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
               athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
     }
-
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
