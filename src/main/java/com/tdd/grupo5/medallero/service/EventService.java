@@ -60,6 +60,15 @@ public class EventService {
     return this.eventRepository.findAll();
   }
 
+  public Event getEvent(Long id) {
+    try {
+
+      return this.eventRepository.findById(id).get();
+    } catch (Exception e) {
+      throw new RuntimeException("Event not found");
+    }
+  }
+
   public EventLookupDTO searchEvents(
       String name,
       String category,

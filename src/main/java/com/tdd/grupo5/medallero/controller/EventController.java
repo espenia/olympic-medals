@@ -5,6 +5,7 @@ import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.service.EventService;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,17 @@ public class EventController {
     return new ResponseEntity<>(events.stream().map(Event::convertToDTO).toList(), HttpStatus.OK);
   }
 
+  //  @ResponseStatus(HttpStatus.OK)
+  //  @GetMapping("api/events/{id}")
+  //  public ResponseEntity<EventDTO> getEvent(@PathVariable Long id) {
+  //    Event event = this.eventService.getEvent(id);
+  //    return new ResponseEntity<>(event.convertToDTO(), HttpStatus.OK);
+  //  }
+
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("api/events/search")
   public ResponseEntity<EventLookupDTO> search(
+      @RequestParam(required = false, value = "id") Long id,
       @RequestParam(required = false, value = "name") String name,
       @RequestParam(required = false, value = "category") String category,
       @RequestParam(required = false, value = "location") String location,
@@ -46,16 +55,26 @@ public class EventController {
       @RequestParam(required = false, value = "edition") Integer edition,
       @RequestParam(required = false, value = "athlete_first_name") String athleteFirstName,
       @RequestParam(required = false, value = "athlete_last_name") String athleteLastName) {
-    EventLookupDTO eventLookup =
-        this.eventService.searchEvents(
-            name,
-            category,
-            location,
-            dateFrom == null ? null : Date.from(Instant.parse(dateFrom)),
-            dateTo == null ? null : Date.from(Instant.parse(dateTo)),
-            edition,
-            athleteFirstName,
-            athleteLastName);
+    EventLookupDTO eventLookup = new EventLookupDTO();
+
+    if (id != null) {
+      Event event = this.eventService.getEvent(id);
+      List<EventDTO> list = new ArrayList<>();
+      list.add(event.convertToDTO());
+      eventLookup.setResults(list);
+    } else {
+      eventLookup =
+          this.eventService.searchEvents(
+              name,
+              category,
+              location,
+              dateFrom == null ? null : Date.from(Instant.parse(dateFrom)),
+              dateTo == null ? null : Date.from(Instant.parse(dateTo)),
+              edition,
+              athleteFirstName,
+              athleteLastName);
+    }
+
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
