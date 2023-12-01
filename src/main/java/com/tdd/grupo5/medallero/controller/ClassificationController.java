@@ -2,10 +2,10 @@ package com.tdd.grupo5.medallero.controller;
 
 import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationLookupDTO;
-import com.tdd.grupo5.medallero.entities.Classification;
 import com.tdd.grupo5.medallero.entities.User;
 import com.tdd.grupo5.medallero.service.ClassificationService;
 import com.tdd.grupo5.medallero.service.UserService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class ClassificationController {
@@ -49,11 +47,11 @@ public class ClassificationController {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping("/api/classifications_by_athlete/{athlete_id}")
+  @GetMapping("/api/classifications_by_athlete/{athlete_id}")
   public ResponseEntity<List<ClassificationDTO>> classificationsByAthlete(
-          @PathVariable final int athlete_id
-  ) {
-    List<ClassificationDTO> classificationDTOList = classificationService.getClassificationsByAthlete(athlete_id);
+      @PathVariable final int athlete_id) {
+    List<ClassificationDTO> classificationDTOList =
+        classificationService.getClassificationsByAthlete(athlete_id);
     return new ResponseEntity<>(classificationDTOList, HttpStatus.OK);
   }
 
