@@ -5,6 +5,7 @@ import com.tdd.grupo5.medallero.controller.dto.EventLookupDTO;
 import com.tdd.grupo5.medallero.entities.Event;
 import com.tdd.grupo5.medallero.service.EventService;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,7 @@ public class EventController {
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("api/events/search")
   public ResponseEntity<EventLookupDTO> search(
+      @RequestParam(required = false, value = "id") Long id,
       @RequestParam(required = false, value = "name") String name,
       @RequestParam(required = false, value = "category") String category,
       @RequestParam(required = false, value = "location") String location,
@@ -46,16 +48,26 @@ public class EventController {
       @RequestParam(required = false, value = "edition") Integer edition,
       @RequestParam(required = false, value = "athlete_first_name") String athleteFirstName,
       @RequestParam(required = false, value = "athlete_last_name") String athleteLastName) {
-    EventLookupDTO eventLookup =
-        this.eventService.searchEvents(
-            name == null || name.isBlank() ? null : name,
-            category == null || category.isBlank() ? null : category,
-            location == null || location.isBlank() ? null : location,
-            dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
-            dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
-            edition,
-            athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
-            athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
+    EventLookupDTO eventLookup = new EventLookupDTO();
+
+    if (id != null) {
+      Event event = this.eventService.getEvent(id);
+      List<EventDTO> list = new ArrayList<>();
+      list.add(event.convertToDTO());
+      eventLookup.setResults(list);
+    } else {
+      eventLookup =
+          this.eventService.searchEvents(
+              name == null || name.isBlank() ? null : name,
+              category == null || category.isBlank() ? null : category,
+              location == null || location.isBlank() ? null : location,
+              dateFrom == null || dateFrom.isBlank() ? null : Date.from(Instant.parse(dateFrom)),
+              dateTo == null || dateTo.isBlank() ? null : Date.from(Instant.parse(dateTo)),
+              edition,
+              athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
+              athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName);
+    }
+
     return new ResponseEntity<>(eventLookup, HttpStatus.OK);
   }
 }
