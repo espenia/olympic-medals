@@ -14,6 +14,12 @@ public class ClassificationRepositoryImpl implements ClassificationRepositoryCus
     this.entityManager = entityManager;
   }
 
+  @SuppressWarnings("unchecked")
+  public List<Classification> searchByAthleteId(int athleteId) {
+    String stringQuery = "SELECT c FROM Classification c WHERE c.athlete.id = "+ athleteId;
+    return entityManager.createQuery(stringQuery).getResultList();
+  }
+
   public List<Classification> search(
       String eventName, String athleteFirstName, String athleteLastName, Long userId) {
     StringBuilder sb = new StringBuilder();

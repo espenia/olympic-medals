@@ -1,5 +1,6 @@
 package com.tdd.grupo5.medallero.service;
 
+import com.tdd.grupo5.medallero.controller.dto.ClassificationDTO;
 import com.tdd.grupo5.medallero.controller.dto.ClassificationLookupDTO;
 import com.tdd.grupo5.medallero.entities.Athlete;
 import com.tdd.grupo5.medallero.entities.Classification;
@@ -9,6 +10,8 @@ import com.tdd.grupo5.medallero.repositories.AthleteRepository;
 import com.tdd.grupo5.medallero.repositories.ClassificationRepository;
 import com.tdd.grupo5.medallero.repositories.ClassificationRepositoryCustom;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -72,5 +75,12 @@ public class ClassificationService {
     } else if (classification.getPosition() == 3) {
       athlete.setBronzeMedals(athlete.getBronzeMedals() + 1);
     }
+  }
+
+  public List<ClassificationDTO> getClassificationsByAthlete(int athleteId) {
+    return repositoryCustom.searchByAthleteId(athleteId)
+            .stream()
+            .map(Classification::convertToDTO)
+            .collect(Collectors.toList());
   }
 }
