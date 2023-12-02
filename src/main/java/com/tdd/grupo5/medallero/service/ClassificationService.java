@@ -11,7 +11,6 @@ import com.tdd.grupo5.medallero.repositories.ClassificationRepository;
 import com.tdd.grupo5.medallero.repositories.ClassificationRepositoryCustom;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,6 +53,7 @@ public class ClassificationService {
     }
     classification.setAthlete(athlete);
     setMedals(classification, athlete);
+    athleteRepository.save(athlete);
     return repository.save(classification);
   }
 
@@ -78,9 +78,8 @@ public class ClassificationService {
   }
 
   public List<ClassificationDTO> getClassificationsByAthlete(int athleteId) {
-    return repositoryCustom.searchByAthleteId(athleteId)
-            .stream()
-            .map(Classification::convertToDTO)
-            .collect(Collectors.toList());
+    return repositoryCustom.searchByAthleteId(athleteId).stream()
+        .map(Classification::convertToDTO)
+        .collect(Collectors.toList());
   }
 }

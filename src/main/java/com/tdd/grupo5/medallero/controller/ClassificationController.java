@@ -41,7 +41,7 @@ public class ClassificationController {
         this.classificationService.search(
             eventName == null || eventName.isBlank() ? null : eventName,
             athleteFirstName == null || athleteFirstName.isBlank() ? null : athleteFirstName,
-            athleteFirstName == null || athleteLastName.isBlank() ? null : athleteLastName,
+            athleteLastName == null || athleteLastName.isBlank() ? null : athleteLastName,
             userId);
     return new ResponseEntity<>(classifications, HttpStatus.OK);
   }
@@ -56,7 +56,7 @@ public class ClassificationController {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping("/api/classifications/{id}/accept")
+  @PutMapping("/api/classification/{id}/accept")
   public ResponseEntity<ClassificationDTO> accept(
       @PathVariable final Long id, @RequestHeader(name = "X-Auth-Token") final String token) {
     User user = userService.getUserByToken(token);
@@ -66,7 +66,7 @@ public class ClassificationController {
   }
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping("/api/classifications/{id}/reject")
+  @DeleteMapping("/api/classification/{id}/reject")
   public ResponseEntity<Object> reject(@PathVariable Long id) {
     classificationService.rejectClassification(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
