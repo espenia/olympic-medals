@@ -104,7 +104,7 @@ public class UserService {
   public User updateUser(String mail, UserDTO user) {
 
     User targetUser = userRepository.findByMail(mail);
-    if (targetUser == null || !targetUser.getUserName().equals(user.getUserName())) {
+    if (targetUser == null) {
       throw new BadRequestException(INVALID_USER, INVALID_USER);
     }
     targetUser.setPassword(passwordEncoder.encode(user.getPassword()));
